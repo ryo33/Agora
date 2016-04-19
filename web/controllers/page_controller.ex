@@ -4,7 +4,12 @@ defmodule Agora.PageController do
   plug Agora.AuthenticationPlug
 
   def index(conn, _params) do
-    account = conn.assigns[:account]
-    render conn, "index.html", acconnt: account
+    case conn.assigns[:account] do
+      nil ->
+        signed_in = false
+      _account ->
+        signed_in = true
+    end
+    render conn, "index.html", signed_in: signed_in
   end
 end

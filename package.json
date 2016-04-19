@@ -1,21 +1,28 @@
 {
   "repository": {},
   "dependencies": {
+    "material-design-icons": "^2.2.3",
     "material-ui": "^0.15.0-alpha.2",
     "phoenix": "file:deps/phoenix",
     "phoenix_html": "file:deps/phoenix_html",
     "react": "^15.0.1",
     "react-dom": "^15.0.1",
+    "react-redux": "^4.4.5",
     "react-router": "^2.2.2",
-    "react-tap-event-plugin": "^1.0.0"
+    "react-router-redux": "^4.0.2",
+    "react-tap-event-plugin": "^1.0.0",
+    "redux": "^3.4.0"
   },
   "devDependencies": {
     "babel-core": "^6.7.6",
     "babel-loader": "^6.2.4",
+    "babel-plugin-transform-object-rest-spread": "^6.6.5",
     "babel-preset-es2015": "^6.6.0",
+    "babel-preset-react": "^6.5.0",
     "copy-webpack-plugin": "^1.1.1",
     "css-loader": "^0.23.1",
     "extract-text-webpack-plugin": "^1.0.1",
+    "svg-inline-loader": "^0.4.1",
     "webpack": "^1.12.15"
   },
   "scripts": {
