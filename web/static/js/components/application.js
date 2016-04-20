@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
-import NavBar from './navbar'
-import LeftNav from './leftnav'
-import FlatButton from 'material-ui/lib/flat-button';
+import NavBar from './Navbar'
+import LeftNav from './LeftNav'
 
-export default class Application extends Component {
+class Application extends Component {
     constructor(props) {
         super(props);
         this.state = {leftNav: false};
@@ -15,13 +14,21 @@ export default class Application extends Component {
 
     render() {
         return <div>
-            <NavBar toggleLeftNav={this.toggleLeftNav.bind(this)} />
-            <FlatButton
-                label="Toggle LeftNav"
-                onClick={this.toggleLeftNav.bind(this)}
+            <NavBar
+                history={this.props.history}
+                toggleLeftNav={this.toggleLeftNav.bind(this)}
             />
-            <LeftNav toggleLeftNav={this.toggleLeftNav.bind(this)} open={this.state.leftNav} />
+            <LeftNav 
+                history={this.props.history}
+                toggleLeftNav={this.toggleLeftNav.bind(this)} open={this.state.leftNav}
+            />
             {this.props.children}
         </div>
     }
 }
+
+Application.contextTypes = {
+    router: React.PropTypes.object.isRequired
+}
+
+export default Application
