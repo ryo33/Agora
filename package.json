@@ -2,7 +2,7 @@
   "repository": {},
   "dependencies": {
     "material-design-icons": "^2.2.3",
-    "material-ui": "^0.15.0-alpha.2",
+    "material-ui": "^0.14.4",
     "phoenix": "file:deps/phoenix",
     "phoenix_html": "file:deps/phoenix_html",
     "react": "^15.0.1",
@@ -25,7 +25,5 @@
     "svg-inline-loader": "^0.4.1",
     "webpack": "^1.12.15"
   },
-  "scripts": {
-    "compile": "webpack -p"
-  }
+  "scripts": {}
 }

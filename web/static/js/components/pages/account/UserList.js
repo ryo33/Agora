@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import Avatar from 'material-ui/lib/avatar'
 import List from 'material-ui/lib/lists/list'
 import ListItem from 'material-ui/lib/lists/list-item'
-import Subheader from 'material-ui/lib/subheader'
 import Divider from 'material-ui/lib/divider'
 import Paper from 'material-ui/lib/paper'
 import FontIcon from 'material-ui/lib/font-icon'
@@ -15,8 +14,7 @@ class UserList extends Component {
     }
     render() {
         return <div>
-            <List>
-                <Subheader>Users</Subheader>
+            <List subheader="Users">
                 <ListItem
                     id="YJSNPI"
                     primaryText="YJSNPI"

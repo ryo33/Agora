@@ -29,8 +29,8 @@ module.exports = {
             "", ".js"
         ],
         modulesDirectories: [
+            "web/static/js",
             "node_modules",
-            __dirname + "/web/static/js",
         ]
     },
     plugins: [
