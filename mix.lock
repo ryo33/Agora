@@ -1,4 +1,5 @@
 %{"certifi": {:hex, :certifi, "0.4.0"},
+  "combine": {:hex, :combine, "0.7.0"},
   "connection": {:hex, :connection, "1.0.2"},
   "cowboy": {:hex, :cowboy, "1.0.4"},
   "cowlib": {:hex, :cowlib, "1.0.2"},
@@ -14,6 +15,7 @@
   "mimerl": {:hex, :mimerl, "1.0.2"},
   "mimetype_parser": {:hex, :mimetype_parser, "0.1.2"},
   "oauth2": {:hex, :oauth2, "0.6.0"},
+  "onetime": {:hex, :onetime, "1.0.0"},
   "phoenix": {:hex, :phoenix, "1.1.4"},
   "phoenix_ecto": {:hex, :phoenix_ecto, "2.0.1"},
   "phoenix_html": {:hex, :phoenix_html, "2.5.1"},
@@ -24,5 +26,8 @@
   "postgrex": {:hex, :postgrex, "0.11.1"},
   "ranch": {:hex, :ranch, "1.2.1"},
   "ssl_verify_fun": {:hex, :ssl_verify_fun, "1.1.0"},
+  "timex": {:hex, :timex, "1.0.2"},
+  "tzdata": {:hex, :tzdata, "0.5.7"},
   "ueberauth": {:hex, :ueberauth, "0.2.0"},
-  "ueberauth_google": {:hex, :ueberauth_google, "0.2.0"}}
+  "ueberauth_google": {:hex, :ueberauth_google, "0.2.0"},
+  "uuid": {:hex, :uuid, "1.1.3"}}

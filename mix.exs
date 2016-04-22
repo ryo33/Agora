@@ -37,6 +37,8 @@ defmodule Agora.Mixfile do
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:gettext, "~> 0.9"},
      {:cowboy, "~> 1.0"},
+     {:uuid, "~> 1.1"},
+     {:onetime, "~> 1.0"},
      {:ueberauth_google, "~> 0.2.0"}]
   end
 

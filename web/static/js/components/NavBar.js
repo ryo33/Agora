@@ -5,25 +5,18 @@ import FontIcon from 'material-ui/lib/font-icon'
 import NavigationExpandMoreIcon from 'material-ui/lib/svg-icons/navigation/expand-more'
 import MenuItem from 'material-ui/lib/menus/menu-item'
 import DropDownMenu from 'material-ui/lib/DropDownMenu'
-import RaisedButton from 'material-ui/lib/raised-button'
+import FlatButton from 'material-ui/lib/flat-button'
 import Toolbar from 'material-ui/lib/toolbar/toolbar'
 import ToolbarGroup from 'material-ui/lib/toolbar/toolbar-group'
 import ToolbarSeparator from 'material-ui/lib/toolbar/toolbar-separator'
 import ToolbarTitle from 'material-ui/lib/toolbar/toolbar-title'
 
-import SvgIcon from 'material-ui/lib/svg-icon'
-import google from './../../svg/google.svg'
 import { SignedIn, NotSignedIn } from './util'
 
 /*
-   <DropDownMenu value={1}>
-   <MenuItem value={1} primaryText="Search" />
-   <MenuItem value={2} primaryText="Groups" />
-   <MenuItem value={3} primaryText="Threads" />
-   <MenuItem value={4} primaryText="Posts" />
-   <MenuItem value={5} primaryText="Users" />
-   <MenuItem value={6} primaryText="Settings" />
-   </DropDownMenu>
+import SvgIcon from 'material-ui/lib/svg-icon'
+import google from './../../svg/google.svg'
+   icon={<SvgIcon dangerouslySetInnerHTML={{ __html: google }} />}
 */
 
 class NavBar extends Component {
@@ -70,13 +63,11 @@ class NavBar extends Component {
             </ToolbarGroup>
             <ToolbarGroup float="right">
                 <NotSignedIn>
-                    <RaisedButton
-                        label="Sign in with Google"
-                        labelStyle={{textTransform: "none"}}
+                    <FlatButton
+                        label="Sign in"
                         style={{marginTop: (48/*muiTheme.button.iconButtonSize*/ - 36/*flatButtonSize*/) / 2 + 1}}
                         linkButton={true}
                         href="/auth/google"
-                        icon={<SvgIcon dangerouslySetInnerHTML={{ __html: google }} />}
                     />
                 </NotSignedIn>
             </ToolbarGroup>

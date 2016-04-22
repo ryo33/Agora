@@ -7,11 +7,9 @@ defmodule Agora do
     import Supervisor.Spec, warn: false
 
     children = [
-      # Start the endpoint when the application starts
       supervisor(Agora.Endpoint, []),
-      # Start the Ecto repository
       supervisor(Agora.Repo, []),
-      # Here you could define other workers and supervisors as children
+      worker(Onetime, [[name: :channel_token]])
       # worker(Agora.Worker, [arg1, arg2, arg3]),
     ]
 

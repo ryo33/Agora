@@ -1,12 +1,16 @@
 import React from 'react'
 
-const _signed_in = signed_in
+const mapStateToProps = (state) => {
+    return {
+        signed_in: state.signed_in
+    }
+}
 
-const signed = (props, value) => {
-    if ( _signed_in == value ) {
-        return <span>{props.children}</span>
+const signed = ({signed_in, children}, value) => {
+    if ( signed_in == value ) {
+        return <span>{children}</span>
     } else {
-        return <span />
+        return null
     }
 }
 const SignedIn = (props) => signed(props, true)

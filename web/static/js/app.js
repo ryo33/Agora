@@ -4,7 +4,7 @@ import { Provider } from 'react-redux'
 import { createStore, combineReducers } from 'redux'
 import { browserHistory } from 'react-router'
 import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
-import { Agora } from './Agora'
+import Agora from './Agora'
 import reducers from './reducers/index'
 var injectTapEventPlugin = require("react-tap-event-plugin");
 injectTapEventPlugin();

@@ -6,10 +6,16 @@ defmodule Agora.PageController do
   def index(conn, _params) do
     case conn.assigns[:account] do
       nil ->
-        signed_in = false
-      _account ->
-        signed_in = true
+        account = nil
+      account ->
+        account = account
     end
-    render conn, "index.html", signed_in: signed_in
+    client = %{
+      account: account,
+      conn: conn,
+    }
+    token = UUID.uuid4(:hex)
+    Onetime.register(:channel_token, token, client)
+    render conn, "index.html", token: token
   end
 end
