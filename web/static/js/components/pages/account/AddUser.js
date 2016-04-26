@@ -33,8 +33,4 @@ class AddUser extends Component {
     }
 }
 
-AddUser.contextTypes = {
-    router: React.PropTypes.object.isRequired
-}
-
 export default AddUser

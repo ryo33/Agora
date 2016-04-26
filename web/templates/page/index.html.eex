@@ -1,3 +1,7 @@
 <script>
-window.userToken = "<%= @token %>"
+window.signed_in = <%= @signed_in %>
+<%= if @signed_in do %>
+window.accountToken = "<%= @token %>"
+window.accountID = "<%= @id %>"
+<% end %>
 </script>

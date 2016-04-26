@@ -1,4 +1,7 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { push } from 'react-router-redux'
+
 import LeftNav_ from 'material-ui/lib/left-nav'
 import MenuItem from 'material-ui/lib/menus/menu-item'
 import FontIcon from 'material-ui/lib/font-icon'
@@ -11,7 +14,7 @@ class LeftNav extends Component {
     transitionTo(path) {
         return (event) => {
             this.props.toggleLeftNav()
-            this.context.router.push(path)
+            this.props.dispatch(push(path));
         }
     }
     render() {
@@ -80,4 +83,4 @@ LeftNav.contextTypes = {
     router: React.PropTypes.object.isRequired
 }
 
-export default LeftNav
+export default connect()(LeftNav)

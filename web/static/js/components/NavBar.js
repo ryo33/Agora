@@ -1,4 +1,7 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { push } from 'react-router-redux'
+
 import IconMenu from 'material-ui/lib/menus/icon-menu'
 import IconButton from 'material-ui/lib/icon-button'
 import FontIcon from 'material-ui/lib/font-icon'
@@ -13,16 +16,13 @@ import ToolbarTitle from 'material-ui/lib/toolbar/toolbar-title'
 
 import { SignedIn, NotSignedIn } from './util'
 
-/*
-import SvgIcon from 'material-ui/lib/svg-icon'
-import google from './../../svg/google.svg'
-   icon={<SvgIcon dangerouslySetInnerHTML={{ __html: google }} />}
-*/
-
+const mapStateToProps = (state) => {
+    return { router: state.history }
+}
 class NavBar extends Component {
     transitionTo(path) {
         return (event) => {
-            this.context.router.push(path)
+            this.props.dispatch(push(path));
         }
     }
     render() {
@@ -39,18 +39,10 @@ class NavBar extends Component {
                 <IconButton
                     iconClassName="material-icons"
                     touch={true}
-                    children="group"
-                    tooltip="Group"
+                    children="home"
+                    tooltip="Home"
                     tooltipPosition="bottom-center"
-                    onClick={this.transitionTo('/account/groups')}
-                />
-                <IconButton
-                    iconClassName="material-icons"
-                    touch={true}
-                    children="forum"
-                    tooltip="Threads"
-                    tooltipPosition="bottom-center"
-                    onClick={this.transitionTo('/account/threads')}
+                    onClick={this.transitionTo('/')}
                 />
                 <SignedIn><IconButton
                     iconClassName="material-icons"
@@ -66,8 +58,8 @@ class NavBar extends Component {
                     <FlatButton
                         label="Sign in"
                         style={{marginTop: (48/*muiTheme.button.iconButtonSize*/ - 36/*flatButtonSize*/) / 2 + 1}}
-                        linkButton={true}
-                        href="/auth/google"
+                        primary={true}
+                        onClick={this.transitionTo('/signin')}
                     />
                 </NotSignedIn>
             </ToolbarGroup>
@@ -75,8 +67,4 @@ class NavBar extends Component {
     }
 }
 
-NavBar.contextTypes = {
-    router: React.PropTypes.object.isRequired
-}
-
-export default NavBar
+export default connect(mapStateToProps)(NavBar)

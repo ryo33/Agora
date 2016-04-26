@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Router, Route } from 'react-router'
 import { Application, Account, UserList, AddUser } from './components/index'
 import { connect } from 'react-redux'
-import { socket, getTopicFromRouting, getAccountTopic } from './socket'
+import SignIn from './components/sign_in'
 
 const mapStateToProps = (state) => {
     return {
@@ -11,10 +11,6 @@ const mapStateToProps = (state) => {
 }
 
 class Agora extends Component {
-    componentDidMount() {
-        socket.connect()
-    }
-
     render(){
         let { routerHistory } = this.props
         return <Router history={routerHistory}>
@@ -23,6 +19,7 @@ class Agora extends Component {
                     <Route path="users" component={UserList} />
                     <Route path="add-user" component={AddUser} />
                 </Route>
+                <Route path="signin" component={SignIn} />
                 {/*
                     <Route path="users" component={Users}>
                     <Route path=":id", component={Profile} />

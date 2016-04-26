@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import NavBar from './NavBar'
 import LeftNav from './LeftNav'
 
@@ -15,7 +16,6 @@ class Application extends Component {
     render() {
         return <div>
             <NavBar
-                history={this.props.history}
                 toggleLeftNav={this.toggleLeftNav.bind(this)}
             />
             <LeftNav 
@@ -27,8 +27,4 @@ class Application extends Component {
     }
 }
 
-Application.contextTypes = {
-    router: React.PropTypes.object.isRequired
-}
-
-export default Application
+export default connect()(Application)

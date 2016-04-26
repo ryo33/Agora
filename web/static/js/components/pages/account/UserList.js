@@ -1,4 +1,7 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { push } from 'react-router-redux'
+
 import Avatar from 'material-ui/lib/avatar'
 import List from 'material-ui/lib/lists/list'
 import ListItem from 'material-ui/lib/lists/list-item'
@@ -6,10 +9,14 @@ import Divider from 'material-ui/lib/divider'
 import Paper from 'material-ui/lib/paper'
 import FontIcon from 'material-ui/lib/font-icon'
 
+
+const mapStateToProps = (state) => {
+    return { router: state.history }
+}
 class UserList extends Component {
     transitionTo(path) {
         return (event) => {
-            this.context.router.push(path)
+            this.props.dispatch(push(path));
         }
     }
     render() {
@@ -46,8 +53,4 @@ class UserList extends Component {
     }
 }
 
-UserList.contextTypes = {
-    router: React.PropTypes.object.isRequired
-}
-
-export default UserList
+export default connect(mapStateToProps)(UserList)
