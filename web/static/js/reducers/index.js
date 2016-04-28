@@ -1,5 +1,6 @@
+import account from './account'
 
-const reducers = () => {
-    return {}
+const reducers = {
+    account
 }
 export default reducers

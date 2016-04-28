@@ -1,7 +1,10 @@
 defmodule Agora.UserSocket do
   use Phoenix.Socket
 
-  channel "web", Agora.RoomChannel
+  require Logger
+
+  channel "account:*", Agora.AccountChannel
+  channel "page:*", Agora.RoomChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket
@@ -9,7 +12,10 @@ defmodule Agora.UserSocket do
   def connect(%{"token" => token}, socket) do
     case Onetime.pop(:channel_token, token) do
       {:ok, client} ->
-        {:ok, assign(socket, :client, client)}
+        socket = socket
+                  |> assign(:account, client.account)
+                  |> assign(:conn, client.conn)
+        {:ok, socket}
       :error -> :error
     end
   end

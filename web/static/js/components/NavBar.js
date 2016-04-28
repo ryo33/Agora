@@ -16,9 +16,6 @@ import ToolbarTitle from 'material-ui/lib/toolbar/toolbar-title'
 
 import { SignedIn, NotSignedIn } from './util'
 
-const mapStateToProps = (state) => {
-    return { router: state.history }
-}
 class NavBar extends Component {
     transitionTo(path) {
         return (event) => {
@@ -67,4 +64,4 @@ class NavBar extends Component {
     }
 }
 
-export default connect(mapStateToProps)(NavBar)
+export default connect()(NavBar)

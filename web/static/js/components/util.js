@@ -1,7 +1,7 @@
 import React from 'react'
 
 const signed = ({children}, value) => {
-    if ( window.signed_in == value ) {
+    if ( window.signedIn == value ) {
         return <span>{children}</span>
     } else {
         return null

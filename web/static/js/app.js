@@ -1,12 +1,16 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { render } from 'react-dom'
-import { Provider } from 'react-redux'
 import { createStore, combineReducers, applyMiddleware } from 'redux'
-import { browserHistory } from 'react-router'
+import { Provider } from 'react-redux'
+import { Route, Router, browserHistory } from 'react-router'
 import { routerMiddleware, syncHistoryWithStore, routerReducer } from 'react-router-redux'
-import Agora from './Agora'
+import { Application, Account, UserList, AddUser } from './components/index'
+import SignIn from './components/SignIn'
+
+import 'socket'
 import reducers from './reducers/index'
-var injectTapEventPlugin = require("react-tap-event-plugin");
+
+import injectTapEventPlugin from 'react-tap-event-plugin'
 injectTapEventPlugin();
 
 const middleware = routerMiddleware(browserHistory)
@@ -21,7 +25,15 @@ const history = syncHistoryWithStore(browserHistory, store)
 
 render(
     <Provider store={store}>
-        <Agora routerHistory={history} />
+        <Router history={history}>
+            <Route path="/" component={Application}>
+                <Route path="account" component={Account}>
+                    <Route path="users" component={UserList} />
+                    <Route path="add-user" component={AddUser} />
+                </Route>
+                <Route path="signin" component={SignIn} />
+            </Route>
+        </Router>
     </Provider>,
     document.getElementById('container')
 )

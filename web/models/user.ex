@@ -1,14 +1,16 @@
 defmodule Agora.User do
   use Agora.Web, :model
+  @derive {Poison.Encoder, only: [:uid, :name, :account_id]}
 
   schema "users" do
+    field :uid, :string
     field :name, :string
     belongs_to :account, Agora.Account
 
     timestamps
   end
 
-  @required_fields ~w(name)
+  @required_fields ~w(uid name account_id)
   @optional_fields ~w()
 
   @doc """
@@ -20,5 +22,8 @@ defmodule Agora.User do
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
+    |> validate_length(:uid, min: 3)
+    |> validate_length(:name, min: 1)
+    |> unique_constraint(:uid)
   end
 end

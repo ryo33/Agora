@@ -9,37 +9,33 @@ import Divider from 'material-ui/lib/divider'
 import Paper from 'material-ui/lib/paper'
 import FontIcon from 'material-ui/lib/font-icon'
 
-
-const mapStateToProps = (state) => {
-    return { router: state.history }
+const mapStateToProps = ({ account }) => {
+    return {
+        users: account.users,
+        currentUser: account.currentUser
+    }
 }
+
 class UserList extends Component {
+    componentDidMount() {
+    }
+
     transitionTo(path) {
         return (event) => {
             this.props.dispatch(push(path));
         }
     }
+
     render() {
+        let users = this.props.users.map(({ uid, name }) => <ListItem
+            secondaryText={uid}
+            primaryText={name}
+            leftAvatar={<Avatar src="/images/phoenix.png" />}
+            onClick={this.transitionTo('/account/users/' + uid)}
+        />)
         return <div>
             <List subheader="Users">
-                <ListItem
-                    id="YJSNPI"
-                    primaryText="YJSNPI"
-                    leftAvatar={<Avatar src="/images/phoenix.png" />}
-                    onClick={this.transitionTo('/account/users/' + 'YJSNPI')}
-                />
-                <ListItem
-                    id="HKKN"
-                    primaryText="HKKN"
-                    leftAvatar={<Avatar src="/images/phoenix.png" />}
-                    onClick={this.transitionTo('/account/users/' + 'HKKN')}
-                />
-                <ListItem
-                    id="KWGE"
-                    primaryText="KWGE"
-                    leftAvatar={<Avatar src="/images/phoenix.png" />}
-                    onClick={this.transitionTo('/account/users/' + 'KWGE')}
-                />
+                {users}
                 <Divider />
                 <ListItem primaryText="Add New User"
                     leftIcon={<FontIcon

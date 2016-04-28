@@ -6,6 +6,7 @@ import LeftNav_ from 'material-ui/lib/left-nav'
 import MenuItem from 'material-ui/lib/menus/menu-item'
 import FontIcon from 'material-ui/lib/font-icon'
 import ArrowDropRight from 'material-ui/lib/svg-icons/navigation-arrow-drop-right'
+import { SignedIn, NotSignedIn } from './util'
 
 class LeftNav extends Component {
     constructor(props) {
@@ -74,6 +75,16 @@ class LeftNav extends Component {
                         />
                     }
                 />
+                <SignedIn><MenuItem
+                    children="Users"
+                    onClick={this.transitionTo('/account/users')}
+                    leftIcon={
+                        <FontIcon
+                            children="person"
+                            className="material-icons"
+                        />
+                    }
+                /></SignedIn>
             </LeftNav_>
         </div>
     }

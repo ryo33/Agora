@@ -14,7 +14,7 @@ defmodule Agora.PageController do
         }
         token = UUID.uuid4(:hex)
         Onetime.register(:channel_token, token, client)
-        render conn, "index.html", signed_in: true, token: token, id: client.id
+        render conn, "index.html", signed_in: true, token: token, id: client.account.id
     end
   end
 end

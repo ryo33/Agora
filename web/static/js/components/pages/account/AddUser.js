@@ -11,6 +11,26 @@ import RaisedButton from 'material-ui/lib/raised-button';
 import CardText from 'material-ui/lib/card/card-text';
 
 class AddUser extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            id: "",
+            name: ""
+        }
+    }
+
+    handleChange(column) {
+        return (e) => {
+            let tmp = {}
+            tmp[column] = e.target.value
+            this.setState(Object.assign({}, this.state, tmp))
+        }
+    }
+
+    click() {
+        window.accountChannel.push("add_user", {uid: this.state.id, name: this.state.name})
+    }
+
     render() {
         return <Card>
             <CardTitle title="Add New User" />
@@ -18,15 +38,20 @@ class AddUser extends Component {
                 <TextField
                     hintText="ID"
                     floatingLabelText="ID"
+                    value={this.state.id}
+                    onChange={this.handleChange("id")}
                 /><br/>
                 <TextField
                     hintText="Name"
                     floatingLabelText="Name"
+                    value={this.state.name}
+                    onChange={this.handleChange("name")}
                 /><br/>
             </CardText>
             <CardActions>
                 <RaisedButton
                     label="Submit"
+                    onClick={this.click.bind(this)}
                 />
             </CardActions>
         </Card>
