@@ -26,12 +26,22 @@ class UserList extends Component {
         }
     }
 
+    setCurrentUser(id) {
+        return () => {
+            this.props.dispatch({
+                type: 'SET_CURRENT_USER',
+                id: id
+            })
+        }
+    }
+
     render() {
-        let users = this.props.users.map(({ uid, name }) => <ListItem
+        let users = this.props.users.map(({ uid, name, id }, key) => <ListItem
+            key={key}
             secondaryText={uid}
             primaryText={name}
             leftAvatar={<Avatar src="/images/phoenix.png" />}
-            onClick={this.transitionTo('/account/users/' + uid)}
+            onClick={this.setCurrentUser(id)}
         />)
         return <div>
             <List subheader="Users">

@@ -27,14 +27,19 @@ defmodule Agora.AccountChannel do
     user = Map.put(user, "account_id", socket.assigns.account.id)
     changeset = User.changeset(%User{}, user)
     if changeset.valid? do
-      Repo.insert!(changeset)
-      add_user = %{
-        type: "ADD_USER",
-        user: changeset
-      }
-      {:reply, {:ok, %{actions: [add_user]}}, socket}
+      case Repo.insert(changeset) do
+        {:ok, user} ->
+          add_user = %{
+            type: "ADD_USER",
+            user: user
+          }
+          broadcast! socket, "dispatch", %{actions: [add_user]}
+          {:reply, :ok, socket}
+        {:error, changeset} ->
+          # TODO Return error message
+          {:reply, {:ok, %{actions: []}}, socket}
+      end
     else
-      # TODO Return error message
       {:reply, :error, socket}
     end
   end

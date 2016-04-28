@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { push } from 'react-router-redux'
 import Paper from 'material-ui/lib/paper';
 import TextField from 'material-ui/lib/text-field';
 import Card from 'material-ui/lib/card/card';
@@ -28,7 +30,12 @@ class AddUser extends Component {
     }
 
     click() {
-        window.accountChannel.push("add_user", {uid: this.state.id, name: this.state.name})
+        window.accountChannel
+        .push("add_user", {uid: this.state.id, name: this.state.name})
+        .receive("ok", () => { 
+            this.props.dispatch(push("/account/users"))
+        })
+
     }
 
     render() {
@@ -58,4 +65,4 @@ class AddUser extends Component {
     }
 }
 
-export default AddUser
+export default connect()(AddUser)
