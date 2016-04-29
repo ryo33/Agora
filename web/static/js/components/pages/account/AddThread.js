@@ -9,34 +9,42 @@ import { Card, CardActions, CardHeader,
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 
+import UserSelector from '../../UserSelector'
+
 const mapStateToProps = ({ account }) => {
+    console.log(account)
     return {
-        id: account.forms.addUser.id,
-        name: account.forms.addUser.name,
+        users: account.users,
+        currentUser: account.currentUser,
+        name: account.forms.addThread.name
     }
 }
 
-class AddUser extends Component {
+class AddThread extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            id: "",
-            name: ""
+            name: "",
+            user: null
         }
     }
 
     componentWillMount() {
         this.setState({
-            id: this.props.id,
-            name: this.props.name
+            name: this.props.name,
+            user: this.props.currentUser
         })
     }
 
     componentWillReceiveProps(props) {
         this.setState({
-            id: props.id,
-            name: props.name
+            name: props.name,
+            user: props.currentUser
         })
+    }
+
+    handleUserChange(event, index, value) {
+        this.setState(Object.assign({}, this.state, {user: value}))
     }
 
     handleChange(column, event) {
@@ -47,29 +55,30 @@ class AddUser extends Component {
 
     click() {
         window.accountChannel
-        .push("add_user", {uid: this.state.id, name: this.state.name})
-        .receive("ok", () => { 
-            this.props.dispatch(push("/account/users"))
+        .push("thread", {
+            action: 'add',
+            params: {name: this.state.name, user_id: this.state.user}
         })
-
+        .receive("ok", ({ id }) => { 
+            this.props.dispatch(push("/threads/" + id))
+        })
     }
 
     render() {
         return <Card>
-            <CardTitle title="Add New User" />
+            <CardTitle title="Add New Thread" />
             <CardText>
-                <TextField
-                    hintText="ID"
-                    floatingLabelText="ID"
-                    value={this.state.id}
-                    onChange={this.handleChange.bind(this, "id")}
-                /><br/>
+                <UserSelector
+                    users={this.props.users}
+                    value={this.state.user}
+                    handleChange={this.handleUserChange.bind(this)}
+                /><br />
                 <TextField
                     hintText="Name"
                     floatingLabelText="Name"
                     value={this.state.name}
                     onChange={this.handleChange.bind(this, "name")}
-                /><br/>
+                />
             </CardText>
             <CardActions>
                 <RaisedButton
@@ -81,4 +90,4 @@ class AddUser extends Component {
     }
 }
 
-export default connect(mapStateToProps)(AddUser)
+export default connect(mapStateToProps)(AddThread)

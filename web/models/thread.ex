@@ -7,11 +7,13 @@ defmodule Agora.Thread do
     belongs_to :user, Agora.User
     belongs_to :parent_group, Agora.ParentGroup
 
+    has_many :posts, Agora.Post
+
     timestamps
   end
 
-  @required_fields ~w(name)
-  @optional_fields ~w()
+  @required_fields ~w(name account_id user_id)
+  @optional_fields ~w(parent_group_id)
 
   @doc """
   Creates a changeset based on the `model` and `params`.
@@ -22,5 +24,6 @@ defmodule Agora.Thread do
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
+    |> validate_length(:name, min: 1)
   end
 end

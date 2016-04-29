@@ -13,7 +13,7 @@ const Threads = (props) => <MenuItem
         <MenuItem
             children="Create New Thread"
             leftIcon={AddBoxIcon}
-            onClick={props.click('/account/new-thread')}
+            onClick={props.click('/account/add-thread')}
         />
     ]}
     rightIcon={<ArrowDropRight />}

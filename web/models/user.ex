@@ -7,6 +7,11 @@ defmodule Agora.User do
     field :name, :string
     belongs_to :account, Agora.Account
 
+    has_many :threads, Agora.Thread
+    has_many :posts, Agora.Post
+    has_many :groups, Agora.Group
+    has_many :members, Agora.Member
+
     timestamps
   end
 

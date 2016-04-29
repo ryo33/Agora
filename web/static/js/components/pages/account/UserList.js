@@ -40,15 +40,13 @@ class UserList extends Component {
         />
         if (this.props.users) {
             this.props.users.forEach(({ uid, name, id }, key) => {
-                let item = <ListItem
-                    key={key}
-                    secondaryText={uid}
-                    primaryText={name}
-                    leftAvatar={<Avatar src="/images/phoenix.png" />}
-                    onClick={this.setCurrentUser(id)}
-                />
                 if (id == this.props.currentUser) {
-                    currentUser = item
+                    currentUser = <ListItem
+                        key={key}
+                        secondaryText={uid}
+                        primaryText={name}
+                        leftAvatar={<Avatar src="/images/phoenix.png" />}
+                    />
                 } else {
                     users.push(<ListItem
                         key={key}

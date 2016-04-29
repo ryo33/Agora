@@ -1,6 +1,5 @@
 defmodule Agora.AccountChannel do
-  use Phoenix.Channel
-  import Ecto.Query
+  use Agora.Web, :channel
   alias Agora.User
   alias Agora.Repo
 
@@ -45,12 +44,7 @@ defmodule Agora.AccountChannel do
   end
 
   def handle_in("set_current_user", user, socket) do
-    query = from p in Agora.User,
-      where: p.account_id == ^socket.assigns.account.id and p.id == ^user,
-      limit: 1,
-      select: count(p.id)
-    case Repo.all(query) do
-      [1] ->
+    if Agora.Account.has_user?(socket.assigns.account.id, user) do
         set_current_user = %{
           type: "SET_CURRENT_USER",
           user: user
@@ -58,8 +52,13 @@ defmodule Agora.AccountChannel do
         push socket, "dispatch", %{actions: [set_current_user]}
         socket = assign(socket, :current_user, user)
         {:noreply, socket}
-      _ ->
+    else
         {:noreply, socket}
     end
   end
+
+  def handle_in("thread", %{"action" => action, "params" => params}, socket) do
+    ChannelController.action(ChannelController.Thread, socket, action, params)
+  end
+
 end

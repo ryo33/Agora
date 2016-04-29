@@ -12,7 +12,7 @@ const Groups = (props) => <MenuItem
         <MenuItem
             children="Create New Group"
             leftIcon={AddBoxIcon}
-            onClick={props.click('/account/new-group')}
+            onClick={props.click('/account/add-group')}
         />,
     ]}
     rightIcon={<ArrowDropRight />}

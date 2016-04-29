@@ -7,6 +7,8 @@ defmodule Agora.Group do
     belongs_to :user, Agora.User
     belongs_to :parent_group, Agora.ParentGroup
 
+    has_many :members, Agora.Member
+
     timestamps
   end
 

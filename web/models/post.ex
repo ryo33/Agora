@@ -9,6 +9,8 @@ defmodule Agora.Post do
     belongs_to :thread, Agora.Thread
     belongs_to :post, Agora.Post
 
+    has_many :posts, Agora.Post
+
     timestamps
   end
 

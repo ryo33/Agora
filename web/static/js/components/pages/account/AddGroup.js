@@ -9,66 +9,53 @@ import { Card, CardActions, CardHeader,
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 
-const mapStateToProps = ({ account }) => {
+const mapStateToProps = (state) => {
     return {
-        id: account.forms.addUser.id,
-        name: account.forms.addUser.name,
+        name: state.account.addGroup.name,
     }
 }
 
-class AddUser extends Component {
+class AddGroup extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            id: "",
-            name: ""
+            id: props.id,
+            name: props.name
         }
     }
 
-    componentWillMount() {
-        this.setState({
-            id: this.props.id,
-            name: this.props.name
-        })
-    }
-
-    componentWillReceiveProps(props) {
-        this.setState({
-            id: props.id,
-            name: props.name
-        })
-    }
-
-    handleChange(column, event) {
-        let tmp = {}
-        tmp[column] = event.target.value
-        this.setState(Object.assign({}, this.state, tmp))
+    handleChange(column) {
+        return (e) => {
+            let tmp = {}
+            tmp[column] = e.target.value
+            this.setState(Object.assign({}, this.state, tmp))
+        }
     }
 
     click() {
         window.accountChannel
-        .push("add_user", {uid: this.state.id, name: this.state.name})
+        .push("add_group", {uid: this.state.id, name: this.state.name})
         .receive("ok", () => { 
-            this.props.dispatch(push("/account/users"))
+            this.props.dispatch(push("/account/groups"))
         })
 
     }
 
     render() {
         return <Card>
-            <CardTitle title="Add New User" />
+            <CardTitle title="Add New Group" />
             <CardText>
                 <TextField
                     hintText="ID"
                     floatingLabelText="ID"
                     value={this.state.id}
-                    onChange={this.handleChange.bind(this, "id")}
+                    onChange={this.handleChange("id")}
                 /><br/>
                 <TextField
                     hintText="Name"
                     floatingLabelText="Name"
                     value={this.state.name}
-                    onChange={this.handleChange.bind(this, "name")}
+                    onChange={this.handleChange("name")}
                 /><br/>
             </CardText>
             <CardActions>
@@ -81,4 +68,4 @@ class AddUser extends Component {
     }
 }
 
-export default connect(mapStateToProps)(AddUser)
+export default connect(mapStateToProps)(AddGroup)

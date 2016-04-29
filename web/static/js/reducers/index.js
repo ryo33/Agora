@@ -1,6 +1,8 @@
-import account from './account'
+import account from './account/index'
+import threads from './threads'
 
 const reducers = {
-    account
+    account,
+    threads
 }
 export default reducers

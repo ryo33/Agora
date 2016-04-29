@@ -7,9 +7,15 @@ defmodule Agora.AuthenticationPlug do
   def call(conn, default) do
     id = get_session(conn, :account)
     if id do
-      account = Agora.Repo.get!(Agora.Account, id)
-      conn
-      |> assign(:account, account)
+      case Agora.Repo.get(Agora.Account, id) do
+        nil ->
+          conn
+          |> delete_session(:account)
+          |> assign(:account, nil)
+        account ->
+          conn
+          |> assign(:account, account)
+      end
     else
       assign(conn, :account, nil)
     end
