@@ -2,12 +2,12 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 
-import Avatar from 'material-ui/lib/avatar'
-import List from 'material-ui/lib/lists/list'
-import ListItem from 'material-ui/lib/lists/list-item'
-import Divider from 'material-ui/lib/divider'
-import Paper from 'material-ui/lib/paper'
-import FontIcon from 'material-ui/lib/font-icon'
+import Avatar from 'material-ui/Avatar'
+import { List, ListItem } from 'material-ui/List'
+import Subheader from 'material-ui/Subheader'
+import Divider from 'material-ui/Divider'
+import Paper from 'material-ui/Paper'
+import FontIcon from 'material-ui/FontIcon'
 
 const mapStateToProps = ({ account }) => {
     return {
@@ -61,11 +61,13 @@ class UserList extends Component {
             })
         }
         return <div>
-            <List subheader="Current User">
+            <List>
+                <Subheader>Current User</Subheader>
                 {currentUser}
             </List>
             <Divider />
-            <List subheader="Users">
+            <List>
+                <Subheader>Users</Subheader>
                 {users}
             </List>
             <Divider />

@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import NavBar from './NavBar'
-import LeftNav from './LeftNav'
+import LeftNav from './leftnav/index'
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 class Application extends Component {
     componentWillMount() {
@@ -20,17 +22,19 @@ class Application extends Component {
     }
 
     render() {
-        return <div>
-            <NavBar
-                toggleLeftNav={this.toggleLeftNav.bind(this)}
-            />
-            <LeftNav
-                open={this.state.leftNav}
-                toggleLeftNav={this.toggleLeftNav.bind(this)}
-                setLeftNav={this.setLeftNav.bind(this)}
-            />
-            {this.props.children}
-        </div>
+        return <MuiThemeProvider muiTheme={getMuiTheme()}>
+            <div>
+                <NavBar
+                    toggleLeftNav={this.toggleLeftNav.bind(this)}
+                />
+                <LeftNav
+                    open={this.state.leftNav}
+                    toggleLeftNav={this.toggleLeftNav.bind(this)}
+                    setLeftNav={this.setLeftNav.bind(this)}
+                />
+                {this.props.children}
+            </div>
+        </MuiThemeProvider>
     }
 }
 

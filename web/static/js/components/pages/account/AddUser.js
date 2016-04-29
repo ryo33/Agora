@@ -1,16 +1,13 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
-import Paper from 'material-ui/lib/paper';
-import TextField from 'material-ui/lib/text-field';
-import Card from 'material-ui/lib/card/card';
-import CardActions from 'material-ui/lib/card/card-actions';
-import CardHeader from 'material-ui/lib/card/card-header';
-import CardMedia from 'material-ui/lib/card/card-media';
-import CardTitle from 'material-ui/lib/card/card-title';
-import FlatButton from 'material-ui/lib/flat-button';
-import RaisedButton from 'material-ui/lib/raised-button';
-import CardText from 'material-ui/lib/card/card-text';
+
+import Paper from 'material-ui/Paper';
+import TextField from 'material-ui/TextField';
+import { Card, CardActions, CardHeader,
+    CardMedia, CardTitle, CardText } from 'material-ui/Card';
+import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
 
 class AddUser extends Component {
     constructor(props) {

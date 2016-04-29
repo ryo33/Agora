@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import SvgIcon from 'material-ui/lib/svg-icon'
+import SvgIcon from 'material-ui/SvgIcon'
 import google from './../../svg/google.svg'
-import RaisedButton from 'material-ui/lib/raised-button'
+import RaisedButton from 'material-ui/RaisedButton'
 /*
 */
 const Google = (props) => <RaisedButton
