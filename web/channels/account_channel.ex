@@ -43,4 +43,23 @@ defmodule Agora.AccountChannel do
       {:reply, :error, socket}
     end
   end
+
+  def handle_in("set_current_user", user, socket) do
+    query = from p in Agora.User,
+      where: p.account_id == ^socket.assigns.account.id and p.id == ^user,
+      limit: 1,
+      select: count(p.id)
+    case Repo.all(query) do
+      [1] ->
+        set_current_user = %{
+          type: "SET_CURRENT_USER",
+          user: user
+        }
+        push socket, "dispatch", %{actions: [set_current_user]}
+        socket = assign(socket, :current_user, user)
+        {:noreply, socket}
+      _ ->
+        {:noreply, socket}
+    end
+  end
 end

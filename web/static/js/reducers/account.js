@@ -1,4 +1,4 @@
-const initialState = {
+export const initialState = {
     users: [],
     threads: [],
     currentUser: null
@@ -6,10 +6,6 @@ const initialState = {
 
 function account(state = initialState, action) {
     switch (action.type) {
-        case 'SET_CURRENT_USER':
-            return Object.assign({}, state, {
-                currentUser: action.id
-            })
         case 'ADD_USER':
             return Object.assign({}, state, {
                 users: state.users.concat([action.user])
@@ -20,7 +16,7 @@ function account(state = initialState, action) {
             })
         case 'SET_CURRENT_USER':
             return Object.assign({}, state, {
-                currentUser: action.userID
+                currentUser: action.user
             })
         case 'ADD_THREADS':
             return Object.assign({}, state, {

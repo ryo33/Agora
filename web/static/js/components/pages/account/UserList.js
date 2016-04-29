@@ -28,25 +28,48 @@ class UserList extends Component {
 
     setCurrentUser(id) {
         return () => {
-            this.props.dispatch({
-                type: 'SET_CURRENT_USER',
-                id: id
-            })
+            window.accountChannel.push('set_current_user', id)
         }
     }
 
     render() {
-        let users = this.props.users.map(({ uid, name, id }, key) => <ListItem
-            key={key}
-            secondaryText={uid}
-            primaryText={name}
-            leftAvatar={<Avatar src="/images/phoenix.png" />}
-            onClick={this.setCurrentUser(id)}
-        />)
+        let users = [];
+        let currentUser = <ListItem
+            primaryText="No Current User"
+            disabled={true}
+        />
+        if (this.props.users) {
+            this.props.users.forEach(({ uid, name, id }, key) => {
+                let item = <ListItem
+                    key={key}
+                    secondaryText={uid}
+                    primaryText={name}
+                    leftAvatar={<Avatar src="/images/phoenix.png" />}
+                    onClick={this.setCurrentUser(id)}
+                />
+                if (id == this.props.currentUser) {
+                    currentUser = item
+                } else {
+                    users.push(<ListItem
+                        key={key}
+                        secondaryText={uid}
+                        primaryText={name}
+                        leftAvatar={<Avatar src="/images/phoenix.png" />}
+                        onClick={this.setCurrentUser(id)}
+                    />)
+                }
+            })
+        }
         return <div>
+            <List subheader="Current User">
+                {currentUser}
+            </List>
+            <Divider />
             <List subheader="Users">
                 {users}
-                <Divider />
+            </List>
+            <Divider />
+            <List>
                 <ListItem primaryText="Add New User"
                     leftIcon={<FontIcon
                         children="add_box"

@@ -4,24 +4,43 @@ import { createStore, combineReducers, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import { Route, Router, browserHistory } from 'react-router'
 import { routerMiddleware, syncHistoryWithStore, routerReducer } from 'react-router-redux'
+import createLogger from 'redux-logger';
+import { persistStore, getStoredState } from 'redux-persist'
+
 import { Application, Account, UserList, AddUser } from './components/index'
 import SignIn from './components/SignIn'
 
-import 'socket'
+import { createAccountChannel } from 'socket'
 import reducers from './reducers/index'
 
 import injectTapEventPlugin from 'react-tap-event-plugin'
 injectTapEventPlugin();
 
-const middleware = routerMiddleware(browserHistory)
+const logger = createLogger();
+
 const store = createStore(
   combineReducers({
     ...reducers,
     routing: routerReducer
   }),
-  applyMiddleware(middleware)
+  applyMiddleware(logger, routerMiddleware(browserHistory))
 )
 const history = syncHistoryWithStore(browserHistory, store)
+
+createAccountChannel(store)
+
+// Persist
+const persistConfig = {
+    whitelist: ['account'],
+}
+persistStore(store, persistConfig)
+getStoredState(persistConfig, (err, state) => {
+    if (state.account) {
+        if (state.account.currentUser) {
+            window.accountChannel.push('set_current_user', state.account.currentUser)
+        }
+    }
+})
 
 render(
     <Provider store={store}>
