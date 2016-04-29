@@ -15,11 +15,6 @@ defmodule Agora.Router do
     plug Agora.AuthenticationPlug
   end
 
-  scope "/api", Agora do
-    pipe_through :api
-    resources "/users", UserController
-  end
-
   scope "/", Agora do
     pipe_through :browser
 
@@ -31,5 +26,14 @@ defmodule Agora.Router do
     end
 
     get "/*page", PageController, :index
+
+    # Unimplemented
+    scope "/api", Agora do
+      pipe_through :api
+      resources "/users", UserController
+      resources "/groups", GroupController
+      resources "/threads", ThreadController
+      resources "/posts", PostController
+    end
   end
 end
