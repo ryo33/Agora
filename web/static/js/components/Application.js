@@ -15,15 +15,19 @@ class Application extends Component {
     toggleLeftNav() {
         this.setState({leftNav: !this.state.leftNav})
     }
+    setLeftNav(leftNav) {
+        this.setState({leftNav: leftNav})
+    }
 
     render() {
         return <div>
             <NavBar
                 toggleLeftNav={this.toggleLeftNav.bind(this)}
             />
-            <LeftNav 
-                history={this.props.history}
-                toggleLeftNav={this.toggleLeftNav.bind(this)} open={this.state.leftNav}
+            <LeftNav
+                open={this.state.leftNav}
+                toggleLeftNav={this.toggleLeftNav.bind(this)}
+                setLeftNav={this.setLeftNav.bind(this)}
             />
             {this.props.children}
         </div>

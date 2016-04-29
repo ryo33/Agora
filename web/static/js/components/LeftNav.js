@@ -19,74 +19,66 @@ class LeftNav extends Component {
         }
     }
     render() {
-        return <div>
-            <LeftNav_ open={this.props.open} docked={true}>
-                <MenuItem
-                    children="Close"
-                    leftIcon={
-                        <FontIcon
-                            children="arrow_back"
-                            className="material-icons"
-                        />
-                    }
-                    onClick={this.props.toggleLeftNav}
-                />
-                <MenuItem
-                    children="Groups"
-                    menuItems={[
-                        <MenuItem
-                            children="Create New Group"
-                            leftIcon={
-                                <FontIcon
-                                    children="add_box"
-                                    className="material-icons"
-                                />
-                            }
-                            onClick={this.transitionTo('/groups/new')}
-                        />,
-                    ]}
-                    rightIcon={<ArrowDropRight />}
-                    leftIcon={
-                        <FontIcon
-                            children="group"
-                            className="material-icons"
-                        />
-                    }
-                />
-                <MenuItem
-                    children="Threads"
-                    menuItems={[
-                        <MenuItem
-                            children="Create New Thread"
-                            leftIcon={
-                                <FontIcon
-                                    children="add_box"
-                                    className="material-icons"
-                                />
-                            }
-                            onClick={this.transitionTo('/threads/new')}
-                        />
-                    ]}
-                    rightIcon={<ArrowDropRight />}
-                    leftIcon={
-                        <FontIcon
-                            children="forum"
-                            className="material-icons"
-                        />
-                    }
-                />
-                <SignedIn><MenuItem
-                    children="Users"
-                    onClick={this.transitionTo('/account/users')}
-                    leftIcon={
-                        <FontIcon
-                            children="person"
-                            className="material-icons"
-                        />
-                    }
-                /></SignedIn>
-            </LeftNav_>
-        </div>
+        return <LeftNav_
+            open={this.props.open}
+            docked={false}
+            onRequestChange={this.props.setLeftNav}
+        >
+            <MenuItem
+                children="Groups"
+                menuItems={[
+                    <MenuItem
+                        children="Create New Group"
+                        leftIcon={
+                            <FontIcon
+                                children="add_box"
+                                className="material-icons"
+                            />
+                        }
+                        onClick={this.transitionTo('/groups/new')}
+                    />,
+                ]}
+                rightIcon={<ArrowDropRight />}
+                leftIcon={
+                    <FontIcon
+                        children="group"
+                        className="material-icons"
+                    />
+                }
+            />
+            <MenuItem
+                children="Threads"
+                menuItems={[
+                    <MenuItem
+                        children="Create New Thread"
+                        leftIcon={
+                            <FontIcon
+                                children="add_box"
+                                className="material-icons"
+                            />
+                        }
+                        onClick={this.transitionTo('/threads/new')}
+                    />
+                ]}
+                rightIcon={<ArrowDropRight />}
+                leftIcon={
+                    <FontIcon
+                        children="forum"
+                        className="material-icons"
+                    />
+                }
+            />
+            <SignedIn><MenuItem
+                children="Users"
+                onClick={this.transitionTo('/account/users')}
+                leftIcon={
+                    <FontIcon
+                        children="person"
+                        className="material-icons"
+                    />
+                }
+            /></SignedIn>
+        </LeftNav_>
     }
 }
 
