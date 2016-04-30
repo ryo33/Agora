@@ -1,5 +1,5 @@
 defmodule Agora.ChannelController.Thread do
-  use Agora.ChannelController
+  use Agora.Web, :channel_controller
 
   require Logger
 
@@ -26,5 +26,18 @@ defmodule Agora.ChannelController.Thread do
       {:error, changeset} ->
         {:error, socket} # TODO return error message
     end
+  end
+
+  def handle_action("get_by_account", _, socket) do
+    account_id = socket.assigns.account.id
+    query = from t in Thread,
+      where: t.account_id == ^account_id,
+      select: t
+    threads = Repo.all(query)
+    push socket, %{
+      type: "SET_ACCOUNT_THREADS",
+      threads: threads
+    }
+    {:ok, socket}
   end
 end

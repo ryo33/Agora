@@ -20,7 +20,9 @@ class Thread extends Component {
     }
 
     componentWillUnmount() {
-        leaveChannel(window.threadChannel)
+        if (window.threadChannel) {
+            leaveChannel(window.threadChannel)
+        }
     }
 
     transitionTo(path) {

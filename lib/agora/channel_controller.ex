@@ -11,21 +11,31 @@ defmodule Agora.ChannelController do
       alias Agora.Group
       alias Agora.Member
 
+      defp push(socket, action) when not is_list(action), do: push(socket, [action])
       defp push(socket, actions) do
         Phoenix.Channel.push(socket, "dispatch", %{actions: actions})
       end
+
+      defp broadcast(socket, action) when not is_list(action), do: broadcast(socket, [action])
       defp broadcast(socket, actions) do
         Phoenix.Channel.broadcast!(socket, "dispatch", %{actions: actions})
       end
+
+      defp broadcast_to_account(socket, action) when not is_list(action), do: broadcast_to_account(socket, [action])
       defp broadcast_to_account(id, actions) do
         Agora.Endpoint.broadcast!("account:" <> id, "dispatch", %{actions: actions})
       end
+
+      defp broadcast_to_thread(socket, action) when not is_list(action), do: broadcast_to_thread(socket, [action])
       defp broadcast_to_thread(id, actions) do
         Agora.Endpoint.broadcast!("thread:" <> id, "dispatch", %{actions: actions})
       end
+
+      defp broadcast_to_group(socket, action) when not is_list(action), do: broadcast_to_group(socket, [action])
       defp broadcast_to_group(id, actions) do
         Agora.Endpoint.broadcast!("group:" <> id, "dispatch", %{actions: actions})
       end
+
       defp get(changeset, key) do
         Ecto.Changeset.get_field(changeset, key)
       end

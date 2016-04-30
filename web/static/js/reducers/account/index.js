@@ -5,6 +5,7 @@ import addGroup from './add_group'
 
 const account = combineReducers({
     users,
+    threads,
     currentUser,
     forms: combineReducers({
         addUser,
@@ -12,6 +13,15 @@ const account = combineReducers({
         addGroup
     })
 })
+
+function threads(state = [], action) {
+    switch (action.type) {
+        case 'SET_ACCOUNT_THREADS':
+            return action.threads
+        default:
+            return state
+    }
+}
 
 function users(state = [], action) {
     switch (action.type) {

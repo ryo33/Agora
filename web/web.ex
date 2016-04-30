@@ -16,6 +16,12 @@ defmodule Agora.Web do
   below.
   """
 
+  def channel_controller do
+    quote do
+      use Agora.ChannelController
+    end
+  end
+
   def model do
     quote do
       use Ecto.Schema

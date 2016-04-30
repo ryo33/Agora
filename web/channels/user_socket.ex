@@ -4,7 +4,7 @@ defmodule Agora.UserSocket do
   require Logger
 
   channel "account:*", Agora.AccountChannel
-  channel "page:*", Agora.RoomChannel
+  channel "thread:*", Agora.ThreadChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket

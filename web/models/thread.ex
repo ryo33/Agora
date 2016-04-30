@@ -1,5 +1,6 @@
 defmodule Agora.Thread do
   use Agora.Web, :model
+  @derive {Poison.Encoder, only: [:name, :account_id, :user_id, :id, :parent_group_id]}
 
   schema "threads" do
     field :name, :string
