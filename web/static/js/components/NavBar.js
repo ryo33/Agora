@@ -26,24 +26,18 @@ class NavBar extends Component {
                     iconClassName="material-icons"
                     touch={true}
                     children="menu"
-                    tooltip="Menu"
-                    tooltipPosition="bottom-right"
                     onClick={this.props.toggleLeftNav}
                 />
                 <IconButton
                     iconClassName="material-icons"
                     touch={true}
                     children="home"
-                    tooltip="Home"
-                    tooltipPosition="bottom-center"
                     onClick={this.transitionTo('/')}
                 />
                 <SignedIn><IconButton
                     iconClassName="material-icons"
                     touch={true}
                     children="notifications"
-                    tooltip="Notifications"
-                    tooltipPosition="bottom-center"
                     onClick={this.transitionTo('/account/notifications')}
                 /></SignedIn>
             </ToolbarGroup>
