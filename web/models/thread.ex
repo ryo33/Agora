@@ -1,6 +1,6 @@
 defmodule Agora.Thread do
   use Agora.Web, :model
-  @derive {Poison.Encoder, only: [:title, :account_id, :user_id, :id, :parent_group_id]}
+  @derive {Poison.Encoder, only: [:title, :user_id, :id, :parent_group_id]}
 
   schema "threads" do
     field :title, :string

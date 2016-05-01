@@ -60,6 +60,7 @@ class ThreadForm extends Component {
             <CardActions>
                 <RaisedButton
                     label="Submit"
+                    primary={true}
                     onClick={this.submit.bind(this)}
                 />
                 <UserSelector

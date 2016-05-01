@@ -1,7 +1,7 @@
 defmodule Agora.Post do
   use Agora.Web, :model
   @derive {Poison.Encoder, only: [:title, :text,
-    :account_id, :user_id, :thread_id, :post_id, :id]}
+    :user_id, :thread_id, :post_id, :id]}
 
   schema "posts" do
     field :title, :string

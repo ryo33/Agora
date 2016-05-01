@@ -57,6 +57,8 @@ class Thread extends Component {
         return <div>
             <SignedIn><PostForm
                 submit={this.post.bind(this)}
+                expandable={true}
+                expand={false}
             /></SignedIn>
             <Divider />
             {posts}

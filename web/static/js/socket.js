@@ -15,6 +15,18 @@ export const joinAccountChannel = (dispatch) => {
     .receive("error", resp => { console.log("Unable to join", resp) })
 }
 
+export const joinCommonChannel = (dispatch) => {
+    window.commonChannel = window.socket.channel("common", {})
+    window.commonChannel.on("dispatch", ({ actions }) => {
+        actions.map(action => { dispatch(action) })
+    })
+    window.commonChannel.join()
+    .receive("ok", ({ actions }) => {
+        actions.map(action => { dispatch(action) })
+    })
+    .receive("error", resp => { console.log("Unable to join", resp) })
+}
+
 export const joinThreadChannel = (dispatch, id) => {
     window.threadChannel = window.socket.channel("thread:" + id, {})
     window.threadChannel.on("dispatch", ({ actions }) => {

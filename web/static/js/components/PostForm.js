@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
+import { Card, CardHeader, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
 import Toggle from 'material-ui/Toggle'
@@ -58,8 +58,15 @@ class PostForm extends Component {
 
     render() {
         return <Card>
-            <CardTitle title="New Post" />
-            <CardText>
+            { this.props.expandable
+                ? <CardHeader
+                    title="New Post"
+                    actAsExpander={true}
+                    showExpandableButton={true}
+                />
+                : <CardTitle title="New Post" />
+            }
+            <CardText expandable={true}>
                 <Toggle
                     toggled={this.state.titleForm}
                     onToggle={this.toggleTitle.bind(this)}
@@ -85,7 +92,7 @@ class PostForm extends Component {
                     rows={3}
                 />
             </CardText>
-            <CardActions>
+            <CardActions expandable={true}>
                 <RaisedButton
                     label="Submit"
                     primary={true}

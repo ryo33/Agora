@@ -5,6 +5,7 @@ defmodule Agora.UserSocket do
 
   channel "account:*", Agora.AccountChannel
   channel "thread:*", Agora.ThreadChannel
+  channel "common", Agora.CommonChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket
