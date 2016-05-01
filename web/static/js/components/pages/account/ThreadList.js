@@ -32,9 +32,9 @@ class ThreadList extends Component {
     }
 
     render() {
-        let threads = this.props.threads.map(({ name, id }, key) => <ListItem
+        let threads = this.props.threads.map(({ title, id }, key) => <ListItem
             key={key}
-            primaryText={name}
+            primaryText={title}
             onClick={this.transitionTo('/threads/' + id)}
         />)
         return <div>

@@ -42,7 +42,13 @@ persistStore(store, persistConfig)
 getStoredState(persistConfig, (err, state) => {
     if (state.account) {
         if (state.account.currentUser) {
-            window.accountChannel.push('set_current_user', state.account.currentUser)
+            if (window.signedIn) {
+                store.dispatch({
+                    type: "SET_CURRENT_USER",
+                    user: state.account.currentUser
+                })
+                window.accountChannel.push('set_current_user', state.account.currentUser)
+            }
         }
     }
 })

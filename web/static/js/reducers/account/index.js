@@ -1,16 +1,12 @@
 import { combineReducers } from 'redux'
 import addUser from './add_user'
-import addThread from './add_thread'
-import addGroup from './add_group'
 
 const account = combineReducers({
     users,
     threads,
     currentUser,
     forms: combineReducers({
-        addUser,
-        addThread,
-        addGroup
+        addUser
     })
 })
 

@@ -34,7 +34,7 @@ defmodule Agora.AccountChannel do
           }
           broadcast! socket, "dispatch", %{actions: [add_user]}
           {:reply, :ok, socket}
-        {:error, changeset} ->
+        {:error, _changeset} ->
           # TODO Return error message
           {:reply, {:ok, %{actions: []}}, socket}
       end

@@ -12,16 +12,34 @@ import FontIcon from 'material-ui/FontIcon'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 
-const UserSelector = ({ users, value, handleChange}) => <SelectField
-    value={value}
-    onChange={handleChange}
->
-    {users.map(({ uid, name, id }, key) => <MenuItem
-        key={key}
-        value={id}
-        secondaryText={uid}
-        primaryText={name}
-    />)}
-</SelectField>
+const mapStateToProps = ({ account }) => {
+    return {
+        users: account.users
+    }
+}
 
-export default UserSelector
+class UserSelector extends Component {
+    constructor(props) {
+        super(props)
+    }
+
+    handleChange(event, index, value) {
+        this.props.changeUser(value)
+    }
+
+    render() {
+        return <SelectField
+            value={this.props.user}
+            onChange={this.handleChange.bind(this)}
+        >
+            {this.props.users.map(({ uid, name, id }, key) => <MenuItem
+                key={key}
+                value={id}
+                secondaryText={uid}
+                primaryText={name}
+            />)}
+        </SelectField>
+    }
+}
+
+export default connect(mapStateToProps)(UserSelector)

@@ -1,6 +1,6 @@
 import {Socket} from 'phoenix'
 
-window.socket = new Socket('/socket', {params: {token: window.accountToken}})
+window.socket = new Socket('/socket', {params: {token: window.token}})
 window.socket.connect()
 
 export const joinAccountChannel = (dispatch) => {
@@ -16,7 +16,7 @@ export const joinAccountChannel = (dispatch) => {
 }
 
 export const joinThreadChannel = (dispatch, id) => {
-    window.threadChannel = window.socket.channel("threads:" + id, {})
+    window.threadChannel = window.socket.channel("thread:" + id, {})
     window.threadChannel.on("dispatch", ({ actions }) => {
         actions.map(action => { dispatch(action) })
     })

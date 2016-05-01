@@ -1,8 +1,10 @@
 defmodule Agora.Post do
   use Agora.Web, :model
+  @derive {Poison.Encoder, only: [:title, :text,
+    :account_id, :user_id, :thread_id, :post_id, :id]}
 
   schema "posts" do
-    field :name, :string
+    field :title, :string
     field :text, :string
     belongs_to :account, Agora.Account
     belongs_to :user, Agora.User
@@ -14,8 +16,8 @@ defmodule Agora.Post do
     timestamps
   end
 
-  @required_fields ~w(name text)
-  @optional_fields ~w()
+  @required_fields ~w(title text thread_id)
+  @optional_fields ~w(user_id)
 
   @doc """
   Creates a changeset based on the `model` and `params`.
@@ -26,5 +28,6 @@ defmodule Agora.Post do
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
+    |> validate_length(:text, min: 1)
   end
 end

@@ -1,20 +1,19 @@
 defmodule Agora.ThreadChannel do
   use Agora.Web, :channel
 
-  def join("account:" <> id, _params, socket) do
-    if String.to_integer(id) == socket.assigns.account.id do
-      users = Agora.Repo.all(
-        from p in Agora.User,
-        where: p.account_id == ^socket.assigns.account.id,
-        select: p
-      )
-      set_users = %{
-        type: "SET_USERS",
-        users: users
+  def join("thread:" <> id, _params, socket) do
+    if Agora.Thread.exists?(id) do
+      query = from p in Agora.Post,
+      where: p.thread_id == ^id,
+      select: p
+      posts = Repo.all(query)
+      action = %{
+        type: "SET_THREAD_CONTENTS",
+        posts: posts
       }
-      {:ok, %{actions: [set_users]}, socket}
+      {:ok, %{actions: [action]}, socket}
     else
-      {:error, %{reason: "Unmatched ID"}}
+      {:error, %{reason: "ID does not exist"}}
     end
   end
 

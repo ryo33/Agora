@@ -1,7 +1,7 @@
 <script>
 window.signedIn = <%= @signed_in %>
+window.token = "<%= @token %>"
 <%= if @signed_in do %>
-  window.accountToken = "<%= @token %>"
   window.accountID = "<%= @id %>"
 <% end %>
 </script>

@@ -5,6 +5,8 @@ import { push } from 'react-router-redux'
 import Drawer from 'material-ui/Drawer'
 import MenuItem from 'material-ui/MenuItem'
 import FontIcon from 'material-ui/FontIcon'
+import Divider from 'material-ui/Divider'
+
 import { SignedIn, NotSignedIn } from './../util'
 import Users from './Users'
 import Groups from './Groups'
@@ -29,6 +31,14 @@ class LeftNav extends Component {
             <Groups click={this.transitionTo.bind(this)} />
             <Threads click={this.transitionTo.bind(this)} />
             <SignedIn children={<Users transitionTo={this.transitionTo.bind(this)} />} />
+            <SignedIn>
+                <Divider />
+                <MenuItem
+                    children="Sign out"
+                    linkButton={true}
+                    href="/auth/logout"
+                />
+            </SignedIn>
         </Drawer>
     }
 }

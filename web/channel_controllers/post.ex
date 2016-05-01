@@ -4,14 +4,8 @@ defmodule Agora.ChannelController.Post do
   require Logger
 
   def handle_action("add", post_params, socket) do
-    account_id = socket.assigns.account.id
-    changeset = Post.changeset(%Post{
-      account_id: account_id,
-      user_id: Map.get(socket.assigns, :current_user)
-    }, post_params)
-
-    ^account_id = get(changeset, :account_id)
-    true = Account.has_user?(account_id, get(changeset, :user_id))
+    changeset = Post.changeset(put_info(%Post{}, socket), post_params)
+    true = validate_info(changeset, socket)
 
     case Repo.insert(changeset) do
       {:ok, post} ->
@@ -19,9 +13,9 @@ defmodule Agora.ChannelController.Post do
           type: "ADD_POST",
           post: post
         }
-        broadcast_to_group(post.group_id, [add_post])
+        broadcast_to_thread(post.thread_id, add_post)
         {:ok, socket}
-      {:error, changeset} ->
+      {:error, _changeset} ->
         {:error, socket} # TODO return error message
     end
   end

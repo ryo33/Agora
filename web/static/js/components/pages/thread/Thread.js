@@ -4,9 +4,12 @@ import { push } from 'react-router-redux'
 
 import { Card, CardActions, CardHeader,
     CardMedia, CardTitle, CardText } from 'material-ui/Card';
+import Divider from 'material-ui/Divider'
 import Avatar from 'material-ui/Avatar'
 
 import { joinThreadChannel, leaveChannel } from '../../../socket'
+import PostForm from 'components/PostForm'
+import { SignedIn } from 'components/util'
 
 const mapStateToProps = ({ threads }) => {
     return {
@@ -15,7 +18,7 @@ const mapStateToProps = ({ threads }) => {
 }
 
 class Thread extends Component {
-    componentDitMount() {
+    componentDidMount() {
         joinThreadChannel(this.props.dispatch, this.props.params.id)
     }
 
@@ -26,25 +29,36 @@ class Thread extends Component {
     }
 
     transitionTo(path) {
-        return (event) => {
+        return () => {
             this.props.dispatch(push(path));
         }
     }
 
-    setCurrentUser(id) {
-        return () => {
-            window.accountChannel.push('set_current_user', id)
-        }
+    post(post) {
+        post = Object.assign({}, post, {
+            thread_id: this.props.params.id
+        })
+        window.threadChannel.push('post', {
+            action: "add",
+            params: post,
+        })
     }
 
     render() {
-        let posts = this.props.posts.map(({ name, text }) => <Card>
-            <CardTitle title="name" />
+        let posts = this.props.posts.map(({ title, text }, key) => <Card key={key}>
+            { title && title.length > 0
+                ? <CardTitle title={title} />
+                : null
+            }
             <CardText>
-                text
+                {text}
             </CardText>
         </Card>)
         return <div>
+            <SignedIn><PostForm
+                submit={this.post.bind(this)}
+            /></SignedIn>
+            <Divider />
             {posts}
         </div>
     }

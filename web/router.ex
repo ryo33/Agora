@@ -19,10 +19,10 @@ defmodule Agora.Router do
     pipe_through :browser
 
     scope "/auth" do
+      get "/logout", AuthController, :delete
       get "/:provider", AuthController, :request
       get "/:provider/callback", AuthController, :callback
       post "/:provider/callback", AuthController, :callback
-      delete "/logout", AuthController, :delete
     end
 
     get "/*page", PageController, :index
