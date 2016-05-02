@@ -15,8 +15,20 @@ const initialInfo = {
 
 const threads = combineReducers({
     info,
-    posts
+    posts,
+    beforeId
 })
+
+function beforeId(state = null, action) {
+    switch (action.type) {
+        case 'SET_THREAD_CONTENTS':
+            return action.info.id
+        case 'RESET_THREAD_CONTENTS':
+            return action.id
+        default:
+            return state
+    }
+}
 
 function info(state = initialInfo, action) {
     switch (action.type) {
@@ -33,6 +45,8 @@ function posts(state = [], action) {
             return action.posts
         case 'ADD_POST':
             return Immutable.fromJS(state).splice(0, 0, action.post).toJS()
+        case 'RESET_THREAD_CONTENTS':
+            return []
         default:
             return state
     }

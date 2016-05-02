@@ -16,12 +16,16 @@ import ResourceTitle from 'components/ResourceTitle'
 const mapStateToProps = ({ threads }) => {
     return {
         info: threads.info,
-        posts: threads.posts
+        posts: threads.posts,
+        beforeId: threads.beforeId
     }
 }
 
 class Thread extends Component {
     componentDidMount() {
+        if (this.props.beforeId != this.props.params.id) {
+            this.props.dispatch({type: 'RESET_THREAD_CONTENTS', id: this.props.params.id})
+        }
         joinThreadChannel(this.props.dispatch, this.props.params.id)
     }
 

@@ -9,6 +9,7 @@ defmodule Agora.ChannelController.Post do
 
     case Repo.insert(changeset) do
       {:ok, post} ->
+        post = Repo.preload(post, :user)
         add_post = %{
           type: "ADD_POST",
           post: post
