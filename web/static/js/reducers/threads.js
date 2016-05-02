@@ -1,9 +1,31 @@
 import { combineReducers } from 'redux'
 import Immutable from 'immutable'
 
+const initialInfo = {
+    title: '',
+    parent_group: {
+        id: ''
+    },
+    user: {
+        id: '',
+        uid: '',
+        name: ''
+    }
+}
+
 const threads = combineReducers({
+    info,
     posts
 })
+
+function info(state = initialInfo, action) {
+    switch (action.type) {
+        case 'SET_THREAD_CONTENTS':
+            return action.info
+        default:
+            return state
+    }
+}
 
 function posts(state = [], action) {
     switch (action.type) {

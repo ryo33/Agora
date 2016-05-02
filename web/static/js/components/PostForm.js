@@ -61,7 +61,9 @@ class PostForm extends Component {
     }
 
     render() {
-        return <Card>
+        return <Card
+            zDepth={this.props.zDepth}
+        >
             { this.props.expandable
                 ? <CardHeader
                     title="New Post"

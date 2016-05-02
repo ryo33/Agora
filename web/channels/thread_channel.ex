@@ -8,9 +8,15 @@ defmodule Agora.ThreadChannel do
         select: p,
         preload: [:user]
       posts = Repo.all(query)
+      id = String.to_integer id
+      thread = Repo.one from t in Agora.Thread,
+        where: t.id == ^id,
+        select: t,
+        preload: [:user, :parent_group]
       action = %{
         type: "SET_THREAD_CONTENTS",
-        posts: posts
+        posts: posts,
+        info: thread
       }
       {:ok, %{actions: [action]}, socket}
     else

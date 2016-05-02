@@ -6,30 +6,18 @@ import { Card, CardHeader, CardActions, CardTitle, CardText } from 'material-ui/
 import FlatButton from 'material-ui/FlatButton'
 
 import Unimplemented from 'components/Unimplemented'
+import ResourceTitle from 'components/ResourceTitle'
 
-const Post = ({ id, title, text, user, dispatch }) => <Card>
+const Post = ({ id, title, text, user, dispatch, style, zDepth }) => <Card
+    style={style}
+    zDepth={zDepth}
+>
     <CardHeader
-        title={<span>
-            <span
-                style={{cursor: 'pointer'}}
-                onClick={() => dispatch(push('/users/' + user.uid))}
-            >
-                {user.name}
-                <small
-                    style={{
-                        marginLeft: '0.2em',
-                        marginRight: '1.2em'
-                    }}
-                    children={'@' + user.uid}
-                />
-            </span>
-            <span
-                style={{cursor: 'pointer'}}
-                onClick={() => dispatch(push('/posts/' + id))}
-            >
-                <strong>{title}</strong>
-            </span>
-        </span>}
+        title={<ResourceTitle
+            user={user}
+            title={title}
+            path={'/posts/' + id}
+        />}
         showExpandableButton={true}
     />
     <CardText actAsExpander={true}>
