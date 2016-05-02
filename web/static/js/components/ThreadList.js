@@ -5,6 +5,8 @@ import { push } from 'react-router-redux'
 import Avatar from 'material-ui/Avatar'
 import { List, ListItem } from 'material-ui/List'
 
+import Thread from 'components/Thread'
+
 class ThreadList extends Component {
     transitionTo(path) {
         return () => {
@@ -14,15 +16,14 @@ class ThreadList extends Component {
 
     render() {
         return <div>
-            <List>
-                {
-                    this.props.threads.map(({ title, id }, key) => <ListItem
-                        key={key}
-                        primaryText={title}
-                        onClick={this.transitionTo('/threads/' + id)}
-                    />)
-                }
-            </List>
+            {
+                this.props.threads.map(({ title, id, user }, key) => <Thread
+                    key={key}
+                    id={id}
+                    title={title}
+                    user={user}
+                />)
+            }
         </div>
     }
 }
