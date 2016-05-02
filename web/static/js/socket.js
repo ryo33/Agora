@@ -1,6 +1,14 @@
 import {Socket} from 'phoenix'
 
-window.socket = new Socket('/socket', {params: {token: window.token}})
+window.socket = new Socket('/socket', {
+    reconnectAfterMs: (tries) => {
+        if (tries < 10) return 1000
+        else if (tries < 20) return 2000
+        else if (tries < 30) return 3000
+        else return 5000
+    },
+    params: {token: window.token}
+})
 window.socket.connect()
 
 export const joinAccountChannel = (dispatch) => {
