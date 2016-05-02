@@ -10,6 +10,7 @@ import Avatar from 'material-ui/Avatar'
 import { joinThreadChannel, leaveChannel } from '../../../socket'
 import PostForm from 'components/PostForm'
 import { SignedIn } from 'components/util'
+import Post from 'components/Post'
 
 const mapStateToProps = ({ threads }) => {
     return {
@@ -45,15 +46,13 @@ class Thread extends Component {
     }
 
     render() {
-        let posts = this.props.posts.map(({ title, text }, key) => <Card key={key}>
-            { title && title.length > 0
-                ? <CardTitle title={title} />
-                : null
-            }
-            <CardText>
-                {text}
-            </CardText>
-        </Card>)
+        let posts = this.props.posts.map(({ id, title, text, user }, key) => <Post
+            key={key}
+            id={id}
+            title={title}
+            text={text}
+            user={user}
+        />)
         return <div>
             <SignedIn><PostForm
                 submit={this.post.bind(this)}

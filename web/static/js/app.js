@@ -65,6 +65,7 @@ render(
                     <Route path="add-thread" component={AddThread} />
                     <Route path="add-group" component={Unimplemented} />
                     <Route path="threads" component={AccountThreads} />
+                    <Route path="notifications" component={Unimplemented} />
                 </Route>
                 <Route path="threads" component={ThreadPage}>
                     <IndexRoute component={ThreadAll}/>
@@ -75,6 +76,10 @@ render(
                     <Route path=":id" component={Unimplemented} />
                 </Route>
                 <Route path="posts" component={Unimplemented}>
+                    <IndexRoute component={Unimplemented}/>
+                    <Route path=":id" component={Unimplemented} />
+                </Route>
+                <Route path="users" component={Unimplemented}>
                     <IndexRoute component={Unimplemented}/>
                     <Route path=":id" component={Unimplemented} />
                 </Route>

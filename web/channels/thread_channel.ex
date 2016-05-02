@@ -4,8 +4,9 @@ defmodule Agora.ThreadChannel do
   def join("thread:" <> id, _params, socket) do
     if Agora.Thread.exists?(id) do
       query = from p in Agora.Post,
-      where: p.thread_id == ^id,
-      select: p
+        where: p.thread_id == ^id,
+        select: p,
+        preload: [:user]
       posts = Repo.all(query)
       action = %{
         type: "SET_THREAD_CONTENTS",

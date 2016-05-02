@@ -12,7 +12,6 @@ import ThreadForm from './../../ThreadForm'
 
 class AddThread extends Component {
     submit(params) {
-        console.log(params)
         window.accountChannel
         .push("thread", {
             action: 'add',

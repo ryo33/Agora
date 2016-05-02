@@ -10,7 +10,6 @@ class AccountThreads extends Component {
         this.state = {
             threads: []
         }
-        console.log("thread all")
         window.commonChannel
         .push("thread", {
             action: 'get',
