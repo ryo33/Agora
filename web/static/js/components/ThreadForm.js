@@ -40,6 +40,10 @@ class ThreadForm extends Component {
             user_id: this.state.user,
             title: this.state.title
         })
+        this.setState(Object.assign({}, this.state, {
+            title: '',
+            text: ''
+        }))
     }
 
     changeUser(user) {

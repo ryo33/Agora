@@ -48,6 +48,10 @@ class PostForm extends Component {
             title: this.state.title,
             text: this.state.text
         })
+        this.setState(Object.assign({}, this.state, {
+            title: '',
+            text: ''
+        }))
     }
 
     handleChange(column, event) {

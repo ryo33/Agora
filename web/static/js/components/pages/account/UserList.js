@@ -28,6 +28,7 @@ class UserList extends Component {
 
     setCurrentUser(id) {
         return () => {
+            this.props.dispatch({type: 'SET_CURRENT_USER', user: id})
             window.accountChannel.push('set_current_user', id)
         }
     }
