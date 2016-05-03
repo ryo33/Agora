@@ -1,8 +1,9 @@
+var webpack = require("webpack");
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var CopyWebpackPlugin = require("copy-webpack-plugin");
 
 module.exports = {
-    entry: ["./web/static/js/app.js", "./web/static/css/app.css"],
+    entry: ["babel-polyfill", "./web/static/js/app.js", "./web/static/css/app.css"],
     output: {
         path: "./priv/static",
         filename: "js/app.js"

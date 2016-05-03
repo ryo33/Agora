@@ -1,55 +1,85 @@
 import { combineReducers } from 'redux'
-import Immutable from 'immutable'
+import Immutable, { Map } from 'immutable'
 
-const initialInfo = {
-    title: '',
-    parent_group: {
-        id: ''
-    },
-    user: {
-        id: '',
-        uid: '',
-        name: ''
-    }
-}
-
-const threads = combineReducers({
-    info,
-    posts,
-    beforeId
+const threadsRoot = combineReducers({
+    currentThread, // id
+    threads, // id => map
+    isFetchingThreadContents, // id => bool
+    isFetchingMissingPosts // id => bool
 })
+/*
+    info: {
+        id: '',
+        title: '',
+        parentGroup: {
+            id: ''
+        },
+        user: {
+            id: '',
+            uid: '',
+            name: ''
+        }
+    },
+    postsMap: {
+    },
+    postList: []
+* */
 
-function beforeId(state = null, action) {
+function currentThread(state = null, action) {
     switch (action.type) {
-        case 'SET_THREAD_CONTENTS':
-            return action.info.id
-        case 'RESET_THREAD_CONTENTS':
+        case 'UPDATE_CURRENT_THREAD':
             return action.id
         default:
             return state
     }
 }
 
-function info(state = initialInfo, action) {
+function threads(state = {}, action) {
     switch (action.type) {
-        case 'SET_THREAD_CONTENTS':
-            return action.info
+        case 'UPDATE_THREAD_CONTENTS':
+            return Object.assign({}, state, Map().set(action.id, {
+                title: action.info.title,
+                parentGroup: action.info.parentGroup,
+                user: action.info.user,
+                postsMap: action.postsMap,
+                postsList: action.postsList
+            }).toJS())
+        case 'RECEIVE_THREAD_CONTENTS':
+            return Object.assign({}, state, Map().set(action.id, {
+                postsMap: action.postsMap
+            }).toJS())
+        case 'ADD_THREAD_CONTENTS':
+            return Object.assign({}, state, Map().set(action.id, Object.assign({}, state[action.id], {
+                postsMap: action.postsMap,
+                postsList: action.postsList
+            })).toJS())
         default:
             return state
     }
 }
 
-function posts(state = [], action) {
+function isFetchingThreadContents(state = {}, action) {
     switch (action.type) {
-        case 'SET_THREAD_CONTENTS':
-            return action.posts
-        case 'ADD_POST':
-            return Immutable.fromJS(state).splice(0, 0, action.post).toJS()
-        case 'RESET_THREAD_CONTENTS':
-            return []
+        case 'REQUEST_THREAD_CONTENTS':
+            return Object.assign({}, state, Map().set(action.id, true).toJS())
+        case 'UPDATE_THREAD_CONTENTS':
+            return Object.assign({}, state, Map().set(action.id, false).toJS())
+        case 'RECEIVE_THREAD_CONTENTS':
+            return Object.assign({}, state, Map().set(action.id, false).toJS())
         default:
             return state
     }
 }
 
-export default threads
+function isFetchingMissingPosts(state = {}, action) {
+    switch (action.type) {
+        case 'REQUEST_MISSING_POSTS':
+            return Object.assign({}, state, Map().set(action.id, true).toJS())
+        case 'RECEIVE_MISSING_POSTS':
+            return Object.assign({}, state, Map().set(action.id, false).toJS())
+        default:
+            return state
+    }
+}
+
+export default threadsRoot

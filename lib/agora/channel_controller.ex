@@ -13,29 +13,24 @@ defmodule Agora.ChannelController do
     and Agora.Account.has_user?(account_id, Ecto.Changeset.get_field(changeset, :user_id))
   end
 
-  def push(socket, action) when not is_list(action), do: push(socket, [action])
-  def push(socket, actions) when is_list(actions) do
-    Phoenix.Channel.push(socket, "dispatch", %{actions: actions})
+  def push(socket, event, message) do
+    Phoenix.Channel.push(socket, event, message)
   end
 
-  def broadcast(socket, action) when not is_list(action), do: broadcast(socket, [action])
-  def broadcast(socket, actions) when is_list(actions)  do
-    Phoenix.Channel.broadcast!(socket, "dispatch", %{actions: actions})
+  def broadcast(socket, event, message)  do
+    Phoenix.Channel.broadcast!(socket, event, message)
   end
 
-  def broadcast_to_account(id, action) when not is_list(action), do: broadcast_to_account(id, [action])
-  def broadcast_to_account(id, actions) when is_list(actions)  do
-    Agora.Endpoint.broadcast!("account:" <> to_string(id), "dispatch", %{actions: actions})
+  def broadcast_to_account(id, event, message)  do
+    Agora.Endpoint.broadcast!("account:" <> to_string(id), event, message)
   end
 
-  def broadcast_to_thread(id, action) when not is_list(action), do: broadcast_to_thread(id, [action])
-  def broadcast_to_thread(id, actions) when is_list(actions)  do
-    Agora.Endpoint.broadcast!("thread:" <> to_string(id), "dispatch", %{actions: actions})
+  def broadcast_to_thread(id, event, message)  do
+    Agora.Endpoint.broadcast!("thread:" <> to_string(id), event, message)
   end
 
-  def broadcast_to_group(id, action) when not is_list(action), do: broadcast_to_group(id, [action])
-  def broadcast_to_group(id, actions) when is_list(actions)  do
-    Agora.Endpoint.broadcast!("group:" <> to_string(id), "dispatch", %{actions: actions})
+  def broadcast_to_group(id, event, message)  do
+    Agora.Endpoint.broadcast!("group:" <> to_string(id), event, message)
   end
 
   def action(module, socket, action, params) do

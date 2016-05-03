@@ -11,11 +11,7 @@ defmodule Agora.ChannelController.Thread do
       {:ok, thread} ->
         Logger.debug "#{inspect thread}"
         if thread.parent_group_id != nil do
-          add_thread = %{
-            type: "ADD_THREAD",
-            thread: thread
-          }
-          broadcast_to_group(thread.parent_group_id, [add_thread])
+          broadcast_to_group(thread.parent_group_id, "add_thread", %{thread: thread})
         end
         {:ok, %{"id" => thread.id}, socket}
       {:error, changeset} ->

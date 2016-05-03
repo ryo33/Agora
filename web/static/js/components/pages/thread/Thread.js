@@ -13,20 +13,38 @@ import { SignedIn } from 'components/util'
 import Post from 'components/Post'
 import ResourceTitle from 'components/ResourceTitle'
 
+import { updateCurrentThread,
+    fetchThreadContents,
+    receivePosts } from 'actions/threads'
+
+
 const mapStateToProps = ({ threads }) => {
-    return {
-        info: threads.info,
-        posts: threads.posts,
-        beforeId: threads.beforeId
-    }
+    const thread = threads.threads[threads.currentThread]
+    const currentThread = threads.currentThread
+    return thread
+        ? {
+            currentThread: currentThread,
+            title: thread.title,
+            parentGroup: thread.parentGroup,
+            user: thread.user,
+            postsMap: thread.postsMap,
+            postsList: thread.postsList,
+            isFetchingThreadContents: threads.isFetchingThreadContents[currentThread],
+            isFetchingMissingPosts: threads.isFetchingMissingPosts[currentThread]
+        }
+        : {}
 }
 
 class Thread extends Component {
     componentDidMount() {
-        if (this.props.beforeId != this.props.params.id) {
-            this.props.dispatch({type: 'RESET_THREAD_CONTENTS', id: this.props.params.id})
-        }
-        joinThreadChannel(this.props.dispatch, this.props.params.id)
+        const id = this.props.params.id
+        const dispatch = this.props.dispatch
+        dispatch(updateCurrentThread(id))
+        joinThreadChannel(this.props.dispatch, id)
+        window.threadChannel.on('add_posts', ({ id, posts_map, posts_list }) => {
+            dispatch(receivePosts(id, posts_map, posts_list))
+        })
+        dispatch(fetchThreadContents(id))
     }
 
     componentWillUnmount() {
@@ -52,33 +70,45 @@ class Thread extends Component {
     }
 
     render() {
-        let posts = this.props.posts.map(({ id, title, text, user }, key) => <Post
-            key={key}
-            id={id}
-            title={title}
-            text={text}
-            user={user}
-            style={{margin: "0.15em 0"}}
-        />)
-        return <div>
-            <Card zDepth={2}>
-                <CardHeader
-                    title={<ResourceTitle
-                        user={this.props.info.user}
-                        title={this.props.info.title}
-                    />}
-                />
-            </Card>
-            <Divider style={{margin: "0.15em 0"}} />
-            <SignedIn><PostForm
-                submit={this.post.bind(this)}
-                expandable={true}
-                expand={false}
-                zDepth={2}
-            /></SignedIn>
-            <Divider style={{margin: "1em 0"}} />
-            {posts}
-        </div>
+        const { postsMap, postsList, currentThread,
+            isFetchingMissingPosts,
+            isFetchingThreadContents } = this.props
+        if (isFetchingThreadContents) {
+            return <p>Fetching the contents</p>
+        } else if (isFetchingMissingPosts) {
+            return <p>Fetching the missing contents</p>
+        } else if (postsList) {
+            return <div>
+                <Card zDepth={2}>
+                    <CardHeader
+                        title={<ResourceTitle
+                            user={this.props.user}
+                            title={this.props.title}
+                        />}
+                    />
+                </Card>
+                <Divider style={{margin: "0.15em 0"}} />
+                <SignedIn><PostForm
+                        submit={this.post.bind(this)}
+                        expandable={true}
+                        expand={false}
+                        zDepth={2}
+                    /></SignedIn>
+                <Divider style={{margin: "1em 0"}} />
+                {postsList.map((id, key) => postsMap.hasOwnProperty(id)
+                    ? <Post
+                        key={key}
+                        id={id}
+                        title={postsMap[id].title}
+                        text={postsMap[id].text}
+                        user={postsMap[id].user}
+                        style={{margin: "0.15em 0"}}
+                    />
+                    : null)}
+            </div>
+        } else {
+            return null
+        }
     }
 }
 

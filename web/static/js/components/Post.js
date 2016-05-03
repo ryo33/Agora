@@ -4,6 +4,7 @@ import { push } from 'react-router-redux'
 
 import { Card, CardHeader, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import FlatButton from 'material-ui/FlatButton'
+import Divider from 'material-ui/Divider'
 
 import Unimplemented from 'components/Unimplemented'
 import ResourceTitle from 'components/ResourceTitle'
@@ -20,9 +21,11 @@ const Post = ({ id, title, text, user, dispatch, style, zDepth }) => <Card
         />}
         showExpandableButton={true}
     />
+    <Divider />
     <CardText actAsExpander={true}>
         {text}
     </CardText>
+    <Divider />
     <CardActions expandable={true}>
         <Unimplemented />
     </CardActions>

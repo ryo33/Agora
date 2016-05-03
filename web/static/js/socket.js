@@ -40,10 +40,7 @@ export const joinThreadChannel = (dispatch, id) => {
     window.threadChannel.on("dispatch", ({ actions }) => {
         actions.map(action => { dispatch(action) })
     })
-    window.threadChannel.join()
-    .receive("ok", ({ actions }) => {
-        actions.map(action => { dispatch(action) })
-    })
+    return window.threadChannel.join()
     .receive("error", resp => { console.log("Unable to join", resp) })
 }
 
