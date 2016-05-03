@@ -14,13 +14,26 @@ import MenuItem from 'material-ui/MenuItem'
 
 const mapStateToProps = ({ account }) => {
     return {
-        users: account.users
+        users: account.users,
+        currentUser: account.currentUser
     }
 }
 
 class UserSelector extends Component {
     constructor(props) {
         super(props)
+        this.state = {
+            beforeCurrentUser: props.currentUser
+        }
+    }
+
+    componentWillReceiveProps(props) {
+        if (props.currentUser != this.state.beforeCurrentUser) {
+            this.props.changeUser(props.currentUser)
+            this.setState(Object.assign({}, this.state, {
+                user: user
+            }))
+        }
     }
 
     handleChange(event, index, value) {

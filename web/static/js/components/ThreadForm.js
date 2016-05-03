@@ -25,10 +25,6 @@ class ThreadForm extends Component {
         }
     }
 
-    componentWillReceiveProps(props) {
-        this.changeUser(props.currentUser)
-    }
-
     handleChange(column, event) {
         let tmp = {}
         tmp[column] = event.target.value

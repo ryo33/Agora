@@ -28,10 +28,6 @@ class PostForm extends Component {
         }
     }
 
-    componentWillReceiveProps(props) {
-        this.changeUser(props.currentUser)
-    }
-
     changeUser(user) {
         this.setState(Object.assign({}, this.state, {user: user}))
     }
