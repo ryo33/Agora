@@ -1,6 +1,8 @@
 defmodule Agora.User do
   use Agora.Web, :model
-  @derive {Poison.Encoder, only: [:uid, :name, :id]}
+  @derive {Poison.Encoder, only: [:uid, :name, :id,
+    :inserted_at, :updated_at
+  ]}
 
   schema "users" do
     field :uid, :string

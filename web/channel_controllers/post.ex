@@ -12,6 +12,7 @@ defmodule Agora.ChannelController.Post do
         post = Repo.preload(post, :user)
         query = from p in Agora.Post,
           where: p.thread_id == ^post.thread_id,
+          order_by: [desc: p.inserted_at],
           select: p.id
         posts = Repo.all(query)
         post_id = to_string(post.id)
@@ -31,6 +32,7 @@ defmodule Agora.ChannelController.Post do
     query = from p in Agora.Post,
       where: p.thread_id == ^id,
       select: p,
+      order_by: [desc: p.inserted_at],
       preload: [:user]
     posts = Repo.all(query)
     thread = Repo.one from t in Agora.Thread,
@@ -43,6 +45,7 @@ defmodule Agora.ChannelController.Post do
     query = from p in Agora.Post,
       where: p.id in ^ids,
       select: p,
+      order_by: [desc: p.inserted_at],
       preload: [:user]
     posts = Repo.all(query)
     {:ok, %{posts: posts}, socket}

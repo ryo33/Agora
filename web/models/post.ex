@@ -1,7 +1,10 @@
 defmodule Agora.Post do
   use Agora.Web, :model
-  @derive {Poison.Encoder, only: [:title, :text,
-    :user, :thread_id, :post_id, :id]}
+  @derive {Poison.Encoder, only: [
+    :inserted_at, :updated_at,
+    :title, :text,
+    :user, :thread_id, :post_id, :id
+  ]}
 
   schema "posts" do
     field :title, :string

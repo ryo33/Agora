@@ -1,6 +1,9 @@
 defmodule Agora.Group do
   use Agora.Web, :model
-  @derive {Poison.Encoder, only: [:name, :user, :id, :parent_group]}
+  @derive {Poison.Encoder, only: [
+    :name, :user, :id, :parent_group,
+    :inserted_at, :updated_at
+  ]}
 
   schema "groups" do
     field :name, :string

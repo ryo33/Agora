@@ -23,6 +23,7 @@ defmodule Agora.ChannelController.Thread do
   def handle_action("get", _params, socket) do
     query = from t in Thread,
       select: t,
+      order_by: [desc: t.updated_at],
       limit: 100,
       preload: [:user, :parent_group]
     threads = Repo.all(query)
@@ -34,6 +35,7 @@ defmodule Agora.ChannelController.Thread do
     query = from t in Thread,
       where: t.account_id == ^account_id,
       select: t,
+      order_by: [desc: t.updated_at],
       limit: 100,
       preload: [:user, :parent_group]
     threads = Repo.all(query)
