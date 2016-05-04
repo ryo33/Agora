@@ -52,7 +52,7 @@ class AddUser extends Component {
         if (event.target.value != "") {
             let len = event.target.value.length
             tmp[column + "Len"] = len + "/" + maxLen[column]
-            tmp[column + "Color"] = (len <= minLen[column] || len > maxLen[column]
+            tmp[column + "Color"] = (len < minLen[column] || len > maxLen[column]
                                     ? {color: '#F44336', textAlign: 'right'}
                                     : {color: '#8BC34A', textAlign: 'right'})
         } else {
