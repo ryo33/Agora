@@ -9,11 +9,18 @@ import Divider from 'material-ui/Divider'
 import Unimplemented from 'components/Unimplemented'
 import ResourceTitle from 'components/ResourceTitle'
 
-const Post = ({ id, title, text, user, dispatch, style, zDepth }) => <Card
-    style={style}
+const mapStateToProps = ({theme}) => {
+    return {
+        theme
+    }
+}
+
+const Post = ({ id, title, text, user, dispatch, zDepth, theme }) => <Card
+    style={theme.post.root}
     zDepth={zDepth}
 >
     <CardHeader
+        style={theme.post.header}
         title={<ResourceTitle
             user={user}
             title={title}
@@ -22,7 +29,10 @@ const Post = ({ id, title, text, user, dispatch, style, zDepth }) => <Card
         showExpandableButton={true}
     />
     <Divider />
-    <CardText actAsExpander={true}>
+    <CardText
+        style={theme.post.body}
+        actAsExpander={true}
+    >
         {text}
     </CardText>
     <Divider />
@@ -31,4 +41,4 @@ const Post = ({ id, title, text, user, dispatch, style, zDepth }) => <Card
     </CardActions>
 </Card>
 
-export default connect()(Post)
+export default connect(mapStateToProps)(Post)

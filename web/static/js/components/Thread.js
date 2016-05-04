@@ -9,11 +9,18 @@ import Divider from 'material-ui/Divider'
 import Unimplemented from 'components/Unimplemented'
 import ResourceTitle from 'components/ResourceTitle'
 
-const Thread = ({ id, title, user, dispatch, style, zDepth }) => <Card
-    style={style}
+const mapStateToProps = ({theme}) => {
+    return {
+        theme
+    }
+}
+
+const Thread = ({ id, title, user, dispatch, zDepth, theme }) => <Card
+    style={theme.thread.root}
     zDepth={zDepth}
 >
     <CardHeader
+        style={theme.thread.header}
         title={<ResourceTitle
             user={user}
             title=""
@@ -22,6 +29,7 @@ const Thread = ({ id, title, user, dispatch, style, zDepth }) => <Card
     />
     <Divider />
     <CardText
+        style={theme.thread.body}
         onClick={() => dispatch(push('/threads/' + id))}
         style={{
             cursor: 'pointer'
@@ -34,4 +42,4 @@ const Thread = ({ id, title, user, dispatch, style, zDepth }) => <Card
     </CardActions>
 </Card>
 
-export default connect()(Thread)
+export default connect(mapStateToProps)(Thread)

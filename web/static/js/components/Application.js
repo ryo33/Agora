@@ -5,6 +5,8 @@ import LeftNav from './leftnav/index'
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
+let muiTheme = getMuiTheme()
+
 class Application extends Component {
     componentWillMount() {
     }
@@ -22,7 +24,7 @@ class Application extends Component {
     }
 
     render() {
-        return <MuiThemeProvider muiTheme={getMuiTheme()}>
+        return <MuiThemeProvider muiTheme={muiTheme}>
             <div>
                 <NavBar
                     toggleLeftNav={this.toggleLeftNav.bind(this)}

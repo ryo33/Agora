@@ -16,12 +16,13 @@ import ResourceTitle from 'components/ResourceTitle'
 import { updateCurrentThread,
     fetchThreadContents,
     receivePosts } from 'actions/threads'
+import ThreadComponent from 'components/Thread'
 
 
-const mapStateToProps = ({ threads }) => {
+const mapStateToProps = ({ threads, theme }) => {
     const thread = threads.threads[threads.currentThread]
     const currentThread = threads.currentThread
-    return thread
+    let props = thread
         ? {
             currentThread: currentThread,
             title: thread.title,
@@ -33,6 +34,7 @@ const mapStateToProps = ({ threads }) => {
             isFetchingMissingPosts: threads.isFetchingMissingPosts[currentThread]
         }
         : {}
+    return Object.assign(props, { theme })
 }
 
 class Thread extends Component {
@@ -40,11 +42,14 @@ class Thread extends Component {
         const id = this.props.params.id
         const dispatch = this.props.dispatch
         dispatch(updateCurrentThread(id))
-        joinThreadChannel(this.props.dispatch, id)
+        joinThreadChannel(this.props.dispatch, id).receive(
+            "ok", ({ actions }) => {
+                dispatch(fetchThreadContents(id))
+            }
+        )
         window.threadChannel.on('add_posts', ({ id, posts_map, posts_list }) => {
             dispatch(receivePosts(id, posts_map, posts_list))
         })
-        dispatch(fetchThreadContents(id))
     }
 
     componentWillUnmount() {
@@ -72,21 +77,19 @@ class Thread extends Component {
     render() {
         const { postsMap, postsList, currentThread,
             isFetchingMissingPosts,
-            isFetchingThreadContents } = this.props
+            isFetchingThreadContents,
+            theme } = this.props
         if (isFetchingThreadContents) {
             return <p>Fetching the contents</p>
         } else if (isFetchingMissingPosts) {
             return <p>Fetching the missing contents</p>
         } else if (postsList) {
             return <div>
-                <Card zDepth={2}>
-                    <CardHeader
-                        title={<ResourceTitle
-                            user={this.props.user}
-                            title={this.props.title}
-                        />}
-                    />
-                </Card>
+                <ThreadComponent
+                    id={this.props.params.id}
+                    user={this.props.user}
+                    title={this.props.title}
+                />
                 <Divider style={{margin: "0.15em 0"}} />
                 <SignedIn><PostForm
                         submit={this.post.bind(this)}
@@ -102,7 +105,6 @@ class Thread extends Component {
                         title={postsMap[id].title}
                         text={postsMap[id].text}
                         user={postsMap[id].user}
-                        style={{margin: "0.15em 0"}}
                     />
                     : null)}
             </div>
