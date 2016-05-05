@@ -11,16 +11,26 @@ import { SignedIn, NotSignedIn } from './../util'
 import Users from './Users'
 import Groups from './Groups'
 import Threads from './Threads'
+import SignoutDialog from './SignoutDialog'
 
 class LeftNav extends Component {
     constructor(props) {
         super(props)
+        this.state = {
+            isSignoutDialogOpen: false
+        }
     }
     transitionTo(path) {
         return (event) => {
             this.props.toggleLeftNav()
             this.props.dispatch(push(path));
         }
+    }
+    handleOpen() {
+        this.setState(Object.assign({}, this.state, {isSignoutDialogOpen: true}))
+    }
+    handleCancel() {
+        this.setState(Object.assign({}, this.state, {isSignoutDialogOpen: false}))
     }
     render() {
         return <Drawer
@@ -35,10 +45,13 @@ class LeftNav extends Component {
                 <Divider />
                 <MenuItem
                     children="Sign out"
-                    linkButton={true}
-                    href="/auth/logout"
+                    onClick={this.handleOpen.bind(this)}
                 />
             </SignedIn>
+            <SignoutDialog
+                isSignoutDialogOpen={this.state.isSignoutDialogOpen}
+                handleSignoutCancel={this.handleCancel.bind(this)}
+            />
         </Drawer>
     }
 }
