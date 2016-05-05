@@ -25,7 +25,8 @@ class AddUser extends Component {
             idLen: "",
             nameLen: "",
             idColor: {colors: '#00bcd4', textAlign: 'right'},
-            nameColor: {colors: '#00bcd4', textAlign: 'right'}
+            nameColor: {colors: '#00bcd4', textAlign: 'right'},
+            isDisabled: true
         }
     }
 
@@ -44,8 +45,9 @@ class AddUser extends Component {
     }
 
     handleChange(column, event) {
-        const minLen = {id: 3, name:1}
-        const maxLen = {id:30, name:30}
+        const minLen = {id:  3, name: 1}
+        const maxLen = {id: 30, name: 30}
+        const other  = {id: "name", name: "id"}
         let tmp = {}
 
         tmp[column] = event.target.value
@@ -55,9 +57,15 @@ class AddUser extends Component {
             tmp[column + "Color"] = (len < minLen[column] || len > maxLen[column]
                                     ? {color: '#F44336', textAlign: 'right'}
                                     : {color: '#8BC34A', textAlign: 'right'})
+
+            let col2 = other[column]
+            let len2 = this.state[col2].length
+            tmp["isDisabled"] = len  < minLen[column] || len  > maxLen[column]
+                             || len2 < minLen[col2]   || len2 > maxLen[col2]
         } else {
             tmp[column + "Len"] = ""
             tmp[column + "Color"] = {color: '#00bcd4'}
+            tmp["isDisabled"] = true
         }
         this.setState(Object.assign({}, this.state, tmp))
     }
@@ -95,6 +103,7 @@ class AddUser extends Component {
                 <RaisedButton
                     label="Submit"
                     onClick={this.click.bind(this)}
+                    disabled={this.state.isDisabled}
                 />
             </CardActions>
         </Card>
