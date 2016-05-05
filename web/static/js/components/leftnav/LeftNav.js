@@ -6,19 +6,18 @@ import Drawer from 'material-ui/Drawer'
 import MenuItem from 'material-ui/MenuItem'
 import FontIcon from 'material-ui/FontIcon'
 import Divider from 'material-ui/Divider'
-import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
 
 import { SignedIn, NotSignedIn } from './../util'
 import Users from './Users'
 import Groups from './Groups'
 import Threads from './Threads'
+import SignoutDialog from './SignoutDialog'
 
 class LeftNav extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            open: false,
+            isSignoutDialogOpen: false
         }
     }
     transitionTo(path) {
@@ -28,29 +27,12 @@ class LeftNav extends Component {
         }
     }
     handleOpen() {
-        this.setState(Object.assign({}, this.state, {open: true}))
-    }
-    handleSignout() {
-        window.location.href = "/auth/logout"
+        this.setState(Object.assign({}, this.state, {isSignoutDialogOpen: true}))
     }
     handleCancel() {
-        this.setState(Object.assign({}, this.state, {open: false}))
+        this.setState(Object.assign({}, this.state, {isSignoutDialogOpen: false}))
     }
     render() {
-        const actions = [
-            <FlatButton
-                label="Sign out"
-                primary={true}
-                keyboardFocused={true}
-                onTouchTap={this.handleSignout.bind(this)}
-            />,
-            <FlatButton
-                label="Cancel"
-                secondary={true}
-                onTouchTap={this.handleCancel.bind(this)}
-            />
-        ]
-
         return <Drawer
             open={this.props.open}
             docked={false}
@@ -66,15 +48,10 @@ class LeftNav extends Component {
                     onClick={this.handleOpen.bind(this)}
                 />
             </SignedIn>
-            <Dialog
-                title="Sign out"
-                actions={actions}
-                modal={false}
-                open={this.state.open}
-                onRequestClose={this.handleCancel}
-                >
-            Are you sure you want to sign out?
-            </Dialog>
+            <SignoutDialog
+                isSignoutDialogOpen={this.state.isSignoutDialogOpen}
+                handleSignoutCancel={this.handleCancel.bind(this)}
+            />
         </Drawer>
     }
 }
