@@ -17,11 +17,12 @@ class ThreadList extends Component {
     render() {
         return <div>
             {
-                this.props.threads.map(({ title, id, user }, key) => <Thread
+                this.props.threads.map(({ title, id, user, inserted_at, updated_at }, key) => <Thread
                     key={key}
                     id={id}
                     title={title}
                     user={user}
+                    insertedAt={inserted_at}
                 />)
             }
         </div>

@@ -42,7 +42,8 @@ function threads(state = {}, action) {
                 parentGroup: action.info.parentGroup,
                 user: action.info.user,
                 postsMap: action.postsMap,
-                postsList: action.postsList
+                postsList: action.postsList,
+                insertedAt: action.info.inserted_at
             }).toJS())
         case 'RECEIVE_THREAD_CONTENTS':
             return Object.assign({}, state, Map().set(action.id, {

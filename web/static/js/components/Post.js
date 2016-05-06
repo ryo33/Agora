@@ -15,7 +15,8 @@ const mapStateToProps = ({theme}) => {
     }
 }
 
-const Post = ({ id, title, text, user, dispatch, zDepth, theme }) => <Card
+const Post = ({ id, title, text, insertedAt, user,
+              dispatch, zDepth, theme }) => <Card
     style={theme.post.root}
     zDepth={zDepth}
 >
@@ -25,6 +26,7 @@ const Post = ({ id, title, text, user, dispatch, zDepth, theme }) => <Card
             user={user}
             title={title}
             path={'/posts/' + id}
+            insertedAt={insertedAt}
         />}
         showExpandableButton={true}
     />

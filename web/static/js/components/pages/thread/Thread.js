@@ -26,6 +26,7 @@ const mapStateToProps = ({ threads, theme }) => {
         ? {
             currentThread: currentThread,
             title: thread.title,
+            insertedAt: thread.insertedAt,
             parentGroup: thread.parentGroup,
             user: thread.user,
             postsMap: thread.postsMap,
@@ -89,6 +90,7 @@ class Thread extends Component {
                     id={this.props.params.id}
                     user={this.props.user}
                     title={this.props.title}
+                    insertedAt={this.props.insertedAt}
                 />
                 <Divider style={{margin: "0.15em 0"}} />
                 <SignedIn><PostForm
@@ -105,6 +107,7 @@ class Thread extends Component {
                         title={postsMap[id].title}
                         text={postsMap[id].text}
                         user={postsMap[id].user}
+                        insertedAt={postsMap[id].inserted_at}
                     />
                     : null)}
             </div>

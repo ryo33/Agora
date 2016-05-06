@@ -15,7 +15,7 @@ const mapStateToProps = ({theme}) => {
     }
 }
 
-const Thread = ({ id, title, user, dispatch, zDepth, theme }) => <Card
+const Thread = ({ id, title, user, insertedAt, dispatch, zDepth, theme }) => <Card
     style={theme.thread.root}
     zDepth={zDepth}
 >
@@ -24,6 +24,7 @@ const Thread = ({ id, title, user, dispatch, zDepth, theme }) => <Card
         title={<ResourceTitle
             user={user}
             title=""
+            insertedAt={insertedAt}
         />}
         showExpandableButton={true}
     />

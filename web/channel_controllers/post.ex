@@ -39,7 +39,8 @@ defmodule Agora.ChannelController.Post do
       where: t.id == ^id,
       select: t,
       preload: [:user, :parent_group]
-    {:ok, %{thread: thread, posts: posts}, socket} end
+    {:ok, %{thread: thread, posts: posts}, socket}
+  end
 
   def handle_action("fetch_posts", %{ids: ids}, socket) do
     query = from p in Agora.Post,

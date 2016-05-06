@@ -9,8 +9,8 @@ export function fetchThreadContents(id) {
         }).receive('ok', ({ thread, posts }) => {
             let postsMap = {}
             let postsList = []
-            posts.forEach(({ id, title, text, user, post_id }) => {
-                postsMap[id] = { title, text, user, post_id }
+            posts.forEach(({ id, title, text, user, post_id, inserted_at, updated_at }) => {
+                postsMap[id] = { title, text, user, post_id, inserted_at, updated_at }
                 postsList.push(id)
             })
             dispatch(receiveThreadContents(id, thread, postsMap, postsList))

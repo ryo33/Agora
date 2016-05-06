@@ -2,7 +2,9 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 
-const ResourceTitle = ({ dispatch, user, title, path, linkedTitle }) => <span>
+import Time from 'components/Time'
+
+const ResourceTitle = ({ dispatch, user, title, path, linkedTitle, insertedAt }) => <span>
     <span
         style={{cursor: 'pointer'}}
         onClick={() => dispatch(push('/users/' + user.uid))}
@@ -24,6 +26,13 @@ const ResourceTitle = ({ dispatch, user, title, path, linkedTitle }) => <span>
         }
     >
         <strong>{title}</strong>
+    </span>
+    <span
+        style={{
+            marginLeft: '1.0em'
+        }}
+    >
+        <Time time={insertedAt} />
     </span>
 </span>
 
