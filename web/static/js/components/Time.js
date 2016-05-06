@@ -1,8 +1,5 @@
 import React, { Component } from 'react'
 
-import { connect } from 'react-redux'
-import { push } from 'react-router-redux'
-
 import Moment from 'moment'
 
 class Time extends Component {
@@ -15,7 +12,7 @@ class Time extends Component {
     }
     componentDidMount() {
         this.format()
-        var intervalID = setInterval(this.format.bind(this), 1000)
+        let intervalID = setInterval(this.format.bind(this), 5000)
         this.setState({intervalID: intervalID})
     }
     componentWillUnmount() {

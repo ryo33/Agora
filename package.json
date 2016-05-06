@@ -6,6 +6,7 @@
     "material-colors": "^1.0.0",
     "material-design-icons": "^2.2.3",
     "material-ui": "^0.15.0-beta.2",
+    "moment": "^2.13.0",
     "phoenix": "file:deps/phoenix",
     "phoenix_html": "file:deps/phoenix_html",
     "react": "^15.0.1",
