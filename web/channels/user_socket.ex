@@ -5,6 +5,7 @@ defmodule Agora.UserSocket do
 
   channel "account:*", Agora.AccountChannel
   channel "thread:*", Agora.ThreadChannel
+  channel "group:*", Agora.GroupChannel
   channel "common", Agora.CommonChannel
 
   ## Transports

@@ -17,11 +17,11 @@ const mapStateToProps = ({ account }) => {
     }
 }
 
-class ThreadForm extends Component {
+class GroupForm extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            title: props.title || "",
+            name: props.name || "",
             user: this.props.currentUser
         }
     }
@@ -38,10 +38,10 @@ class ThreadForm extends Component {
     submit() {
         this.props.submit({
             user_id: this.state.user,
-            title: this.state.title
+            name: this.state.name
         })
         this.setState(Object.assign({}, this.state, {
-            title: ''
+            name: ''
         }))
     }
 
@@ -51,13 +51,13 @@ class ThreadForm extends Component {
 
     render() {
         return <Card>
-            <CardTitle title="Add New Thread" />
+            <CardTitle title="Add New Group" />
             <CardText>
                 <TextField
                     hintText="Title"
                     floatingLabelText="Title"
-                    value={this.state.title}
-                    onChange={this.handleChange.bind(this, "title")}
+                    value={this.state.name}
+                    onChange={this.handleChange.bind(this, "name")}
                 />
             </CardText>
             <CardActions>
@@ -75,4 +75,4 @@ class ThreadForm extends Component {
     }
 }
 
-export default connect(mapStateToProps)(ThreadForm)
+export default connect(mapStateToProps)(GroupForm)

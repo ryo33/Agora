@@ -11,8 +11,10 @@ window.socket = new Socket('/socket', {
 })
 window.socket.connect()
 
+window.accountChannel = window.socket.channel("account:" + window.accountID, {})
+window.commonChannel = window.socket.channel("common", {})
+
 export const joinAccountChannel = (dispatch) => {
-    window.accountChannel = window.socket.channel("account:" + window.accountID, {})
     window.accountChannel.on("dispatch", ({ actions }) => {
         actions.map(action => { dispatch(action) })
     })
@@ -24,7 +26,6 @@ export const joinAccountChannel = (dispatch) => {
 }
 
 export const joinCommonChannel = (dispatch) => {
-    window.commonChannel = window.socket.channel("common", {})
     window.commonChannel.on("dispatch", ({ actions }) => {
         actions.map(action => { dispatch(action) })
     })
@@ -41,6 +42,15 @@ export const joinThreadChannel = (dispatch, id) => {
         actions.map(action => { dispatch(action) })
     })
     return window.threadChannel.join()
+    .receive("error", resp => { console.log("Unable to join", resp) })
+}
+
+export const joinGroupChannel = (dispatch, id) => {
+    window.groupChannel = window.socket.channel("group:" + id, {})
+    window.groupChannel.on("dispatch", ({ actions }) => {
+        actions.map(action => { dispatch(action) })
+    })
+    return window.groupChannel.join()
     .receive("error", resp => { console.log("Unable to join", resp) })
 }
 

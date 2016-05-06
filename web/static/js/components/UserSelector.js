@@ -31,7 +31,7 @@ class UserSelector extends Component {
         if (props.currentUser != this.state.beforeCurrentUser) {
             this.props.changeUser(props.currentUser)
             this.setState(Object.assign({}, this.state, {
-                user: user
+                beforeCurrentUser: props.currentUser
             }))
         }
     }

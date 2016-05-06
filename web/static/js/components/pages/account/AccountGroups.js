@@ -2,23 +2,23 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 
-import ThreadList from 'components/ThreadList'
+import Group from 'components/Group'
 
-class AccountThreads extends Component {
+class AccountGroups extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            threads: []
+            groups: []
         }
     }
 
     componentDidMount() {
         window.accountChannel
-        .push("thread", {
+        .push("group", {
             action: 'get_by_account',
             params: null
         })
-        .receive("ok", ({ threads }) => this.setState({ threads }))
+        .receive("ok", ({ groups }) => this.setState({ groups }))
     }
 
     transitionTo(path) {
@@ -29,9 +29,15 @@ class AccountThreads extends Component {
 
     render() {
         return <div>
-            <ThreadList threads={this.state.threads} />
+            {this.state.groups.map(({id, name, user, inserted_at}, key) => <Group
+                key={key}
+                id={id}
+                name={name}
+                user={user}
+                insertedAt={inserted_at}
+            />)}
         </div>
     }
 }
 
-export default connect()(AccountThreads)
+export default connect()(AccountGroups)
