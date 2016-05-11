@@ -37,20 +37,16 @@ function currentThread(state = null, action) {
 function threads(state = {}, action) {
     switch (action.type) {
         case 'UPDATE_THREAD_CONTENTS':
-            return Object.assign({}, state, Map().set(action.id, {
+            return Object.assign({}, state, Map().set(action.id, Object.assign({}, state[action.id] || {}, {
                 title: action.info.title,
                 parentGroup: action.info.parentGroup,
                 user: action.info.user,
                 postsMap: action.postsMap,
                 postsList: action.postsList,
                 insertedAt: action.info.inserted_at
-            }).toJS())
-        case 'RECEIVE_THREAD_CONTENTS':
-            return Object.assign({}, state, Map().set(action.id, {
-                postsMap: action.postsMap
-            }).toJS())
+            })).toJS())
         case 'ADD_THREAD_CONTENTS':
-            return Object.assign({}, state, Map().set(action.id, Object.assign({}, state[action.id], {
+            return Object.assign({}, state, Map().set(action.id, Object.assign({}, state[action.id] || {}, {
                 postsMap: action.postsMap,
                 postsList: action.postsList
             })).toJS())

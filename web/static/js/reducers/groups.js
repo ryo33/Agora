@@ -47,23 +47,23 @@ function currentGroup(state = null, action) {
 function groups(state = {}, action) {
     switch (action.type) {
         case 'UPDATE_GROUP_THREADS':
-            return Object.assign({}, state, Map().set(action.id, {
+            return Object.assign({}, state, Map().set(action.id, Object.assign({}, state[action.id] || {}, {
                 threadsMap: action.threadsMap,
                 threadsList: action.threadsList,
-            }).toJS())
+            })).toJS())
         case 'UPDATE_GROUP_INFO':
-            return Object.assign({}, state, Map().set(action.id, {
+            return Object.assign({}, state, Map().set(action.id, Object.assign({}, state[action.id] || {}, {
                 name: action.info.name,
                 parentGroup: action.info.parentGroup,
                 user: action.info.user,
                 insertedAt: action.info.inserted_at
-            }).toJS())
+            })).toJS())
         case 'RECEIVE_GROUP_THREADS':
-            return Object.assign({}, state, Map().set(action.id, {
+            return Object.assign({}, state, Map().set(action.id, Object.assign({}, state[action.id] || {}, {
                 threadsMap: action.threadsMap
-            }).toJS())
+            })).toJS())
         case 'ADD_GROUP_THREADS':
-            return Object.assign({}, state, Map().set(action.id, Object.assign({}, state[action.id], {
+            return Object.assign({}, state, Map().set(action.id, Object.assign({}, state[action.id] || {}, {
                 threadsMap: action.threadsMap,
                 threadsList: action.threadsList
             })).toJS())
