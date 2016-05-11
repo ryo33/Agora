@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
-import { Map } from 'Immutable'
+import { Map } from 'immutable'
 
 import TextField from 'material-ui/TextField';
 import { Card, CardActions, CardHeader,
