@@ -10,6 +10,7 @@ class Time extends Component {
             isMounted: true,
             date: ""
         }
+        Moment.locale(navigator.language)
     }
     componentDidMount() {
         this.format()
@@ -26,9 +27,9 @@ class Time extends Component {
         let now = Moment().local()
         let date = ""
         if (now.diff(insertedAt, 'year') > 0) {
-            date = insertedAt.format("MMM D YYYY H:mm:ss")
+            date = insertedAt.format("LTS")
         } else if (now.diff(insertedAt, 'days') > 0) {
-            date = insertedAt.format("MMM D H:mm:ss")
+            date = insertedAt.format("MMM Do LT")
         } else {
             date = insertedAt.fromNow()
         }
