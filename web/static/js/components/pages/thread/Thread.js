@@ -100,9 +100,9 @@ class Thread extends Component {
                         zDepth={2}
                     /></SignedIn>
                 <Divider style={{margin: "1em 0"}} />
-                {postsList.map((id, key) => postsMap.hasOwnProperty(id)
+                {postsList.map((id) => postsMap.hasOwnProperty(id)
                     ? <Post
-                        key={key}
+                        key={id}
                         id={id}
                         title={postsMap[id].title}
                         text={postsMap[id].text}

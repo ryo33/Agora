@@ -33,5 +33,8 @@
     "svg-inline-loader": "^0.4.1",
     "webpack": "^1.12.15"
   },
-  "scripts": {}
+  "scripts": {
+    "production": "webpack -p",
+    "develop": "webpack -d"
+  }
 }

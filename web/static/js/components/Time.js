@@ -7,30 +7,33 @@ class Time extends Component {
         super(props)
         this.state = {
             intervalID: null,
+            isMounted: true,
             date: ""
         }
+        Moment.locale(navigator.language)
     }
     componentDidMount() {
         this.format()
-        let intervalID = setInterval(this.format.bind(this), 5000)
+        let intervalID = setInterval(this.format.bind(this), 1000)
         this.setState({intervalID: intervalID})
     }
     componentWillUnmount() {
         if (this.state.intervalID != null) clearInterval(this.state.intervalID);
         this.setState({intervalID: null})
+        this.setState({isMounted: false})
     }
     format() {
         let insertedAt = Moment.parseZone(this.props.time).local()
-        let now = Moment()
+        let now = Moment().local()
         let date = ""
         if (now.diff(insertedAt, 'year') > 0) {
-            date = insertedAt.format("MMM D YYYY H:mm:ss")
+            date = insertedAt.format("LTS")
         } else if (now.diff(insertedAt, 'days') > 0) {
-            date = insertedAt.format("MMM D H:mm:ss")
+            date = insertedAt.format("MMM Do LT")
         } else {
             date = insertedAt.fromNow()
         }
-        this.setState({date: date})
+        if (this.state.isMounted) this.setState({date: date})
     }
     render() {
         return <span>
