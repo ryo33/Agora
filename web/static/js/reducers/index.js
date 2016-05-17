@@ -1,10 +1,10 @@
-import account from './account/index'
-import threads from './threads'
-import theme from './theme'
+import account from './account/index';
+import threads from './threads';
+import theme from './theme';
 
 const reducers = {
-    account,
-    threads,
-    theme
-}
-export default reducers
+  account,
+  threads,
+  theme,
+};
+export default reducers;

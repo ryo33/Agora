@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { push } from 'react-router-redux'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { push } from 'react-router-redux';
 
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
@@ -10,104 +10,104 @@ import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 
 const mapStateToProps = ({ account }) => {
-    return {
-        id: account.forms.addUser.id,
-        name: account.forms.addUser.name,
-    }
-}
+  return {
+    id: account.forms.addUser.id,
+    name: account.forms.addUser.name,
+  };
+};
 
 class AddUser extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            id: "",
-            name: "",
-            idLen: "",
-            nameLen: "",
-            idColor: {colors: '#00bcd4', textAlign: 'right'},
-            nameColor: {colors: '#00bcd4', textAlign: 'right'},
-            isDisabled: true
-        }
+  constructor(props) {
+    super(props);
+    this.state = {
+      id: '',
+      name: '',
+      idLen: '',
+      nameLen: '',
+      idColor: { colors: '#00bcd4', textAlign: 'right' },
+      nameColor: { colors: '#00bcd4', textAlign: 'right' },
+      isDisabled: true,
+    };
+  }
+
+  componentWillMount() {
+    this.setState({
+      id: this.props.id,
+      name: this.props.name,
+    });
+  }
+
+  componentWillReceiveProps(props) {
+    this.setState({
+      id: props.id,
+      name: props.name,
+    });
+  }
+
+  handleChange(column, event) {
+    const minLen = { id:  3, name: 1 };
+    const maxLen = { id: 30, name: 30 };
+    const other = { id: 'name', name: 'id' };
+    let tmp = {};
+
+    tmp[column] = event.target.value;
+    if (event.target.value != '') {
+      let len = event.target.value.length;
+      tmp[column + 'Len'] = len + '/' + maxLen[column];
+      tmp[column + 'Color'] = (len < minLen[column] || len > maxLen[column]
+                                    ? { color: '#F44336', textAlign: 'right' }
+                                    : { color: '#8BC34A', textAlign: 'right' });
+
+      let col2 = other[column];
+      let len2 = this.state[col2].length;
+      tmp['isDisabled'] = len < minLen[column] || len > maxLen[column]
+                             || len2 < minLen[col2] || len2 > maxLen[col2];
+    } else {
+      tmp[column + 'Len'] = '';
+      tmp[column + 'Color'] = { color: '#00bcd4' };
+      tmp['isDisabled'] = true;
     }
+    this.setState(Object.assign({}, this.state, tmp));
+  }
 
-    componentWillMount() {
-        this.setState({
-            id: this.props.id,
-            name: this.props.name
-        })
-    }
+  click() {
+    window.accountChannel
+        .push('add_user', { uid: this.state.id, name: this.state.name })
+        .receive('ok', () => {
+          this.props.dispatch(push('/account/users'));
+        });
+  }
 
-    componentWillReceiveProps(props) {
-        this.setState({
-            id: props.id,
-            name: props.name
-        })
-    }
-
-    handleChange(column, event) {
-        const minLen = {id:  3, name: 1}
-        const maxLen = {id: 30, name: 30}
-        const other  = {id: "name", name: "id"}
-        let tmp = {}
-
-        tmp[column] = event.target.value
-        if (event.target.value != "") {
-            let len = event.target.value.length
-            tmp[column + "Len"] = len + "/" + maxLen[column]
-            tmp[column + "Color"] = (len < minLen[column] || len > maxLen[column]
-                                    ? {color: '#F44336', textAlign: 'right'}
-                                    : {color: '#8BC34A', textAlign: 'right'})
-
-            let col2 = other[column]
-            let len2 = this.state[col2].length
-            tmp["isDisabled"] = len  < minLen[column] || len  > maxLen[column]
-                             || len2 < minLen[col2]   || len2 > maxLen[col2]
-        } else {
-            tmp[column + "Len"] = ""
-            tmp[column + "Color"] = {color: '#00bcd4'}
-            tmp["isDisabled"] = true
-        }
-        this.setState(Object.assign({}, this.state, tmp))
-    }
-
-    click() {
-        window.accountChannel
-        .push("add_user", {uid: this.state.id, name: this.state.name})
-        .receive("ok", () => {
-            this.props.dispatch(push("/account/users"))
-        })
-    }
-
-    render() {
-        return <Card>
+  render() {
+    return (<Card>
             <CardTitle title="Add New User" />
             <CardText>
                 <TextField
-                    hintText="ID"
-                    floatingLabelText="ID"
-                    errorText={this.state.idLen}
-                    errorStyle={this.state.idColor}
-                    value={this.state.id}
-                    onChange={this.handleChange.bind(this, "id")}
-                /><br/>
+                  hintText="ID"
+                  floatingLabelText="ID"
+                  errorText={this.state.idLen}
+                  errorStyle={this.state.idColor}
+                  value={this.state.id}
+                  onChange={this.handleChange.bind(this, 'id')}
+                /><br />
                 <TextField
-                    hintText="Name"
-                    floatingLabelText="Name"
-                    errorText={this.state.nameLen}
-                    errorStyle={this.state.nameColor}
-                    value={this.state.name}
-                    onChange={this.handleChange.bind(this, "name")}
-                /><br/>
+                  hintText="Name"
+                  floatingLabelText="Name"
+                  errorText={this.state.nameLen}
+                  errorStyle={this.state.nameColor}
+                  value={this.state.name}
+                  onChange={this.handleChange.bind(this, 'name')}
+                /><br />
             </CardText>
             <CardActions>
                 <RaisedButton
-                    label="Submit"
-                    onClick={this.click.bind(this)}
-                    disabled={this.state.isDisabled}
+                  label="Submit"
+                  onClick={this.click.bind(this)}
+                  disabled={this.state.isDisabled}
                 />
             </CardActions>
-        </Card>
-    }
+        </Card>);
+  }
 }
 
-export default connect(mapStateToProps)(AddUser)
+export default connect(mapStateToProps)(AddUser);

@@ -1,18 +1,18 @@
 const initialState = {
-    id: '',
-    name: ''
-}
+  id: '',
+  name: '',
+};
 
 function addUser(state = initialState, action) {
-    switch (action.type) {
-        case 'SET_ADD_USER':
-            return Object.assign({}, state, {
-                id: action.id,
-                name: action.name
-            })
-        default:
-            return state
-    }
+  switch (action.type) {
+    case 'SET_ADD_USER':
+      return Object.assign({}, state, {
+        id: action.id,
+        name: action.name,
+      });
+    default:
+      return state;
+  }
 }
 
-export default addUser
+export default addUser;

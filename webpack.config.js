@@ -10,6 +10,11 @@ module.exports = {
         filename: "js/app.js"
     },
     module: {
+        preLoaders: [{
+            test: /\.js$/,
+            exclude: /node_modules/,
+            loader: "eslint"
+        }],
         loaders: [{
             test: /\.jsx?$/,
             exclude: /node_modules/,

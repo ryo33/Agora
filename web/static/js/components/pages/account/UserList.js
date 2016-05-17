@@ -1,65 +1,65 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { push } from 'react-router-redux'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { push } from 'react-router-redux';
 
-import Avatar from 'material-ui/Avatar'
-import { List, ListItem } from 'material-ui/List'
-import Subheader from 'material-ui/Subheader'
-import Divider from 'material-ui/Divider'
-import Paper from 'material-ui/Paper'
-import FontIcon from 'material-ui/FontIcon'
+import Avatar from 'material-ui/Avatar';
+import { List, ListItem } from 'material-ui/List';
+import Subheader from 'material-ui/Subheader';
+import Divider from 'material-ui/Divider';
+import Paper from 'material-ui/Paper';
+import FontIcon from 'material-ui/FontIcon';
 
 const mapStateToProps = ({ account }) => {
-    return {
-        users: account.users,
-        currentUser: account.currentUser
-    }
-}
+  return {
+    users: account.users,
+    currentUser: account.currentUser,
+  };
+};
 
 class UserList extends Component {
-    componentDidMount() {
-    }
+  componentDidMount() {
+  }
 
-    transitionTo(path) {
-        return (event) => {
-            this.props.dispatch(push(path));
-        }
-    }
+  transitionTo(path) {
+    return (event) => {
+      this.props.dispatch(push(path));
+    };
+  }
 
-    setCurrentUser(id) {
-        return () => {
-            this.props.dispatch({type: 'SET_CURRENT_USER', user: id})
-            window.accountChannel.push('set_current_user', id)
-        }
-    }
+  setCurrentUser(id) {
+    return () => {
+      this.props.dispatch({ type: 'SET_CURRENT_USER', user: id });
+      window.accountChannel.push('set_current_user', id);
+    };
+  }
 
-    render() {
-        let users = [];
-        let currentUser = <ListItem
-            primaryText="No Current User"
-            disabled={true}
-        />
-        if (this.props.users) {
-            this.props.users.forEach(({ uid, name, id }, key) => {
-                if (id == this.props.currentUser) {
-                    currentUser = <ListItem
-                        key={key}
-                        secondaryText={uid}
-                        primaryText={name}
-                        leftAvatar={<Avatar src="/images/phoenix.png" />}
-                    />
-                } else {
-                    users.push(<ListItem
-                        key={key}
-                        secondaryText={uid}
-                        primaryText={name}
-                        leftAvatar={<Avatar src="/images/phoenix.png" />}
-                        onClick={this.setCurrentUser(id)}
-                    />)
-                }
-            })
+  render() {
+    let users = [];
+    let currentUser = (<ListItem
+      primaryText="No Current User"
+      disabled
+    />);
+    if (this.props.users) {
+      this.props.users.forEach(({ uid, name, id }, key) => {
+        if (id == this.props.currentUser) {
+          currentUser = (<ListItem
+            key={key}
+            secondaryText={uid}
+            primaryText={name}
+            leftAvatar={<Avatar src="/images/phoenix.png" />}
+          />);
+        } else {
+          users.push(<ListItem
+            key={key}
+            secondaryText={uid}
+            primaryText={name}
+            leftAvatar={<Avatar src="/images/phoenix.png" />}
+            onClick={this.setCurrentUser(id)}
+          />);
         }
-        return <div>
+      });
+    }
+    return (<div>
             <List>
                 <Subheader>Current User</Subheader>
                 {currentUser}
@@ -72,15 +72,15 @@ class UserList extends Component {
             <Divider />
             <List>
                 <ListItem primaryText="Add New User"
-                    leftIcon={<FontIcon
-                        children="add_box"
-                        className="material-icons"
-                    />}
-                    onClick={this.transitionTo('/account/add-user')}
+                  leftIcon={<FontIcon
+                    children="add_box"
+                    className="material-icons"
+                  />}
+                  onClick={this.transitionTo('/account/add-user')}
                 />
             </List>
-        </div>
-    }
+        </div>);
+  }
 }
 
-export default connect(mapStateToProps)(UserList)
+export default connect(mapStateToProps)(UserList);

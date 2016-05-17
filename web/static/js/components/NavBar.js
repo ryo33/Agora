@@ -1,58 +1,58 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { push } from 'react-router-redux'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { push } from 'react-router-redux';
 
-import IconMenu from 'material-ui/IconMenu'
-import IconButton from 'material-ui/IconButton'
-import FontIcon from 'material-ui/FontIcon'
-import NavigationExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-more'
-import MenuItem from 'material-ui/MenuItem'
-import DropDownMenu from 'material-ui/DropDownMenu'
-import RaisedButton from 'material-ui/RaisedButton'
-import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from 'material-ui/Toolbar'
+import IconMenu from 'material-ui/IconMenu';
+import IconButton from 'material-ui/IconButton';
+import FontIcon from 'material-ui/FontIcon';
+import NavigationExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-more';
+import MenuItem from 'material-ui/MenuItem';
+import DropDownMenu from 'material-ui/DropDownMenu';
+import RaisedButton from 'material-ui/RaisedButton';
+import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from 'material-ui/Toolbar';
 
-import { SignedIn, NotSignedIn } from './util'
+import { SignedIn, NotSignedIn } from './util';
 
 class NavBar extends Component {
-    transitionTo(path) {
-        return (event) => {
-            this.props.dispatch(push(path));
-        }
-    }
-    render() {
-        return <Toolbar zDepth={3}>
-            <ToolbarGroup firstChild={true} float="left">
+  transitionTo(path) {
+    return (event) => {
+      this.props.dispatch(push(path));
+    };
+  }
+  render() {
+    return (<Toolbar zDepth={3}>
+            <ToolbarGroup firstChild float="left">
                 <IconButton
-                    iconClassName="material-icons"
-                    touch={true}
-                    children="menu"
-                    onClick={this.props.toggleLeftNav}
+                  iconClassName="material-icons"
+                  touch
+                  children="menu"
+                  onClick={this.props.toggleLeftNav}
                 />
                 <IconButton
-                    iconClassName="material-icons"
-                    touch={true}
-                    children="home"
-                    onClick={this.transitionTo('/')}
+                  iconClassName="material-icons"
+                  touch
+                  children="home"
+                  onClick={this.transitionTo('/')}
                 />
                 <SignedIn><IconButton
-                    iconClassName="material-icons"
-                    touch={true}
-                    children="notifications"
-                    onClick={this.transitionTo('/account/notifications')}
+                  iconClassName="material-icons"
+                  touch
+                  children="notifications"
+                  onClick={this.transitionTo('/account/notifications')}
                 /></SignedIn>
             </ToolbarGroup>
             <ToolbarGroup float="right">
-                { !window.signedIn
+                {!window.signedIn
                     ? <RaisedButton
-                        label="Sign in"
-                        primary={true}
-                        onClick={this.transitionTo('/signin')}
+                      label="Sign in"
+                      primary
+                      onClick={this.transitionTo('/signin')}
                     />
                     : null
                 }
             </ToolbarGroup>
-        </Toolbar>
-    }
+        </Toolbar>);
+  }
 }
 
-export default connect()(NavBar)
+export default connect()(NavBar);
