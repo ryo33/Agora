@@ -3,6 +3,7 @@ var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var CopyWebpackPlugin = require("copy-webpack-plugin");
 
 module.exports = {
+    devtool: "source-map",
     entry: ["babel-polyfill", "./web/static/js/app.js", "./web/static/css/app.css"],
     output: {
         path: "./priv/static",
