@@ -48,7 +48,7 @@ class ThreadForm extends Component {
 
   render() {
     return (<Card>
-            <CardTitle title="Add New Thread" />
+            <CardTitle title="New Thread" />
             <CardText>
                 <TextField
                   hintText="Title"
