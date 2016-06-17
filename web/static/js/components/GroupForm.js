@@ -51,7 +51,7 @@ class GroupForm extends Component {
 
     render() {
         return <Card>
-            <CardTitle title="Add New Group" />
+            <CardTitle title="New Group" />
             <CardText>
                 <TextField
                     hintText="Title"

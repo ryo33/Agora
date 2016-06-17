@@ -1,5 +1,9 @@
 defmodule Agora.Member do
   use Agora.Web, :model
+  @derive {Poison.Encoder, only: [
+    :user, :id, :group_id,
+    :inserted_at, :updated_at
+  ]}
 
   schema "members" do
     belongs_to :account, Agora.Account
@@ -9,7 +13,7 @@ defmodule Agora.Member do
     timestamps
   end
 
-  @required_fields ~w()
+  @required_fields ~w(:user_id, :group_id)
   @optional_fields ~w()
 
   @doc """

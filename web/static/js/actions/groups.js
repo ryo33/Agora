@@ -1,3 +1,17 @@
+import { createAction } from 'redux-actions'
+
+export const fetchMembers = createAction('FETCH_MEMBERS', id => id)
+export const receiveMembers = createAction('RECEIVE_MEMBERS', (id, membersMap, membersList) => ({
+  id, membersMap, membersList
+}))
+export const updateMembers = createAction('UPDATE_MEMBERS', (id, membersMap, membersList) => ({
+  id, membersMap, membersList
+}))
+export const fetchMissingMembers = createAction('FETCH_MISSING_MEMBERS', ids => ids)
+export const receiveMissingMembers = createAction('RECEIVE_MISSING_MEMBERS', (id, membersMap) => ({
+  id, membersMap
+}))
+
 export function fetchGroupThreads(id) {
     return (dispatch, getState) => {
         dispatch(requestGroupThreads(id))
@@ -53,7 +67,7 @@ export function receiveGroupThreads(id, threadsMap, threadsList) {
 export function fetchMissingGroupThreads(id, ids) {
     return (dispatch) => {
         dispatch(requestMissingGroupThreads(id))
-        window.groupChannel.push('thread', {action: 'fetch_threads', params: {ids: ids}})
+        window.groupChannel.push('thread', {action: 'fetch_threads', params: { ids }})
         .receive('ok', ({ threads }) => {
             let threadsMap = {}
             threads.forEach(({ id, title, text, user, thread_id }) => {

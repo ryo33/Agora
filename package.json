@@ -1,6 +1,7 @@
 {
   "repository": {},
   "dependencies": {
+    "associative-reducer": "^1.1.0",
     "deep-assign": "^2.0.0",
     "immutable": "^3.8.1",
     "material-colors": "^1.0.0",
@@ -16,8 +17,10 @@
     "react-router-redux": "^4.0.2",
     "react-tap-event-plugin": "^1.0.0",
     "redux": "^3.4.0",
+    "redux-actions": "^0.9.1",
     "redux-logger": "^2.6.1",
     "redux-persist": "^3.0.1",
+    "redux-saga": "^0.10.4",
     "redux-thunk": "^2.0.1"
   },
   "devDependencies": {

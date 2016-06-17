@@ -14,6 +14,23 @@ window.socket.connect()
 window.accountChannel = window.socket.channel("account:" + window.accountID, {})
 window.commonChannel = window.socket.channel("common", {})
 
+export const pushMessage = (channel, event, payload) => {
+  return new Promise((resolve, reject) => {
+    channel.push(event, payload)
+    .receive('ok', msg => resolve(msg))
+    .receive('error', reasons => reject(Error(reasons)))
+    .receive('timeout', () => reject(Error("Timeout Error")))
+  });
+}
+
+export function pushMessageToGroupChannel(event, msg) {
+  return pushMessage(window.groupChannel, event, msg)
+}
+
+export function pushMessageToCommonChannel(event, msg) {
+  return pushMessage(window.commonChannel, event, msg)
+}
+
 export const joinAccountChannel = (dispatch) => {
     window.accountChannel.on("dispatch", ({ actions }) => {
         actions.map(action => { dispatch(action) })

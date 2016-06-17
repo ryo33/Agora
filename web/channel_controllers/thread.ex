@@ -12,7 +12,7 @@ defmodule Agora.ChannelController.Thread do
         Logger.debug "#{inspect thread}"
         if thread.parent_group_id != nil do
           group_id = thread.parent_group_id
-          thread = Repo.preload(thread, :user)
+          thread = Repo.preload(thread, [:user, :parent_group])
           query = from t in Agora.Thread,
           where: t.parent_group_id == ^group_id,
           order_by: [desc: t.inserted_at],

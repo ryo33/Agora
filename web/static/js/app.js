@@ -3,6 +3,7 @@ import { render } from 'react-dom'
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import thunk from 'redux-thunk';
+import createSagaMiddleware from 'redux-saga'
 import { IndexRoute, Route, Router, browserHistory } from 'react-router'
 import { routerMiddleware, syncHistoryWithStore, routerReducer } from 'react-router-redux'
 import createLogger from 'redux-logger';
@@ -17,24 +18,26 @@ import { GroupPage, GroupAll, Group,
 import SignIn from './components/SignIn'
 import Unimplemented from 'components/Unimplemented'
 
-import { switchGroupPageTabs } from 'actions/groups'
-
 import { joinAccountChannel, joinCommonChannel } from 'socket'
+import { switchGroupPageTabs } from 'actions/groups'
 import reducers from './reducers/index'
+import rootSaga from './sagas/index'
 
 import injectTapEventPlugin from 'react-tap-event-plugin'
 injectTapEventPlugin();
 
-const logger = createLogger();
+const logger = createLogger()
+const sagaMiddleware = createSagaMiddleware()
 
 const store = createStore(
   combineReducers({
     ...reducers,
     routing: routerReducer
   }),
-  applyMiddleware(thunk, logger, routerMiddleware(browserHistory))
+  applyMiddleware(sagaMiddleware, thunk, routerMiddleware(browserHistory), logger)
 )
 const history = syncHistoryWithStore(browserHistory, store)
+sagaMiddleware.run(rootSaga, store.getState)
 
 joinCommonChannel(store.dispatch)
 if (window.signedIn) {
