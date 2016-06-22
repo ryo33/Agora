@@ -38,6 +38,7 @@
   },
   "scripts": {
     "production": "webpack -p",
-    "develop": "webpack -d"
+    "develop": "webpack -d",
+    "lint": "eslint web/static/js; exit 0"
   }
 }

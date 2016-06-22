@@ -1,6 +1,4 @@
-export const useChannel = (channel) => {
-    return {
-        type: 'USE_CHANNEL',
-        channel
-    }
-}
+export const useChannel = (channel) => ({
+  type: 'USE_CHANNEL',
+  channel,
+});

@@ -1,37 +1,39 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { push } from 'react-router-redux'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { push } from 'react-router-redux';
 
-import ThreadList from 'components/ThreadList'
+import ThreadList from 'components/ThreadList';
 
 class ThreadAll extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            threads: []
-        }
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      threads: []
+    };
+  }
 
-    componentDidMount() {
-        window.commonChannel
+  componentDidMount() {
+    window.commonChannel
         .push("thread", {
-            action: 'get',
-            params: null
+          action: 'get',
+          params: null
         })
-        .receive("ok", ({ threads }) => this.setState({ threads }))
-    }
+        .receive('ok', ({ threads }) => this.setState({ threads }));
+  }
 
-    transitionTo(path) {
-        return () => {
-            this.props.dispatch(push(path));
-        }
-    }
+  transitionTo(path) {
+    return () => {
+      this.props.dispatch(push(path));
+    };
+  }
 
-    render() {
-        return <div>
-            <ThreadList threads={this.state.threads} />
-        </div>
-    }
+  render() {
+    return (
+      <div>
+        <ThreadList threads={this.state.threads} />
+      </div>
+    );
+  }
 }
 
-export default connect()(ThreadAll)
+export default connect()(ThreadAll);

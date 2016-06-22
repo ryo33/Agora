@@ -1,46 +1,46 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { push } from 'react-router-redux'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { push } from 'react-router-redux';
 
-import { Card, CardHeader, CardActions, CardTitle, CardText } from 'material-ui/Card'
-import FlatButton from 'material-ui/FlatButton'
-import Divider from 'material-ui/Divider'
+import { Card, CardHeader, CardActions, CardTitle, CardText } from 'material-ui/Card';
+import FlatButton from 'material-ui/FlatButton';
+import Divider from 'material-ui/Divider';
 
-import Unimplemented from 'components/Unimplemented'
-import ResourceTitle from 'components/ResourceTitle'
+import Unimplemented from 'components/Unimplemented';
+import ResourceTitle from 'components/ResourceTitle';
 
-const mapStateToProps = ({theme}) => {
-    return {
-        theme
-    }
-}
+const mapStateToProps = ({ theme }) => {
+  return {
+    theme,
+  };
+};
 
 const Post = ({ id, title, text, insertedAt, user,
               dispatch, zDepth, theme }) => <Card
-    style={theme.post.root}
-    zDepth={zDepth}
->
+                style={theme.post.root}
+                zDepth={zDepth}
+              >
     <CardHeader
-        style={theme.post.header}
-        title={<ResourceTitle
-            user={user}
-            title={title}
-            path={'/posts/' + id}
-            insertedAt={insertedAt}
-        />}
-        showExpandableButton={true}
+      style={theme.post.header}
+      title={<ResourceTitle
+        user={user}
+        title={title}
+        path={'/posts/' + id}
+        insertedAt={insertedAt}
+      />}
+      showExpandableButton
     />
     <Divider />
     <CardText
-        style={theme.post.body}
-        actAsExpander={true}
+      style={theme.post.body}
+      actAsExpander
     >
         {text}
     </CardText>
     <Divider />
-    <CardActions expandable={true}>
+    <CardActions expandable>
         <Unimplemented />
     </CardActions>
-</Card>
+</Card>;
 
-export default connect(mapStateToProps)(Post)
+export default connect(mapStateToProps)(Post);
