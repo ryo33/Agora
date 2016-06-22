@@ -46,12 +46,13 @@ class GroupMembers extends Component {
   }
 
   submit(member) {
-    member = Object.assign({}, member, {
-      group_id_to_join: this.groupID,
+    const { dispatch } = this.props
+    const params = Object.assign(member, {
+      group_id: this.groupID,
     });
     window.groupChannel.push('member', {
       action: 'add',
-      params: member,
+      params
     });
   }
 
@@ -76,7 +77,7 @@ class GroupMembers extends Component {
               groupID={this.groupID}
             /></SignedIn>
           <Divider style={{ margin: '1em 0' }} />
-          {membersList.map((id) => membersMap.hasOwnProperty(id)
+          {membersList.map(id => membersMap.hasOwnProperty(id)
             ? <User
               key={id}
               id={id}

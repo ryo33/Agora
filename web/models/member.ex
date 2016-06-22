@@ -13,7 +13,7 @@ defmodule Agora.Member do
     timestamps
   end
 
-  @required_fields ~w(:user_id, :group_id)
+  @required_fields ~w(user_id group_id)
   @optional_fields ~w()
 
   @doc """
@@ -25,5 +25,15 @@ defmodule Agora.Member do
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
+  end
+
+  def has_join?(group_id, user_id) do
+    result = Repo.one from m in Agora.Member,
+      where: m.group_id == ^group_id and m.user_id == ^user_id,
+      select: m.id
+    case result do
+      nil -> false
+      _ -> true
+    end
   end
 end

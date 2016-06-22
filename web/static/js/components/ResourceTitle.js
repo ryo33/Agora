@@ -4,10 +4,10 @@ import { push } from 'react-router-redux'
 
 import Time from 'components/Time'
 
-const ResourceTitle = ({ dispatch, user, title, path, linkedTitle, insertedAt }) => <span>
+const ResourceTitle = ({ dispatch, user, title, path, onClick, linkedTitle, insertedAt }) => <span>
     <span
         style={{cursor: 'pointer'}}
-        onClick={() => dispatch(push('/users/' + user.uid))}
+        onClick={onClick || (() => dispatch(push('/users/' + user.uid)))}
     >
         {user.name}
         <small

@@ -6,7 +6,7 @@ defmodule Agora.ChannelController.User do
   def handle_action("search", %{"query" => q, "group_id_to_join" => group_id}, socket) do
     q = "%#{q}%"
     joined_users_query = from m in Member,
-      where: m.group_id != ^group_id,
+      where: m.group_id == ^group_id,
       select: m.user_id
     joined_users = Repo.all(joined_users_query)
     query = from u in User,

@@ -15,7 +15,10 @@ const mapStateToProps = ({theme}) => {
   }
 }
 
-const User = ({ id, group_id, insertedAt, user, dispatch, zDepth, theme }) => <Card
+const User = ({
+  group_id, user, zDepth, theme,
+  dispatch, onClick
+}) => <Card
   style={theme.user.root}
   zDepth={zDepth}
 >
@@ -23,8 +26,9 @@ const User = ({ id, group_id, insertedAt, user, dispatch, zDepth, theme }) => <C
     style={theme.user.header}
     title={<ResourceTitle
       user={user}
+      onClick={onClick}
       path={'/users/' + user.id}
-      insertedAt={insertedAt}
+      insertedAt={user.insertedAt}
     />}
     showExpandableButton={true}
   />

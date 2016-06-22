@@ -33,10 +33,10 @@ defmodule Agora.Group do
   end
 
   def exists?(id) do
-    query = from t in Agora.Thread,
-      where: t.id == ^id,
+    query = from g in Agora.Group,
+      where: g.id == ^id,
       limit: 1,
-      select: count(t.id)
+      select: count(g.id)
     case Repo.all(query) do
       [1] -> true
       _ -> false

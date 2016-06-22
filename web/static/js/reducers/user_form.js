@@ -2,29 +2,34 @@ import { combineReducers } from 'redux';
 import { handleAction, handleActions } from 'redux-actions';
 import { associate, DELETE } from 'associative-reducer';
 
+import {
+  addUserForm, updateUserFormSelected, updateUserFormQuery,
+  receiveSuggestedUsers, unmountUserForm
+} from 'actions/user_form'
+
 const userForm = associate(handleActions({
-  ADD_USER_FORM: (state = { query: '', suggestedUsers: [], selectedUser: null }, action) => {
+  [addUserForm]: (state, action) => {
     const { query, suggestedUsers, selectedUser } = state;
     return {
       query, suggestedUsers, selectedUser
     };
   },
-  UPDATE_USER_FORM_QUERY: (state, { payload: { value }}) => {
+  [updateUserFormQuery]: (state, { payload: { value }}) => {
     return Object.assign({}, state, {
       query: value
     });
   },
-  UPDATE_USER_FORM_SELECTED: (state, { payload }) => {
+  [updateUserFormSelected]: (state, { payload }) => {
     return Object.assign({}, state, {
       selectedUser: payload
     });
   },
-  RECEIVE_USER_SUGGESTIONS: (state, { payload: { users }}) => {
+  [receiveSuggestedUsers]: (state, { payload: { users }}) => {
     return Object.assign({}, state, {
       suggestedUsers: users
     });
   },
-  UNMOUNT_USER_FORM: (state, action) => DELETE
-}), 'ADD_USER_FORM')
+  [unmountUserForm]: (state, action) => DELETE
+}, { query: '', suggestedUsers: [], selectedUser: null }), addUserForm.toString())
 
 export default userForm
