@@ -33,4 +33,14 @@ defmodule Agora.User do
     |> validate_length(:name, min: 1)
     |> unique_constraint(:uid)
   end
+
+  def exists?(id) do
+    query = from u in Agora.User,
+      where: u.id == ^id,
+      select: count(u.id)
+    case Repo.one(query) do
+      1 -> true
+      _ -> false
+    end
+  end
 end

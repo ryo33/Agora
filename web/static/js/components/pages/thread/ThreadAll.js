@@ -4,16 +4,19 @@ import { push } from 'react-router-redux';
 
 import ThreadList from 'components/ThreadList';
 
-class AccountThreads extends Component {
+class ThreadAll extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      threads: [],
+      threads: []
     };
+  }
+
+  componentDidMount() {
     window.commonChannel
-        .push('thread', {
+        .push("thread", {
           action: 'get',
-          params: null,
+          params: null
         })
         .receive('ok', ({ threads }) => this.setState({ threads }));
   }
@@ -25,10 +28,12 @@ class AccountThreads extends Component {
   }
 
   render() {
-    return (<div>
-            <ThreadList threads={this.state.threads} />
-        </div>);
+    return (
+      <div>
+        <ThreadList threads={this.state.threads} />
+      </div>
+    );
   }
 }
 
-export default connect()(AccountThreads);
+export default connect()(ThreadAll);

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
+import { Map } from 'immutable';
 
 import TextField from 'material-ui/TextField';
 import { Card, CardActions, CardHeader,
@@ -26,20 +27,22 @@ class ThreadForm extends Component {
   }
 
   handleChange(column, event) {
-    let tmp = {};
-    tmp[column] = event.target.value;
-    this.setState(Object.assign({}, this.state, tmp));
+    this.setState(
+      Object.assign(
+        {}, this.state,
+        Map(this.state).set(column, event.target.value).toJS()
+      )
+    )
   }
 
   submit() {
     this.props.submit({
       user_id: this.state.user,
-      title: this.state.title,
-    });
+      title: this.state.title
+    })
     this.setState(Object.assign({}, this.state, {
-      title: '',
-      text: '',
-    }));
+      title: ''
+    }))
   }
 
   changeUser(user) {
@@ -47,28 +50,30 @@ class ThreadForm extends Component {
   }
 
   render() {
-    return (<Card>
-            <CardTitle title="New Thread" />
-            <CardText>
-                <TextField
-                  hintText="Title"
-                  floatingLabelText="Title"
-                  value={this.state.title}
-                  onChange={this.handleChange.bind(this, 'title')}
-                />
-            </CardText>
-            <CardActions>
-                <RaisedButton
-                  label="Submit"
-                  primary
-                  onClick={this.submit.bind(this)}
-                />
-                <UserSelector
-                  user={this.state.user}
-                  changeUser={this.changeUser.bind(this)}
-                />
-            </CardActions>
-        </Card>);
+    return (
+      <Card>
+        <CardTitle title="New Thread" />
+        <CardText>
+          <TextField
+            hintText="Title"
+            floatingLabelText="Title"
+            value={this.state.title}
+            onChange={this.handleChange.bind(this, 'title')}
+          />
+        </CardText>
+        <CardActions>
+          <RaisedButton
+            label="Submit"
+            primary
+            onClick={this.submit.bind(this)}
+          />
+          <UserSelector
+            user={this.state.user}
+            changeUser={this.changeUser.bind(this)}
+          />
+        </CardActions>
+      </Card>
+    );
   }
 }
 

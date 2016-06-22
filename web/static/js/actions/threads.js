@@ -99,9 +99,9 @@ export function fetchThreadContents(id) {
     }).receive('ok', ({ thread, posts }) => {
       const postsMap = {};
       const postsList = [];
-      posts.forEach(({ pid, title, text, user, post_id, inserted_at, updated_at }) => {
-        postsMap[pid] = { title, text, user, post_id, inserted_at, updated_at };
-        postsList.push(pid);
+      posts.forEach(({ id, title, text, user, post_id, inserted_at, updated_at }) => {
+        postsMap[id] = { title, text, user, post_id, inserted_at, updated_at };
+        postsList.push(id);
       });
       dispatch(receiveThreadContents(id, thread, postsMap, postsList));
     });

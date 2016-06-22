@@ -1,6 +1,6 @@
 defmodule Agora.Thread do
   use Agora.Web, :model
-  @derive {Poison.Encoder, only: [:title, :user, :id, :parent_group,
+  @derive {Poison.Encoder, only: [:title, :user, :id, :parent_group_id,
     :inserted_at, :updated_at
   ]}
 
@@ -8,7 +8,7 @@ defmodule Agora.Thread do
     field :title, :string
     belongs_to :account, Agora.Account
     belongs_to :user, Agora.User
-    belongs_to :parent_group, Agora.ParentGroup
+    belongs_to :parent_group, Agora.Group
 
     has_many :posts, Agora.Post
 

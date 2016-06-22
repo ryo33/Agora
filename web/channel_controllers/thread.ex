@@ -11,7 +11,19 @@ defmodule Agora.ChannelController.Thread do
       {:ok, thread} ->
         Logger.debug "#{inspect thread}"
         if thread.parent_group_id != nil do
-          broadcast_to_group(thread.parent_group_id, "add_thread", %{thread: thread})
+          group_id = thread.parent_group_id
+          thread = Repo.preload(thread, [:user, :parent_group])
+          query = from t in Agora.Thread,
+          where: t.parent_group_id == ^group_id,
+          order_by: [desc: t.inserted_at],
+          select: t.id
+          threads = Repo.all(query)
+          thread_id = to_string(thread.id)
+          broadcast_to_group(group_id, "add_threads", %{
+            id: group_id,
+            threads_map: %{ thread_id => thread },
+            threads_list: threads
+          })
         end
         {:ok, %{"id" => thread.id}, socket}
       {:error, changeset} ->
@@ -37,6 +49,27 @@ defmodule Agora.ChannelController.Thread do
       select: t,
       order_by: [desc: t.updated_at],
       limit: 100,
+      preload: [:user, :parent_group]
+    threads = Repo.all(query)
+    {:ok, %{threads: threads}, socket}
+  end
+
+  def handle_action("fetch_group_threads", %{"id" => id}, socket) do
+    id = String.to_integer id
+    query = from p in Agora.Thread,
+      where: p.parent_group_id == ^id,
+      select: p,
+      order_by: [desc: p.inserted_at],
+      preload: [:user, :parent_group]
+    threads = Repo.all(query)
+    {:ok, %{threads: threads}, socket}
+  end
+
+  def handle_action("fetch_threads", %{ids: ids}, socket) do
+    query = from p in Agora.Thread,
+      where: p.id in ^ids,
+      select: p,
+      order_by: [desc: p.inserted_at],
       preload: [:user, :parent_group]
     threads = Repo.all(query)
     {:ok, %{threads: threads}, socket}

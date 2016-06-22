@@ -10,7 +10,6 @@ class AccountThreads extends Component {
     this.state = {
       threads: [],
     };
-    console.log('account threads');
     window.accountChannel
         .push('thread', {
           action: 'get_by_account',
@@ -27,8 +26,8 @@ class AccountThreads extends Component {
 
   render() {
     return (<div>
-            <ThreadList threads={this.state.threads} />
-        </div>);
+      <ThreadList threads={this.state.threads} />
+    </div>);
   }
 }
 

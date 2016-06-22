@@ -23,7 +23,7 @@ class UserSelector extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      beforeCurrentUser: props.currentUser,
+      beforeCurrentUser: props.currentUser
     };
   }
 
@@ -31,7 +31,7 @@ class UserSelector extends Component {
     if (props.currentUser != this.state.beforeCurrentUser) {
       this.props.changeUser(props.currentUser);
       this.setState(Object.assign({}, this.state, {
-        user: user,
+        beforeCurrentUser: props.currentUser
       }));
     }
   }
@@ -45,13 +45,13 @@ class UserSelector extends Component {
       value={this.props.user}
       onChange={this.handleChange.bind(this)}
     >
-            {this.props.users.map(({ uid, name, id }, key) => <MenuItem
-              key={key}
-              value={id}
-              secondaryText={uid}
-              primaryText={name}
-            />)}
-        </SelectField>);
+      {this.props.users.map(({ uid, name, id }, key) => <MenuItem
+        key={key}
+        value={id}
+        secondaryText={uid}
+        primaryText={name}
+      />)}
+    </SelectField>);
   }
 }
 
