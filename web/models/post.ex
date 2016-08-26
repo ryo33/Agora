@@ -19,8 +19,8 @@ defmodule Agora.Post do
     timestamps
   end
 
-  @required_fields ~w(title text thread_id)
-  @optional_fields ~w(user_id)
+  @required_fields ~w(text thread_id user_id)
+  @optional_fields ~w(title)
 
   @doc """
   Creates a changeset based on the `model` and `params`.
@@ -28,8 +28,8 @@ defmodule Agora.Post do
   If no params are provided, an invalid changeset is returned
   with no validation performed.
   """
-  def changeset(model, params \\ :empty) do
-    model
+  def changeset(struct, params \\ %{}) do
+    struct
     |> cast(params, @required_fields, @optional_fields)
     |> validate_length(:text, min: 1)
   end

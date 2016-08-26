@@ -44,6 +44,8 @@ class Thread extends Component {
   componentDidMount() {
     const id = this.props.params.id;
     const dispatch = this.props.dispatch;
+    this.post = this.post.bind(this);
+
     dispatch(updateCurrentThread(id));
     joinThreadChannel(this.props.dispatch, id).receive(
       'ok', ({ actions }) => {
@@ -71,6 +73,7 @@ class Thread extends Component {
     post = Object.assign({}, post, {
       thread_id: this.props.params.id,
     });
+    console.log(post)
     window.threadChannel.push('post', {
       action: 'add',
       params: post,
@@ -97,7 +100,7 @@ class Thread extends Component {
             />
             <Divider style={{ margin: '0.15em 0' }} />
             <SignedIn><PostForm
-                submit={this.post.bind(this)}
+                submit={this.post}
                 expandable
                 expand={false}
                 zDepth={2}

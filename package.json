@@ -37,7 +37,7 @@
     "webpack": "^1.12.15"
   },
   "scripts": {
-    "production": "webpack -p",
+    "production": "NODE_ENV=production webpack -p",
     "develop": "webpack -d",
     "lint": "eslint web/static/js; exit 0"
   }

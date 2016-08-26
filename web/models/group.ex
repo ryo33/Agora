@@ -26,8 +26,8 @@ defmodule Agora.Group do
   If no params are provided, an invalid changeset is returned
   with no validation performed.
   """
-  def changeset(model, params \\ :empty) do
-    model
+  def changeset(struct, params \\ %{}) do
+    struct
     |> cast(params, @required_fields, @optional_fields)
     |> validate_length(:name, min: 1)
   end

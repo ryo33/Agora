@@ -8,7 +8,6 @@ use Mix.Config
 # Configures the endpoint
 config :agora, Agora.Endpoint,
   url: [host: "localhost"],
-  root: Path.dirname(__DIR__),
   secret_key_base: "SCkt9haZVEIo+I3eZPRCzEOM+GS+yHiuIhJcLTDuLXURVJILTrWSa325Vf7arQc+",
   render_errors: [accepts: ~w(html json)],
   pubsub: [name: Agora.PubSub,
@@ -24,6 +23,8 @@ config :ueberauth, Ueberauth,
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
+
+config :agora, ecto_repos: [Agora.Repo]
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

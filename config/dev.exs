@@ -13,7 +13,7 @@ config :agora, Agora.Endpoint,
   code_reloader: true,
   check_origin: false,
   watchers: [node: ["node_modules/webpack/bin/webpack.js",
-      "--watch-stdin", "--progress", "--colors"]]
+    "--watch-stdin", "--progress", "--colors", cd: Path.expand("../", __DIR__)]]
 
 # Watch static and templates for browser reloading.
 config :agora, Agora.Endpoint,
@@ -23,7 +23,6 @@ config :agora, Agora.Endpoint,
       ~r{priv/gettext/.*(po)$},
       ~r{web/views/.*(ex)$},
       ~r{web/templates/.*(eex)$},
-      ~r{web/channel_controller/.*(eex)$}
     ]
   ]
 
