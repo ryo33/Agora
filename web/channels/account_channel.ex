@@ -64,4 +64,8 @@ defmodule Agora.AccountChannel do
   def handle_in("group", %{"action" => action, "params" => params}, socket) do
     ChannelController.action(ChannelController.Group, socket, action, params)
   end
+
+  def handle_in("post", %{"action" => action, "params" => params}, socket) do
+    ChannelController.action(ChannelController.Post, socket, action, params)
+  end
 end

@@ -13,7 +13,7 @@ defmodule Agora.Member do
     timestamps
   end
 
-  @required_fields ~w(user_id group_id)
+  @required_fields ~w(account_id user_id group_id)
   @optional_fields ~w()
 
   @doc """

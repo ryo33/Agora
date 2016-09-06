@@ -4,7 +4,7 @@ defmodule Agora.ChannelController.Post do
   require Logger
 
   def handle_action("add", post_params, socket) do
-    changeset = Post.changeset(put_info(%Post{}, socket), post_params)
+    changeset = Post.changeset(%Post{}, put_info(post_params, socket))
     true = validate_info(changeset, socket)
 
     case Repo.insert(changeset) do

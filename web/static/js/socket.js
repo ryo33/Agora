@@ -1,6 +1,6 @@
 import { Socket } from 'phoenix';
 
-window.socket = new Socket('/socket', {
+export const socket = new Socket('/socket', {
   reconnectAfterMs: (tries) => {
     if (tries < 10) return 1000;
     else if (tries < 20) return 2000;
@@ -9,10 +9,13 @@ window.socket = new Socket('/socket', {
   },
   params: { token: window.token },
 });
-window.socket.connect();
+socket.connect();
+window.socket = socket;
 
-window.accountChannel = window.socket.channel("account:" + window.accountID, {})
-window.commonChannel = window.socket.channel("common", {})
+export const accountChannel = window.socket.channel("account:" + window.accountID, {});
+window.accountChannel = accountChannel;
+export const commonChannel = window.socket.channel("common", {});
+window.commonChannel = commonChannel;
 
 export const pushMessage = (channel, event, payload) => {
   return new Promise((resolve, reject) => {

@@ -4,7 +4,7 @@ defmodule Agora.ChannelController.Group do
   require Logger
 
   def handle_action("add", group_params, socket) do
-    changeset = Group.changeset(put_info(%Group{}, socket), group_params)
+    changeset = Group.changeset(%Group{}, put_info(group_params, socket))
     true = validate_info(changeset, socket)
 
     case Repo.insert(changeset) do

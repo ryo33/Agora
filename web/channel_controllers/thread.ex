@@ -4,7 +4,7 @@ defmodule Agora.ChannelController.Thread do
   require Logger
 
   def handle_action("add", thread_params, socket) do
-    changeset = Thread.changeset(put_info(%Thread{}, socket), thread_params)
+    changeset = Thread.changeset(%Thread{}, put_info(thread_params, socket))
     true = validate_info(changeset, socket)
 
     case Repo.insert(changeset) do

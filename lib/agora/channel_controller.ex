@@ -3,8 +3,8 @@ defmodule Agora.ChannelController do
 
   def put_info(map, socket) do
     map
-    |> Map.put(:account_id, socket.assigns.account.id)
-    |> Map.put(:user_id, Map.get(socket.assigns, :current_user))
+    |> Map.put("account_id", socket.assigns.account.id)
+    |> Map.put_new("user_id", Map.get(socket.assigns, :current_user))
   end
 
   def validate_info(changeset, socket) do

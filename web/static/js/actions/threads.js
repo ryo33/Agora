@@ -1,23 +1,14 @@
-export function addThreadContents(id, postsMap, postsList) {
-  return {
-    type: 'ADD_THREAD_CONTENTS',
-    id, postsMap, postsList,
-  };
-}
+import { createAction } from 'redux-actions'
 
-export function updateCurrentThread(id) {
-  return {
-    type: 'UPDATE_CURRENT_THREAD',
-    id,
-  };
-}
+export const openThreadPage = createAction("open thread page", id => ({ id }))
+export const closeThreadPage = createAction("close thread page", id => ({ id }))
+export const updateCurrentThread = createAction("update current thread", id => ({ id }))
 
-export function requestThreadContents(id) {
-  return {
-    type: 'REQUEST_THREAD_CONTENTS',
-    id,
-  };
-}
+export const addThreadContents = createAction("add thread contents", (id, postsMap, postsList) => ({
+  id, postsMap, postsList
+}))
+
+export const requestThreadContents = createAction("request thread contents", id => id)
 
 export function requestMissingPosts(id) {
   return {
@@ -26,12 +17,9 @@ export function requestMissingPosts(id) {
   };
 }
 
-export function updateThreadContents(id, info, postsMap, postsList) {
-  return {
-    type: 'UPDATE_THREAD_CONTENTS',
-    id, info, postsMap, postsList,
-  };
-}
+export const updateThreadContents = createAction("update thread contents", (id, info, postsMap, postsList) => ({
+  id, info, postsMap, postsList
+}))
 
 export function receiveMissingPosts(id, postsMap) {
   return {
@@ -51,59 +39,5 @@ export function fetchMissingPosts(id, ids) {
           });
           dispatch(receiveMissingPosts(id, postsMap));
         });
-  };
-}
-
-export function receivePosts(id, postsMap, postsList) {
-  return (dispatch, getState) => {
-    const threads = getState().threads;
-    const thread = threads.threads[id] || {};
-    const newPostMap = Object.assign({}, thread.postsMap || {}, postsMap);
-    dispatch(addThreadContents(id, newPostMap, postsList));
-    const missingIDs = [];
-    postsList.forEach((postID) => {
-      if (!(postID in newPostMap)) {
-        missingIDs.push(postID);
-      }
-    });
-    if (missingIDs.length > 0) {
-      dispatch(fetchMissingPosts(missingIDs));
-    }
-  };
-}
-
-export function receiveThreadContents(id, info, postsMap, postsList) {
-  return (dispatch, getState) => {
-    const threads = getState().threads;
-    const thread = threads.threads[id] || {};
-    const newPostMap = Object.assign({}, thread.postsMap || {}, postsMap);
-    dispatch(updateThreadContents(id, info, newPostMap, postsList));
-    const missingIDs = [];
-    postsList.forEach((postID) => {
-      if (!(postID in newPostMap)) {
-        missingIDs.push(postID);
-      }
-    });
-    if (missingIDs.length > 0) {
-      dispatch(fetchMissingPosts(missingIDs));
-    }
-  };
-}
-
-export function fetchThreadContents(id) {
-  return (dispatch) => {
-    dispatch(requestThreadContents(id));
-    window.threadChannel.push('post', {
-      action: 'fetch_thread_contents',
-      params: { id },
-    }).receive('ok', ({ thread, posts }) => {
-      const postsMap = {};
-      const postsList = [];
-      posts.forEach(({ id, title, text, user, post_id, inserted_at, updated_at }) => {
-        postsMap[id] = { title, text, user, post_id, inserted_at, updated_at };
-        postsList.push(id);
-      });
-      dispatch(receiveThreadContents(id, thread, postsMap, postsList));
-    });
   };
 }

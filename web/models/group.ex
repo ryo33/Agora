@@ -17,8 +17,8 @@ defmodule Agora.Group do
     timestamps
   end
 
-  @required_fields ~w(name)
-  @optional_fields ~w()
+  @required_fields ~w(name account_id user_id)
+  @optional_fields ~w(parent_group_id)
 
   @doc """
   Creates a changeset based on the `model` and `params`.
