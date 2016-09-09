@@ -1,43 +1,48 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { push } from 'react-router-redux'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { push } from 'react-router-redux';
 
-import Group from 'components/Group'
+import Group from 'components/Group';
+
+import { openAllGroupsPage } from 'actions/groupPage';
+
+const mapStateToProps = ({ groupPage }) => {
+  return {
+    groups: groupPage.groups
+  }
+};
+
+const actionCreators = {
+  openAllGroupsPage
+};
 
 class GroupAll extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            groups: []
-        }
-    }
+  constructor(props) {
+    super(props)
+  }
 
-    componentDidMount() {
-        window.commonChannel
-        .push("group", {
-            action: 'get',
-            params: null
-        })
-        .receive("ok", ({ groups }) => this.setState({ groups }))
-    }
+  componentDidMount() {
+    const { openAllGroupsPage } = this.props;
+    openAllGroupsPage();
+  }
 
-    transitionTo(path) {
-        return () => {
-            this.props.dispatch(push(path));
-        }
+  transitionTo(path) {
+    return () => {
+      this.props.dispatch(push(path));
     }
+  }
 
-    render() {
-        return <div>
-            {this.state.groups.map(({id, name, user, inserted_at}, key) => <Group
-                key={key}
-                id={id}
-                name={name}
-                user={user}
-                insertedAt={inserted_at}
-            />)}
-        </div>
-    }
+  render() {
+    const { groups } = this.props;
+    return (
+      <div>
+        {groups.map(id => <Group
+          key={id}
+          id={id}
+        />)}
+      </div>
+    );
+  }
 }
 
-export default connect()(GroupAll)
+export default connect(mapStateToProps, actionCreators)(GroupAll)

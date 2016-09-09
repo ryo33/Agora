@@ -9,11 +9,18 @@ import Divider from 'material-ui/Divider';
 import Paper from 'material-ui/Paper';
 import FontIcon from 'material-ui/FontIcon';
 
-const mapStateToProps = ({ account }) => {
+import { updateCurrentUser } from 'actions/accountPage';
+import { getAccountUsers, getCurrentUser } from 'selectors/accountPage';
+
+const mapStateToProps = (state) => {
   return {
-    users: account.users,
-    currentUser: account.currentUser,
+    users: getAccountUsers(state),
+    currentUser: getCurrentUser(state)
   };
+};
+
+const actionCreators = {
+  updateCurrentUser
 };
 
 class UserList extends Component {
@@ -28,8 +35,8 @@ class UserList extends Component {
 
   setCurrentUser(id) {
     return () => {
-      this.props.dispatch({ type: 'SET_CURRENT_USER', user: id });
-      window.accountChannel.push('set_current_user', id);
+      const { updateCurrentUser } = this.props;
+      updateCurrentUser(id);
     };
   }
 
@@ -60,27 +67,27 @@ class UserList extends Component {
       });
     }
     return (<div>
-            <List>
-                <Subheader>Current User</Subheader>
-                {currentUser}
-            </List>
-            <Divider />
-            <List>
-                <Subheader>Users</Subheader>
-                {users}
-            </List>
-            <Divider />
-            <List>
-                <ListItem primaryText="Add New User"
-                  leftIcon={<FontIcon
-                    children="add_box"
-                    className="material-icons"
-                  />}
-                  onClick={this.transitionTo('/account/add-user')}
-                />
-            </List>
-        </div>);
+      <List>
+        <Subheader>Current User</Subheader>
+        {currentUser}
+      </List>
+      <Divider />
+      <List>
+        <Subheader>Users</Subheader>
+        {users}
+      </List>
+      <Divider />
+      <List>
+        <ListItem primaryText="Add New User"
+          leftIcon={<FontIcon
+            children="add_box"
+            className="material-icons"
+          />}
+          onClick={this.transitionTo('/account/add-user')}
+        />
+      </List>
+    </div>);
   }
 }
 
-export default connect(mapStateToProps)(UserList);
+export default connect(mapStateToProps, actionCreators)(UserList);

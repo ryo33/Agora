@@ -1,6 +1,7 @@
 defmodule Agora.User do
   use Agora.Web, :model
-  @derive {Poison.Encoder, only: [:uid, :name, :id,
+  @derive {Poison.Encoder, only: [
+    :uid, :name, :id,
     :inserted_at, :updated_at
   ]}
 
@@ -42,5 +43,9 @@ defmodule Agora.User do
       1 -> true
       _ -> false
     end
+  end
+
+  def order_by(query) do
+    query |> order_by([t], [desc: t.inserted_at])
   end
 end

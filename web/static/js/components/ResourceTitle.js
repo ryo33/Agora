@@ -1,13 +1,34 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { push } from 'react-router-redux';
 
 import Time from 'components/Time';
 
-const ResourceTitle = ({ dispatch, user, title, path, onClick, linkedTitle, insertedAt }) => <span>
+import { requireUser } from 'hocs/resources';
+
+const mapStateToProps = ({ users }, { user }) => {
+  return {
+    id: user,
+    user: users[user],
+  };
+};
+
+const actionCreators = {
+  push
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    ...bindActionCreators(actionCreators, dispatch),
+    dispatch
+  };
+};
+
+const ResourceTitle = ({ push, user, title, path, onClick, linkedTitle, insertedAt }) => <span>
   <span
     style={{cursor: 'pointer'}}
-    onClick={onClick || (() => dispatch(push('/users/' + user.uid)))}
+    onClick={onClick || (() => push('/users/' + user.uid))}
   >
     {user.name}
     <small
@@ -21,7 +42,7 @@ const ResourceTitle = ({ dispatch, user, title, path, onClick, linkedTitle, inse
   <span
     style={{ cursor: 'pointer' }}
     onClick={path
-      ? () => dispatch(push(path))
+      ? () => push(path)
       : () => null
     }
   >
@@ -36,4 +57,4 @@ const ResourceTitle = ({ dispatch, user, title, path, onClick, linkedTitle, inse
   </span>
 </span>;
 
-export default connect()(ResourceTitle);
+export default connect(mapStateToProps, mapDispatchToProps)(requireUser(ResourceTitle));

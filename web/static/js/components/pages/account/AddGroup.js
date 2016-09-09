@@ -7,26 +7,32 @@ import { Card, CardActions, CardHeader,
 import Divider from 'material-ui/Divider';
 import Avatar from 'material-ui/Avatar';
 
-import { joinGroupChannel, leaveChannel } from '../../../socket';
-import GroupForm from './../../GroupForm';
+import GroupForm from 'components/GroupForm';
+
+import { addGroup } from 'actions/accountPage';
+
+const mapStateToProps = () => ({});
+
+const actionCreators = {
+  addGroup
+};
 
 class AddGroup extends Component {
-  submit(params) {
-    window.accountChannel
-        .push("group", {
-          action: 'add',
-          params: params
-        })
-        .receive("ok", ({ id }) => { 
-          this.props.dispatch(push("/groups/" + id))
-        });
+  constructor(props) {
+    super(props);
+    this.submit = this.submit.bind(this);
+  }
+
+  submit({ user, name }) {
+    const { addGroup } = this.props;
+    addGroup(user, name);
   }
 
   render() {
     return <GroupForm
-      submit={this.submit.bind(this)}
+      submit={this.submit}
     />;
   }
 }
 
-export default connect()(AddGroup);
+export default connect(mapStateToProps, actionCreators)(AddGroup);

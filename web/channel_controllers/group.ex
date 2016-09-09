@@ -20,32 +20,40 @@ defmodule Agora.ChannelController.Group do
     end
   end
 
-  def handle_action("get_info", %{"id" => id}, socket) do
-    group = Repo.one from g in Agora.Group,
-      where: g.id == ^id,
-      select: g,
-      preload: [:user, :parent_group]
-    {:ok, %{group: group}, socket}
+  def handle_action("fetch", ids, socket) do
+    query = Agora.Group
+            |> where([g], g.id in ^ids)
+            |> select([g], {g.id, g})
+    groups = Repo.all(query) |> Enum.map(fn {k, v} -> {Integer.to_string(k), v} end) |> Enum.into(%{})
+    {:ok, %{groups: groups}, socket}
   end
 
-  def handle_action("get", _params, socket) do
+  def handle_action("fetch all groups", _params, socket) do
     query = from g in Group,
-      select: g,
+      select: g.id,
       order_by: [desc: g.updated_at],
-      limit: 100,
-      preload: [:user, :parent_group]
+      limit: 100
     groups = Repo.all(query)
     {:ok, %{groups: groups}, socket}
   end
 
-  def handle_action("get_by_account", _, socket) do
+  def handle_action("get by account", _, socket) do
     account_id = socket.assigns.account.id
     query = from g in Group,
       where: g.account_id == ^account_id,
-      select: g,
+      select: g.id,
       order_by: [desc: g.updated_at],
-      limit: 100,
-      preload: [:user, :parent_group]
+      limit: 100
+    groups = Repo.all(query)
+    {:ok, %{groups: groups}, socket}
+  end
+
+  def handle_action("get by group", id, socket) do
+    query = from g in Group,
+      where: g.parent_group_id == ^id,
+      select: g.id,
+      order_by: [desc: g.updated_at],
+      limit: 100
     groups = Repo.all(query)
     {:ok, %{groups: groups}, socket}
   end

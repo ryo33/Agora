@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
 
 import { Card, CardActions, CardHeader,
   CardMedia, CardTitle, CardText
@@ -14,84 +13,60 @@ import Group from 'components/Group';
 import User from 'components/User';
 import UserForm from 'components/UserForm';
 
-const mapStateToProps = ({ groups, theme }) => {
-  const group = groups.groups[groups.currentGroup];
-  const currentGroup = groups.currentGroup;
-  let props = group
-    ? {
-      currentGroup: currentGroup,
-      title: group.title,
-      insertedAt: group.insertedAt,
-      parentGroup: group.parentGroup,
-      user: group.user,
-      membersMap: group.membersMap,
-      membersList: group.membersList,
-      isFetchingMembers: groups.isFetchingMembers[currentGroup],
-      isFetchingMissingMembers: groups.isFetchingMissingMembers[currentGroup],
-    }
-      : {};
-      return Object.assign(props, { theme });
+import { openGroupMembersTab, addMember } from 'actions/groupPage'
+
+const mapStateToProps = ({ groupPage }, { params }) => {
+  return {
+    members: groupPage.groupMembers,
+    id: params.id
+  };
+};
+
+const actionCreators = {
+  openGroupMembersTab, addMember
 };
 
 class GroupMembers extends Component {
-  constructor(props, context) {
-    super(props, context)
-    this.groupID = this.props.params.id
+  constructor(props) {
+    super(props);
+    this.submit = this.submit.bind(this);
   }
 
-  transitionTo(path) {
-    return () => {
-      this.props.dispatch(push(path));
-    };
+  componentDidMount() {
+    const { openGroupMembersTab, id } = this.props;
+    openGroupMembersTab(id);
   }
 
-  submit(member) {
-    const { dispatch } = this.props
-    const params = Object.assign(member, {
-      group_id: this.groupID,
-    });
-    window.groupChannel.push('member', {
-      action: 'add',
-      params
-    });
+  submit({ user }) {
+    const { addMember, id } = this.props;
+    addMember(id, user)
   }
 
   render() {
-    const { membersMap, membersList, currentGroup,
-      isFetchingMissingContents,
-      isFetchingMembers,
-      theme } = this.props;
-      if (isFetchingMembers) {
-        return <p>Fetching the contents</p>;
-      } else if (isFetchingMissingContents) {
-        return <p>Fetching the missing contents</p>;
-      } else if (membersList) {
-        return (<div>
-          <Divider style={{ margin: '0.15em 0' }} />
-          <SignedIn><UserForm
-              title="Add New Members"
-              submit={this.submit.bind(this)}
-              expandable
-              expand={false}
-              zDepth={2}
-              groupID={this.groupID}
-            /></SignedIn>
-          <Divider style={{ margin: '1em 0' }} />
-          {membersList.map(id => membersMap.hasOwnProperty(id)
-            ? <User
+    const { members, theme, id } = this.props;
+    return (
+      <div>
+        <Divider style={{ margin: '0.15em 0' }} />
+        <SignedIn><UserForm
+            title="Add New Members"
+            submit={this.submit}
+            expandable
+            expand={false}
+            zDepth={2}
+            groupID={id}
+          /></SignedIn>
+        <Divider style={{ margin: '1em 0' }} />
+        {
+          members.map(id => (
+            <User
               key={id}
               id={id}
-              title={membersMap[id].title}
-              user={membersMap[id].user}
-              insertedAt={membersMap[id].inserted_at}
             />
-            : null)
-          }
-        </div>);
-      } else {
-        return null;
-      }
+          ))
+        }
+      </div>
+    );
   }
 }
 
-export default connect(mapStateToProps)(GroupMembers);
+export default connect(mapStateToProps, actionCreators)(GroupMembers);

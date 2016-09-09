@@ -4,40 +4,43 @@ import { push } from 'react-router-redux'
 
 import Group from 'components/Group'
 
+import { openAccountGroupsPage } from 'actions/accountPage';
+
+const mapStateToProps = ({ accountPage }) => {
+  return {
+    groups: accountPage.groups
+  };
+};
+
+const actionCreators = {
+  openAccountGroupsPage
+};
+
 class AccountGroups extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            groups: []
+  constructor(props) {
+    super(props);
+  }
+
+  componentDidMount() {
+    const { openAccountGroupsPage } = this.props;
+    openAccountGroupsPage();
+  }
+
+  render() {
+    const { groups } = this.props;
+    return (
+      <div>
+        {
+          groups.map(id => (
+            <Group
+              key={id}
+              id={id}
+            />
+          ))
         }
-    }
-
-    componentDidMount() {
-        window.accountChannel
-        .push("group", {
-            action: 'get_by_account',
-            params: null
-        })
-        .receive("ok", ({ groups }) => this.setState({ groups }))
-    }
-
-    transitionTo(path) {
-        return () => {
-            this.props.dispatch(push(path));
-        }
-    }
-
-    render() {
-        return <div>
-            {this.state.groups.map(({id, name, user, inserted_at}, key) => <Group
-                key={key}
-                id={id}
-                name={name}
-                user={user}
-                insertedAt={inserted_at}
-            />)}
-        </div>
-    }
+      </div>
+    )
+  }
 }
 
-export default connect()(AccountGroups)
+export default connect(mapStateToProps, actionCreators)(AccountGroups)

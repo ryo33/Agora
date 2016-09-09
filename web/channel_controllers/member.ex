@@ -5,9 +5,11 @@ defmodule Agora.ChannelController.Member do
 
   def handle_action("add", member_params, socket) do
     account_id = socket.assigns.account.id
-    changeset = Member.changeset(%Member{account_id: account_id}, member_params)
-    user_id = Ecto.Changeset.get_field(changeset, :user_id)
-    group_id = Ecto.Changeset.get_field(changeset, :group_id)
+    member_params = Map.put(member_params, "account_id", account_id)
+    IO.inspect(member_params)
+    changeset = Member.changeset(%Member{}, member_params)
+    user_id = Ecto.Changeset.get_change(changeset, :user_id)
+    group_id = Ecto.Changeset.get_change(changeset, :group_id)
     true = User.exists?(user_id)
     true = Group.exists?(group_id)
     if Member.has_join?(group_id, user_id) do
@@ -15,17 +17,13 @@ defmodule Agora.ChannelController.Member do
     else
       case Repo.insert(changeset) do
         {:ok, member} ->
-          member = Repo.preload(member, :user)
           query = from m in Agora.Member,
             where: m.group_id == ^member.group_id,
             order_by: [desc: m.inserted_at],
             select: m.id
           members = Repo.all(query)
-          member_id = to_string(member.id)
-          broadcast_to_group(member.group_id, "add_members", %{
-            id: member.group_id,
-            members_map: %{ member_id => member },
-            members_list: members
+          broadcast_to_group(member.group_id, "add members", %{
+            members: members
           })
           {:ok, socket}
         {:error, _changeset} ->
@@ -39,22 +37,20 @@ defmodule Agora.ChannelController.Member do
     query = from m in Agora.Member,
       where: m.group_id == ^id,
       select: m,
-      order_by: [desc: m.inserted_at],
-      preload: [:user]
+      order_by: [desc: m.inserted_at]
     members = Repo.all(query)
     group = Repo.one from g in Agora.Group,
       where: g.id == ^id,
-      select: g,
-      preload: [:user, :parent_group]
+      select: g
     {:ok, %{group: group, members: members}, socket}
   end
 
-  def handle_action("fetch_members", %{ids: ids}, socket) do
-    query = from m in Agora.Member,
-      where: m.id in ^ids,
-      select: m,
-      order_by: [desc: m.inserted_at],
-      preload: [:user]
+  def handle_action("get by group", id, socket) do
+    query = from m in Member,
+      where: m.group_id == ^id,
+      select: m.user_id,
+      order_by: [desc: m.updated_at],
+      limit: 100
     members = Repo.all(query)
     {:ok, %{members: members}, socket}
   end

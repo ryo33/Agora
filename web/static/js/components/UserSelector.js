@@ -12,10 +12,12 @@ import FontIcon from 'material-ui/FontIcon';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 
-const mapStateToProps = ({ account }) => {
+import { getAccountUsers, getCurrentUser } from 'selectors/accountPage';
+
+const mapStateToProps = (state) => {
   return {
-    users: account.users,
-    currentUser: account.currentUser,
+    users: getAccountUsers(state),
+    currentUser: getCurrentUser(state)
   };
 };
 
@@ -25,15 +27,7 @@ class UserSelector extends Component {
     this.state = {
       beforeCurrentUser: props.currentUser
     };
-  }
-
-  componentWillReceiveProps(props) {
-    if (props.currentUser != this.state.beforeCurrentUser) {
-      this.props.changeUser(props.currentUser);
-      this.setState(Object.assign({}, this.state, {
-        beforeCurrentUser: props.currentUser
-      }));
-    }
+    this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange(event, index, value) {
@@ -41,9 +35,10 @@ class UserSelector extends Component {
   }
 
   render() {
+    const { user } = this.props;
     return (<SelectField
-      value={this.props.user}
-      onChange={this.handleChange.bind(this)}
+      value={user}
+      onChange={this.handleChange}
     >
       {this.props.users.map(({ uid, name, id }, key) => <MenuItem
         key={key}

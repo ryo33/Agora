@@ -9,19 +9,23 @@ defmodule Agora.CommonChannel do
     {:reply, {:ok, payload}, socket}
   end
 
-  def handle_in("user", %{"action" => action, "params" => params}, socket) do
+  def handle_in("users", %{"action" => action, "params" => params}, socket) do
     ChannelController.action(ChannelController.User, socket, action, params)
   end
 
-  def handle_in("thread", %{"action" => action, "params" => params}, socket) do
+  def handle_in("threads", %{"action" => action, "params" => params}, socket) do
     ChannelController.action(ChannelController.Thread, socket, action, params)
   end
 
-  def handle_in("post", %{"action" => action, "params" => params}, socket) do
+  def handle_in("posts", %{"action" => action, "params" => params}, socket) do
     ChannelController.action(ChannelController.Post, socket, action, params)
   end
 
-  def handle_in("group", %{"action" => action, "params" => params}, socket) do
+  def handle_in("groups", %{"action" => action, "params" => params}, socket) do
     ChannelController.action(ChannelController.Group, socket, action, params)
+  end
+
+  def handle_in("members", %{"action" => action, "params" => params}, socket) do
+    ChannelController.action(ChannelController.Member, socket, action, params)
   end
 end

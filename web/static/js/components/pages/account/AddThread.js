@@ -7,26 +7,32 @@ import { Card, CardActions, CardHeader,
 import Divider from 'material-ui/Divider';
 import Avatar from 'material-ui/Avatar';
 
-import { joinThreadChannel, leaveChannel } from '../../../socket';
-import ThreadForm from './../../ThreadForm';
+import ThreadForm from 'components/ThreadForm';
+
+import { addThread } from 'actions/accountPage';
+
+const mapStateToProps = () => ({});
+
+const actionCreators = {
+  addThread
+};
 
 class AddThread extends Component {
-  submit(params) {
-    window.accountChannel
-        .push('thread', {
-          action: 'add',
-          params: params,
-        })
-        .receive('ok', ({ id }) => {
-          this.props.dispatch(push('/threads/' + id));
-        });
+  constructor(props) {
+    super(props);
+    this.submit = this.submit.bind(this);
+  }
+
+  submit({ user, title }) {
+    const { addThread } = this.props;
+    addThread(user, title);
   }
 
   render() {
     return (<ThreadForm
-      submit={this.submit.bind(this)}
+      submit={this.submit}
     />);
   }
 }
 
-export default connect()(AddThread);
+export default connect(mapStateToProps, actionCreators)(AddThread);

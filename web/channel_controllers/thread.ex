@@ -9,20 +9,15 @@ defmodule Agora.ChannelController.Thread do
 
     case Repo.insert(changeset) do
       {:ok, thread} ->
-        Logger.debug "#{inspect thread}"
         if thread.parent_group_id != nil do
           group_id = thread.parent_group_id
-          thread = Repo.preload(thread, [:user, :parent_group])
           query = from t in Agora.Thread,
-          where: t.parent_group_id == ^group_id,
-          order_by: [desc: t.inserted_at],
-          select: t.id
+            where: t.parent_group_id == ^group_id,
+            order_by: [desc: t.inserted_at],
+            select: t.id
           threads = Repo.all(query)
-          thread_id = to_string(thread.id)
-          broadcast_to_group(group_id, "add_threads", %{
-            id: group_id,
-            threads_map: %{ thread_id => thread },
-            threads_list: threads
+          broadcast_to_group(group_id, "add threads", %{
+            threads: threads
           })
         end
         {:ok, %{"id" => thread.id}, socket}
@@ -32,45 +27,41 @@ defmodule Agora.ChannelController.Thread do
     end
   end
 
-  def handle_action("get", _params, socket) do
+  def handle_action("fetch", ids, socket) do
+    query = Agora.Thread
+            |> where([t], t.id in ^ids)
+            |> select([t], {t.id, t})
+    threads = Repo.all(query) |> Enum.map(fn {k, v} -> {Integer.to_string(k), v} end) |> Enum.into(%{})
+    {:ok, %{threads: threads}, socket}
+  end
+
+  def handle_action("fetch all threads", _params, socket) do
     query = from t in Thread,
-      select: t,
+      select: t.id,
       order_by: [desc: t.updated_at],
-      limit: 100,
-      preload: [:user, :parent_group]
+      limit: 100
     threads = Repo.all(query)
     {:ok, %{threads: threads}, socket}
   end
 
-  def handle_action("get_by_account", _, socket) do
+  def handle_action("get by account", _, socket) do
     account_id = socket.assigns.account.id
     query = from t in Thread,
       where: t.account_id == ^account_id,
-      select: t,
+      select: t.id,
       order_by: [desc: t.updated_at],
-      limit: 100,
-      preload: [:user, :parent_group]
+      limit: 100
     threads = Repo.all(query)
     {:ok, %{threads: threads}, socket}
   end
 
-  def handle_action("fetch_group_threads", %{"id" => id}, socket) do
+  def handle_action("get by group", id, socket) do
     id = String.to_integer id
-    query = from p in Agora.Thread,
-      where: p.parent_group_id == ^id,
-      select: p,
-      order_by: [desc: p.inserted_at],
-      preload: [:user, :parent_group]
-    threads = Repo.all(query)
-    {:ok, %{threads: threads}, socket}
-  end
-
-  def handle_action("fetch_threads", %{ids: ids}, socket) do
-    query = from p in Agora.Thread,
-      where: p.id in ^ids,
-      select: p,
-      order_by: [desc: p.inserted_at],
-      preload: [:user, :parent_group]
+    query = from t in Agora.Thread,
+      where: t.parent_group_id == ^id,
+      select: t.id,
+      order_by: [desc: t.inserted_at],
+      limit: 100
     threads = Repo.all(query)
     {:ok, %{threads: threads}, socket}
   end

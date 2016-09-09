@@ -19,6 +19,7 @@ defmodule Agora.Web do
   def channel_controller do
     quote do
       use Agora.ChannelController
+      import Ecto.Query
     end
   end
 
@@ -28,7 +29,7 @@ defmodule Agora.Web do
 
       import Ecto
       import Ecto.Changeset
-      import Ecto.Query, only: [from: 1, from: 2]
+      import Ecto.Query
 
       alias Agora.Repo
     end

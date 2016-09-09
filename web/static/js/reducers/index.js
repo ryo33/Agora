@@ -1,14 +1,26 @@
 import account from './account/index';
-import threads from './threads';
-import groups from './groups';
+
+import { threads, posts, users, groups } from './resources';
+
+import threadPage from './threadPage';
+import groupPage from './groupPage';
+import accountPage from './accountPage';
+
+import userForm from './userForm';
+
 import theme from './theme';
-import userForm from './user_form.js';
 
 const reducers = {
   account,
   threads,
   groups,
+  posts,
+  users,
+  threadPage,
+  groupPage,
+  accountPage,
+  userForm,
   theme,
-  userForm
 };
+
 export default reducers;

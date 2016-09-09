@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
+import {
+  branch, renderNothing, renderComponent
+} from 'recompose';
 
 import { Card, CardActions, CardHeader,
   CardMedia, CardTitle, CardText
@@ -8,42 +11,28 @@ import { Card, CardActions, CardHeader,
 import Divider from 'material-ui/Divider';
 import Avatar from 'material-ui/Avatar';
 
+import Loading from 'components/Loading';
 import PostForm from 'components/PostForm';
 import { SignedIn } from 'components/util';
 import Post from 'components/Post';
 import ResourceTitle from 'components/ResourceTitle';
 
 import {
+  addPost,
   openThreadPage,
-  closeThreadPage,
-  updateCurrentThread,
-  fetchThreadContents,
-  receivePosts
-} from 'actions/threads';
-import { submitPost } from 'actions/posts';
+  closeThreadPage
+} from 'actions/threadPage';
 import ThreadComponent from 'components/Thread';
 
-const mapStateToProps = ({ threads, theme }) => {
-  const thread = threads.threads[threads.currentThread];
-  const currentThread = threads.currentThread;
-  let props = thread
-    ? {
-      currentThread: currentThread,
-      title: thread.title,
-      insertedAt: thread.insertedAt,
-      parentGroup: thread.parentGroup,
-      user: thread.user,
-      postsMap: thread.postsMap,
-      postsList: thread.postsList,
-      isFetchingThreadContents: threads.isFetchingThreadContents[currentThread],
-      isFetchingMissingPosts: threads.isFetchingMissingPosts[currentThread],
-    }
-    : {};
-  return Object.assign(props, { theme });
-};
+const mapStateToProps = ({ threadPage }, { params }) => {
+  return {
+    posts: threadPage.posts,
+    id: params.id
+  }
+}
 
 const actionCreaters = {
-  submitPost, openThreadPage, closeThreadPage
+  addPost, openThreadPage, closeThreadPage
 };
 
 class Thread extends Component {
@@ -53,77 +42,47 @@ class Thread extends Component {
   }
 
   componentDidMount() {
-    const id = this.props.params.id;
-    const { openThreadPage } = this.props;
+    const { openThreadPage, id } = this.props;
     openThreadPage(id);
   }
 
   componentWillUnmount() {
-    const id = this.props.params.id;
-    const { closeThreadPage } = this.props;
+    const { closeThreadPage, id } = this.props;
     closeThreadPage(id);
   }
 
-  transitionTo(path) {
-    const { push } = this.props;
-    return () => {
-      push(path);
-    };
-  }
-
-  post(post) {
-    post = Object.assign({}, post, {
-      thread_id: this.props.params.id,
-    });
-    const { submitPost } = this.props;
-    console.log(post)
-    submitPost(post)
+  post({ user, title, text }) {
+    const { addPost, id } = this.props;
+    addPost(id, user, title, text)
   }
 
   render() {
     const {
-      postsMap, postsList, currentThread,
-      isFetchingMissingPosts,
-      isFetchingThreadContents,
-      theme,
-      params, user, title, insertedAt
+      posts, params, theme
     } = this.props;
-    if (isFetchingThreadContents) {
-      return <p>Fetching the contents</p>;
-    } else if (isFetchingMissingPosts) {
-      return <p>Fetching the missing contents</p>;
-    } else if (postsList) {
-      return (
-        <div>
-          <ThreadComponent
-            id={params.id}
-            user={user}
-            title={title}
-            insertedAt={insertedAt}
-          />
-          <Divider style={{ margin: '0.15em 0' }} />
-          <SignedIn><PostForm
-              submit={this.post}
-              expandable
-              expand={false}
-              zDepth={2}
-            /></SignedIn>
-          <Divider style={{ margin: '1em 0' }} />
-          {postsList.map((id) => postsMap.hasOwnProperty(id)
-            ? <Post
+    return (
+      <div>
+        <ThreadComponent
+          id={params.id}
+        />
+        <Divider style={{ margin: '0.15em 0' }} />
+        <SignedIn><PostForm
+            submit={this.post}
+            expandable
+            expand={false}
+            zDepth={2}
+          /></SignedIn>
+        <Divider style={{ margin: '1em 0' }} />
+        {
+          posts.map(id => (
+            <Post
               key={id}
               id={id}
-              title={postsMap[id].title}
-              text={postsMap[id].text}
-              user={postsMap[id].user}
-              insertedAt={postsMap[id].inserted_at}
             />
-            : null)}
-          </div>
-      );
-    } else {
-      return null;
-    }
+          ))
+        }
+      </div>
+    );
   }
 }
 

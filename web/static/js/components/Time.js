@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import Moment from 'moment';
+import moment from 'moment';
 
 class Time extends Component {
   constructor(props) {
@@ -10,35 +10,39 @@ class Time extends Component {
       isMounted: true,
       date: '',
     };
-    Moment.locale(navigator.language);
+    moment.locale(navigator.language);
+    this.format = this.format.bind(this);
   }
-  componentDidMount() {
+
+  componentWillMount() {
     this.format();
-    let intervalID = setInterval(this.format.bind(this), 1000);
+    let intervalID = setInterval(this.format, 1000);
     this.setState({ intervalID: intervalID });
   }
+
   componentWillUnmount() {
     if (this.state.intervalID != null) clearInterval(this.state.intervalID);
-    this.setState({ intervalID: null });
-    this.setState({ isMounted: false });
+    this.setState({ intervalID: null,  isMounted: false });
   }
+
   format() {
-    let insertedAt = Moment.parseZone(this.props.time).local();
-    let now = Moment().local();
+    let insertedAt = moment.parseZone(this.props.time).local();
+    let now = moment().local();
     let date = '';
-    if (now.diff(insertedAt, 'year') > 0) {
+    if (now.diff(insertedAt, 'year') >= 1) {
       date = insertedAt.format('LTS');
-    } else if (now.diff(insertedAt, 'days') > 0) {
+    } else if (now.diff(insertedAt, 'days') >= 1) {
       date = insertedAt.format('MMM Do LT');
     } else {
       date = insertedAt.fromNow();
     }
     if (this.state.isMounted) this.setState({ date: date });
   }
+
   render() {
     return (<span>
-            {this.state.date}
-        </span>);
+      {this.state.date}
+    </span>);
   }
 }
 

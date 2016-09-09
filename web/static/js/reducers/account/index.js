@@ -1,32 +1,24 @@
 import { combineReducers } from 'redux';
+import { createReducer } from 'redux-act';
+
 import addUser from './add_user';
+import { updateAccountUsers, addAccountUser, updateCurrentUser } from 'actions/accountPage';
+
+const users = createReducer({
+  [updateAccountUsers]: (state, ids) => ids,
+  [addAccountUser]: (state, id) => state.concat(id)
+}, []);
+
+const currentUser = createReducer({
+  [updateCurrentUser]: (state, id) => id
+}, null);
 
 const account = combineReducers({
-  users,
-  currentUser,
   forms: combineReducers({
     addUser,
   }),
+  users,
+  currentUser
 });
-
-function users(state = [], action) {
-  switch (action.type) {
-    case 'SET_USERS':
-      return action.users;
-    case 'ADD_USER':
-      return state.concat([action.user]);
-    default:
-      return state;
-  }
-}
-
-function currentUser(state = null, action) {
-  switch (action.type) {
-    case 'SET_CURRENT_USER':
-      return action.user;
-    default:
-      return state;
-  }
-}
 
 export default account;

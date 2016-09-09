@@ -1,34 +1,38 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
 
 import ThreadList from 'components/ThreadList';
+
+import { openAccountThreadsPage } from 'actions/accountPage';
+
+const mapStateToProps = ({ accountPage }) => {
+  return {
+    threads: accountPage.threads
+  };
+};
+
+const actionCreators = {
+  openAccountThreadsPage
+};
 
 class AccountThreads extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      threads: [],
-    };
-    window.accountChannel
-        .push('thread', {
-          action: 'get_by_account',
-          params: null,
-        })
-        .receive('ok', ({ threads }) => this.setState({ threads }));
   }
 
-  transitionTo(path) {
-    return () => {
-      this.props.dispatch(push(path));
-    };
+  componentDidMount() {
+    const { openAccountThreadsPage } = this.props;
+    openAccountThreadsPage();
   }
 
   render() {
-    return (<div>
-      <ThreadList threads={this.state.threads} />
-    </div>);
+    const { threads } = this.props;
+    return (
+      <div>
+        <ThreadList threads={threads} />
+      </div>
+    );
   }
 }
 
-export default connect()(AccountThreads);
+export default connect(mapStateToProps, actionCreators)(AccountThreads);

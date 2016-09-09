@@ -3,7 +3,7 @@ defmodule Agora.Post do
   @derive {Poison.Encoder, only: [
     :inserted_at, :updated_at,
     :title, :text,
-    :user, :thread_id, :post_id, :id
+    :user_id, :thread_id, :post_id, :id
   ]}
 
   schema "posts" do

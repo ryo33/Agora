@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { push } from 'react-router-redux';
 
 import { Card, CardHeader, CardActions, CardTitle, CardText } from 'material-ui/Card';
@@ -9,38 +10,58 @@ import Divider from 'material-ui/Divider';
 import Unimplemented from 'components/Unimplemented';
 import ResourceTitle from 'components/ResourceTitle';
 
-const mapStateToProps = ({ theme }) => {
+import { requirePost } from 'hocs/resources';
+
+const mapStateToProps = ({ posts, theme }, { id }) => {
   return {
+    post: posts[id],
     theme,
   };
 };
 
-const Post = ({ id, title, text, insertedAt, user,
-              dispatch, zDepth, theme }) => <Card
-                style={theme.post.root}
-                zDepth={zDepth}
-              >
-    <CardHeader
-      style={theme.post.header}
-      title={<ResourceTitle
-        user={user}
-        title={title}
-        path={'/posts/' + id}
-        insertedAt={insertedAt}
-      />}
-      showExpandableButton
-    />
-    <Divider />
-    <CardText
-      style={theme.post.body}
-      actAsExpander
-    >
-        {text}
-    </CardText>
-    <Divider />
-    <CardActions expandable>
-        <Unimplemented />
-    </CardActions>
-</Card>;
+const actionCreators = {
+  push
+};
 
-export default connect(mapStateToProps)(Post);
+const mapDispatchToProps = dispatch => {
+  return {
+    ...bindActionCreators(actionCreators, dispatch),
+    dispatch
+  };
+};
+
+class Post extends Component {
+  render() {
+    const { id, post, push, zDepth, theme } = this.props;
+    return (
+      <Card
+        style={theme.post.root}
+        zDepth={zDepth}
+      >
+        <CardHeader
+          style={theme.post.header}
+          title={<ResourceTitle
+            user={post.user_id}
+            title={post.title}
+            path={'/posts/' + id}
+            insertedAt={post.insertedAt}
+          />}
+          showExpandableButton
+        />
+        <Divider />
+        <CardText
+          style={theme.post.body}
+          actAsExpander
+        >
+          {post.text}
+        </CardText>
+        <Divider />
+        <CardActions expandable>
+          <Unimplemented />
+        </CardActions>
+        </Card>
+    );
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(requirePost(Post));

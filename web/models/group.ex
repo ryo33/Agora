@@ -1,7 +1,7 @@
 defmodule Agora.Group do
   use Agora.Web, :model
   @derive {Poison.Encoder, only: [
-    :name, :user, :id, :parent_group,
+    :name, :user_id, :id, :parent_group_id,
     :inserted_at, :updated_at
   ]}
 

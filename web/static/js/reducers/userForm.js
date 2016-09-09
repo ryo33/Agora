@@ -1,35 +1,37 @@
 import { combineReducers } from 'redux';
-import { handleAction, handleActions } from 'redux-actions';
+import { createReducer } from 'redux-act';
 import { associate, DELETE } from 'associative-reducer';
 
 import {
   addUserForm, updateUserFormSelected, updateUserFormQuery,
   receiveSuggestedUsers, unmountUserForm
-} from 'actions/user_form'
+} from 'actions/userForm'
 
-const userForm = associate(handleActions({
+const userForm = associate(createReducer({
   [addUserForm]: (state, action) => {
-    const { query, suggestedUsers, selectedUser } = state;
+    const { query='', suggestedUsers=[], selectedUser=null } = state;
     return {
       query, suggestedUsers, selectedUser
     };
   },
-  [updateUserFormQuery]: (state, { payload: { value }}) => {
+  [updateUserFormQuery]: (state, { value }) => {
     return Object.assign({}, state, {
       query: value
     });
   },
-  [updateUserFormSelected]: (state, { payload }) => {
+  [updateUserFormSelected]: (state, payload) => {
     return Object.assign({}, state, {
       selectedUser: payload
     });
   },
-  [receiveSuggestedUsers]: (state, { payload: { users }}) => {
+  [receiveSuggestedUsers]: (state, users) => {
     return Object.assign({}, state, {
       suggestedUsers: users
     });
   },
   [unmountUserForm]: (state, action) => DELETE
-}, { query: '', suggestedUsers: [], selectedUser: null }), addUserForm.toString())
+}, { query: '', suggestedUsers: [], selectedUser: null }),
+  addUserForm.toString()
+)
 
 export default userForm

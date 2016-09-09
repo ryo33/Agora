@@ -1,5 +1,13 @@
 import { Socket } from 'phoenix';
 
+import {
+  updateAccountUsers, updateCurrentUser, addAccountUser
+} from 'actions/accountPage.js';
+
+import {
+  prepareUsers
+} from 'actions/resources';
+
 export const socket = new Socket('/socket', {
   reconnectAfterMs: (tries) => {
     if (tries < 10) return 1000;
@@ -17,9 +25,9 @@ window.accountChannel = accountChannel;
 export const commonChannel = window.socket.channel("common", {});
 window.commonChannel = commonChannel;
 
-export const pushMessage = (channel, event, payload) => {
+export const pushMessage = (channel, event, action, params=null) => {
   return new Promise((resolve, reject) => {
-    channel.push(event, payload)
+    channel.push(event, {action, params})
     .receive('ok', msg => resolve(msg))
     .receive('error', reasons => reject(Error(reasons)))
     .receive('timeout', () => reject(Error("Timeout Error")))
@@ -35,12 +43,18 @@ export function pushMessageToCommonChannel(event, msg) {
 }
 
 export const joinAccountChannel = (dispatch) => {
-  window.accountChannel.on('dispatch', ({ actions }) => {
-    actions.map(action => { dispatch(action); });
+  window.accountChannel.on('add user', ({ user }) => {
+    dispatch(prepareUsers([user]));
+    dispatch(addAccountUser(user));
+  });
+  window.accountChannel.on('update current user', ({ user }) => {
+    dispatch(prepareUsers([user]));
+    dispatch(updateCurrentUser(user));
   });
   window.accountChannel.join()
-    .receive('ok', ({ actions }) => {
-      actions.map(action => { dispatch(action); })
+    .receive('ok', ({ users }) => {
+      dispatch(prepareUsers(users));
+      dispatch(updateAccountUsers(users));
     })
     .receive('error', resp => { console.log('Unable to join', resp); });
 };
@@ -55,24 +69,6 @@ export const joinCommonChannel = (dispatch) => {
     })
     .receive('error', resp => { console.log('Unable to join', resp); });
 };
-
-export const joinThreadChannel = (dispatch, id) => {
-  window.threadChannel = window.socket.channel('thread:' + id, {});
-  window.threadChannel.on('dispatch', ({ actions }) => {
-    actions.map(action => { dispatch(action); });
-  });
-  return window.threadChannel.join()
-    .receive('error', resp => { console.log('Unable to join', resp); });
-};
-
-export const joinGroupChannel = (dispatch, id) => {
-    window.groupChannel = window.socket.channel("group:" + id, {})
-    window.groupChannel.on("dispatch", ({ actions }) => {
-        actions.map(action => { dispatch(action) })
-    })
-    return window.groupChannel.join()
-    .receive("error", resp => { console.log("Unable to join", resp) })
-}
 
 export const leaveChannel = (channel) => {
   channel.leave();

@@ -4,36 +4,36 @@ import { push } from 'react-router-redux';
 
 import ThreadList from 'components/ThreadList';
 
+import { openAllThreadsPage } from 'actions/threadPage';
+
+const mapStateToProps = ({ threadPage }) => {
+  return {
+    threads: threadPage.threads
+  };
+};
+
+const actionCreators = {
+  openAllThreadsPage
+};
+
 class ThreadAll extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      threads: []
-    };
   }
 
   componentDidMount() {
-    window.commonChannel
-        .push("thread", {
-          action: 'get',
-          params: null
-        })
-        .receive('ok', ({ threads }) => this.setState({ threads }));
-  }
-
-  transitionTo(path) {
-    return () => {
-      this.props.dispatch(push(path));
-    };
+    const { openAllThreadsPage } = this.props;
+    openAllThreadsPage();
   }
 
   render() {
+    const { threads } = this.props;
     return (
       <div>
-        <ThreadList threads={this.state.threads} />
+        <ThreadList threads={threads} />
       </div>
     );
   }
 }
 
-export default connect()(ThreadAll);
+export default connect(mapStateToProps, actionCreators)(ThreadAll);

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { Map } from 'immutable';
-import { attachKey } from 'associative-reducer';
 
 import TextField from 'material-ui/TextField';
 import { Card, CardActions, CardHeader,
@@ -17,11 +16,14 @@ import UserSelector from 'components/UserSelector';
 
 import { addUserForm, unmountUserForm,
   updateUserFormQuery, updateUserFormSelected
-} from 'actions/user_form';
+} from 'actions/userForm';
 
-const SelectedUser = ({ user }) => <User user={user} />
+const SelectedUser = ({ id }) => <User id={id} />;
 
-const SuggestForm = ({ query, onChange, suggestedUsers, dispatch, groupID }) => (
+const SuggestForm = ({
+  query, onChange, suggestedUsers, dispatch, groupID,
+  updateUserFormSelected
+}) => (
   <div>
     <TextField
       hintText="Name or ID"
@@ -29,67 +31,78 @@ const SuggestForm = ({ query, onChange, suggestedUsers, dispatch, groupID }) => 
       value={query}
       onChange={onChange}
     />
-    { suggestedUsers.map(user => <User
-      key={user.id}
-      user={user}
-      onClick={() => dispatch(attachKey(updateUserFormSelected(user), groupID))}
+    { suggestedUsers.map(id => <User
+      key={id}
+      id={id}
+      onClick={() => updateUserFormSelected(groupID, id)}
     />)}
   </div>
 )
 
 const mapStateToProps = ({ account, userForm }, { groupID }) => {
-  const { query, suggestedUsers, selectedUser } = userForm[groupID] || {};
+  const { query="", suggestedUsers=[], selectedUser=null } = userForm[groupID] || {};
   return {
     currentUser: account.currentUser,
     query, suggestedUsers, selectedUser
   };
-}
+};
+
+const actionCreators = {
+  addUserForm, unmountUserForm,
+  updateUserFormQuery, updateUserFormSelected 
+};
 
 class UserForm extends Component {
   constructor(props) {
     super(props);
-    const { dispatch, groupID } = this.props;
-    dispatch(attachKey(addUserForm(), groupID));
+    const { addUserForm, groupID } = this.props;
+    addUserForm(groupID);
     this.state = {
       user: this.props.currentUser,
     };
+    this.handleQueryChange = this.handleQueryChange.bind(this);
+    this.handleSelectedChange = this.handleSelectedChange.bind(this);
+    this.cancel = this.cancel.bind(this);
+    this.changeUser = this.changeUser.bind(this);
+    this.submit = this.submit.bind(this);
   }
 
   componentWillMount() {
-    const { dispatch, groupID } = this.props;
-    dispatch(attachKey(addUserForm(), groupID));
+    const { addUserForm, groupID } = this.props;
+    addUserForm(groupID);
   }
 
   componentWillUnmount() {
-    const { dispatch, groupID } = this.props;
-    dispatch(attachKey(unmountUserForm(), groupID));
+    const { unmountUserForm, groupID } = this.props;
+    unmountUserForm(groupID);
   }
 
   handleQueryChange(event) {
     const value = event.target.value;
-    const { dispatch, groupID } = this.props;
-    dispatch(attachKey(updateUserFormQuery(value, groupID), groupID));
+    const { updateUserFormQuery, groupID } = this.props;
+    updateUserFormQuery(groupID, value, groupID);
   }
 
   handleSelectedChange(event) {
     const value = event.target.value;
-    const { dispatch, groupID } = this.props;
-    dispatch(attachKey(updateUserFormSelected(user), groupID));
+    const { updateUserFormSelected, groupID } = this.props;
+    updateUserFormSelected(groupID, user);
   }
 
   submit() {
     console.log('submit')
-    const { dispatch, groupID, submit, selectedUser } = this.props;
+    const { updateUserFormQuery, updateUserFormSelected,
+      groupID, submit, selectedUser } = this.props;
     submit({
-      user_id: selectedUser.id,
+      user: selectedUser,
     });
-    dispatch(attachKey(updateUserFormSelected(null), groupID));
-    dispatch(attachKey(updateUserFormQuery('', groupID), groupID));
+    updateUserFormSelected(groupID, null);
+    updateUserFormQuery(groupID, '');
   }
 
   cancel() {
-    const { dispatch, groupID } = this.props;
-    dispatch(attachKey(updateUserFormSelected(null), groupID));
+    const { updateUserFormSelected, groupID } = this.props;
+    updateUserFormSelected(groupID, null);
   }
 
   changeUser(user) {
@@ -97,19 +110,21 @@ class UserForm extends Component {
   }
 
   render() {
-    const { query, suggestedUsers, selectedUser, dispatch, groupID } = this.props
-    return typeof query !== 'undefined' ? (
+    const {
+      query, suggestedUsers, selectedUser, updateUserFormSelected, groupID
+    } = this.props
+    return (
       <Card>
         <CardTitle title={this.props.title} />
         <CardText>
           {
             selectedUser
-              ? <SelectedUser user={selectedUser} />
+              ? <SelectedUser id={selectedUser} />
               : <SuggestForm
                 query={query}
-                onChange={this.handleQueryChange.bind(this)}
+                onChange={this.handleQueryChange}
                 suggestedUsers={suggestedUsers}
-                dispatch={dispatch}
+                updateUserFormSelected={updateUserFormSelected}
                 groupID={groupID}
               />
           }
@@ -118,23 +133,23 @@ class UserForm extends Component {
           <RaisedButton
             label="Submit"
             primary={true}
-            onClick={this.submit.bind(this)}
+            onClick={this.submit}
             disabled={!selectedUser}
           />
           <RaisedButton
             label="Cancel"
             secondary={true}
-            onClick={this.cancel.bind(this)}
+            onClick={this.cancel}
             disabled={!selectedUser}
           />
           <UserSelector
             user={this.state.user}
-            changeUser={this.changeUser.bind(this)}
+            changeUser={this.changeUser}
           />
         </CardActions>
       </Card>
-    ) : null;
+    );
   }
 }
 
-export default connect(mapStateToProps)(UserForm);
+export default connect(mapStateToProps, actionCreators)(UserForm);

@@ -26,29 +26,32 @@ class ThreadForm extends Component {
       title: props.title || '',
       user: this.props.currentUser,
     };
+    this.submit = this.submit.bind(this);
+    this.changeUser = this.changeUser.bind(this);
   }
 
   handleChange(column, event) {
-    this.setState(
-      Object.assign(
-        {}, this.state,
-        Map(this.state).set(column, event.target.value).toJS()
-      )
-    )
+    this.setState({
+      [column]: event.target.value
+    })
   }
 
   submit() {
     this.props.submit({
-      user_id: this.state.user,
+      user: this.state.user,
       title: this.state.title
     })
-    this.setState(Object.assign({}, this.state, {
-      title: ''
-    }))
+    this.setState({ title: '' })
   }
 
   changeUser(user) {
-    this.setState(Object.assign({}, this.state, { user: user }));
+    this.setState({ user });
+  }
+
+  componentWillReceiveProps(props) {
+    this.setState({
+      user: props.currentUser
+    });
   }
 
   render() {
@@ -67,11 +70,11 @@ class ThreadForm extends Component {
           <RaisedButton
             label="Submit"
             primary
-            onClick={this.submit.bind(this)}
+            onClick={this.submit}
           />
           <UserSelector
             user={this.state.user}
-            changeUser={this.changeUser.bind(this)}
+            changeUser={this.changeUser}
           />
         </CardActions>
       </Card>
