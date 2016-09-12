@@ -20,8 +20,8 @@ class NavBar extends Component {
     };
   }
   render() {
-    return (<Toolbar zDepth={3}>
-            <ToolbarGroup firstChild float="left">
+    return (<Toolbar>
+            <ToolbarGroup firstChild={true}>
                 <IconButton
                   iconClassName="material-icons"
                   touch
@@ -41,7 +41,7 @@ class NavBar extends Component {
                   onClick={this.transitionTo('/account/notifications')}
                 /></SignedIn>
             </ToolbarGroup>
-            <ToolbarGroup float="right">
+            <ToolbarGroup>
                 {!window.signedIn
                     ? <RaisedButton
                       label="Sign in"

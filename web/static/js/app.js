@@ -31,15 +31,21 @@ import rootSaga from './sagas/index';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 
-const logger = createLogger();
 const sagaMiddleware = createSagaMiddleware();
+
+const middlewares = [sagaMiddleware, thunk, routerMiddleware(browserHistory)]
+console.log(process.env.NODE_ENV)
+if (process.env.NODE_ENV !== 'production') {
+  const logger = createLogger();
+  middlewares.push(logger);
+}
 
 const store = createStore(
   combineReducers({
     ...reducers,
     routing: routerReducer
   }),
-  applyMiddleware(sagaMiddleware, thunk, routerMiddleware(browserHistory), logger)
+  applyMiddleware(...middlewares)
 );
 const history = syncHistoryWithStore(browserHistory, store);
 sagaMiddleware.run(rootSaga, store.getState);
