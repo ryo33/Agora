@@ -1,20 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import {
-  Card, CardActions, CardHeader,
-  CardMedia, CardTitle, CardText
-} from 'material-ui/Card';
 import Divider from 'material-ui/Divider';
 
-import { joinGroupChannel, leaveChannel } from '../../../socket';
 import { SignedIn } from 'components/util';
-import ResourceTitle from 'components/ResourceTitle';
 import Group from 'components/Group';
 import Thread from 'components/Thread';
 import ThreadForm from 'components/ThreadForm';
 
-import { openGroupThreadsTab, addThread } from 'actions/groupPage';
+import { openGroupThreadsTab } from 'actions/groupPage';
+import { submitThread } from 'actions/resources';
 
 const mapStateToProps = ({ groupPage }, { params }) => {
   return {
@@ -24,12 +19,13 @@ const mapStateToProps = ({ groupPage }, { params }) => {
 };
 
 const actionCreators = {
-  openGroupThreadsTab, addThread
+  openGroupThreadsTab, submitThread
 };
 
 class GroupThreads extends Component {
   constructor(props) {
-    super(props)
+    super(props);
+    this.submit = this.submit.bind(this);
   }
 
   componentDidMount() {
@@ -38,8 +34,8 @@ class GroupThreads extends Component {
   }
 
   submit({ user, title }) {
-    const { id, addThread } = this.props;
-    addThread(id, user, title)
+    const { id, submitThread } = this.props;
+    submitThread({group: id, user, title});
   }
 
   render() {
@@ -48,7 +44,7 @@ class GroupThreads extends Component {
       <div>
         <Divider style={{margin: "0.15em 0"}} />
         <SignedIn><ThreadForm
-            submit={this.submit.bind(this)}
+            submit={this.submit}
             expandable={true}
             expand={false}
             zDepth={2}

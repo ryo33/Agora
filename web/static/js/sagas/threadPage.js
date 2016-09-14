@@ -5,8 +5,7 @@ import { socket, commonChannel, pushMessage } from 'socket';
 import {
   openThreadPage, closeThreadPage, updateCurrentThread,
     openAllThreadsPage, updateThreads,
-    updateThreadPosts,
-    addPost
+    updateThreadPosts
 } from 'actions/threadPage';
 
 import {
@@ -86,20 +85,8 @@ function listenCallback(emitter, channel) {
   });
 }
 
-function* addPostSaga(action) {
-  const { thread, user, title, text } = action.payload;
-  const params = {
-    thread_id: thread,
-    user_id: user,
-    title,
-    text
-  };
-  yield call(pushMessage, commonChannel, 'posts', 'add', params);
-}
-
 export default function*() {
   yield fork(pageSaga, 'thread', openThreadPage, closeThreadPage, prepareThreads, updateCurrentThread, joinCallback, listenCallback);
   yield fork(takeLatest, openAllThreadsPage.getType(), fetchThreadsSaga);
   yield fork(takeEvery, updateThreadPosts.getType(), preparePostsSaga);
-  yield fork(takeEvery, addPost.getType(), addPostSaga);
 }

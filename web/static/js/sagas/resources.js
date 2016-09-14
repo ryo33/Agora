@@ -5,7 +5,8 @@ import { commonChannel, pushMessage } from 'socket';
 
 import {
   addGroups, addThreads, addPosts, addUsers,
-    prepareGroups, prepareThreads, preparePosts, prepareUsers
+    prepareGroups, prepareThreads, preparePosts, prepareUsers,
+    submitGroup, submitThread, submitPost
 } from 'actions/resources';
 
 const TIMEOUT = 1500;
@@ -100,9 +101,44 @@ const watchThreads = createWatcherFor('threads', prepareThreads, addThreads);
 const watchPosts   = createWatcherFor('posts', preparePosts, addPosts);
 const watchUsers   = createWatcherFor('users', prepareUsers, addUsers);
 
+function* addGroupSaga(action) {
+  const { group, user, name } = action.payload;
+  const params = {
+    parent_group_id: group,
+    user_id: user,
+    name: name
+  };
+  yield call(pushMessage, commonChannel, 'groups', 'add', params);
+}
+
+function* addThreadSaga(action) {
+  const { group, user, title } = action.payload;
+  const params = {
+    parent_group_id: group,
+    user_id: user,
+    title: title
+  };
+  yield call(pushMessage, commonChannel, 'threads', 'add', params);
+}
+
+function* addPostSaga(action) {
+  const { thread, user, title, text } = action.payload;
+  const params = {
+    thread_id: thread,
+    user_id: user,
+    title,
+    text
+  };
+  yield call(pushMessage, commonChannel, 'posts', 'add', params);
+}
+
 export default function*() {
   yield fork(watchGroups);
   yield fork(watchThreads);
   yield fork(watchPosts);
   yield fork(watchUsers);
+
+  yield fork(takeEvery, submitGroup.getType(), addGroupSaga);
+  yield fork(takeEvery, submitThread.getType(), addThreadSaga);
+  yield fork(takeEvery, submitPost.getType(), addPostSaga);
 };

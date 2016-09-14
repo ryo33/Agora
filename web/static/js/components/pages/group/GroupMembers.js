@@ -1,15 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { Card, CardActions, CardHeader,
-  CardMedia, CardTitle, CardText
-} from 'material-ui/Card';
 import Divider from 'material-ui/Divider';
 
-import { joinGroupChannel, leaveChannel } from '../../../socket';
 import { SignedIn } from 'components/util';
-import ResourceTitle from 'components/ResourceTitle';
-import Group from 'components/Group';
 import User from 'components/User';
 import UserForm from 'components/UserForm';
 

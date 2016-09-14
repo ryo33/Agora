@@ -8,6 +8,3 @@ export const updateThreadPosts = createAction('Update thread posts', ids => ids)
 
 export const openAllThreadsPage = createAction('Open all threads page');
 export const updateThreads = createAction('Update threads');
-
-export const addPost = createAction('Add post',
-  (thread, user, title, text) => ({ thread, user, title, text }));

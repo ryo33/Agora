@@ -9,6 +9,9 @@ function createPrepareFor(resource) {
 function createUpdateFor(resource) {
   return createAction(`Update ${resource}`, (id, resource) => { id, resource });
 }
+function createSubmitFor(resource) {
+  return createAction(`Submit a ${resource}`, params => params);
+}
 
 export const addGroups  = createAddFor('groups');
 export const addThreads = createAddFor('threads');
@@ -24,3 +27,7 @@ export const updateGroups  = createUpdateFor('groups');
 export const updateThreads = createUpdateFor('threads');
 export const updatePosts   = createUpdateFor('posts');
 export const updateUsers   = createUpdateFor('users');
+
+export const submitGroup = createSubmitFor('group');
+export const submitThread = createSubmitFor('thread');
+export const submitPost = createSubmitFor('post');

@@ -5,9 +5,6 @@ import {
   branch, renderNothing, renderComponent
 } from 'recompose';
 
-import { Card, CardActions, CardHeader,
-  CardMedia, CardTitle, CardText
-} from 'material-ui/Card';
 import Divider from 'material-ui/Divider';
 import Avatar from 'material-ui/Avatar';
 
@@ -18,10 +15,10 @@ import Post from 'components/Post';
 import ResourceTitle from 'components/ResourceTitle';
 
 import {
-  addPost,
   openThreadPage,
   closeThreadPage
 } from 'actions/threadPage';
+import { submitPost } from 'actions/resources';
 import ThreadComponent from 'components/Thread';
 
 const mapStateToProps = ({ threadPage }, { params }) => {
@@ -32,7 +29,7 @@ const mapStateToProps = ({ threadPage }, { params }) => {
 }
 
 const actionCreaters = {
-  addPost, openThreadPage, closeThreadPage
+  submitPost, openThreadPage, closeThreadPage
 };
 
 class Thread extends Component {
@@ -52,8 +49,8 @@ class Thread extends Component {
   }
 
   post({ user, title, text }) {
-    const { addPost, id } = this.props;
-    addPost(id, user, title, text)
+    const { submitPost, id } = this.props;
+    submitPost({thread: id, user, title, text});
   }
 
   render() {

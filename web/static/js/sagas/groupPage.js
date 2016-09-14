@@ -8,7 +8,7 @@ import {
     openGroupThreadsTab, updateGroupThreads,
     openGroupGroupsTab, updateGroupGroups,
     openGroupMembersTab, updateGroupMembers,
-    addMember, addThread
+    addMember
 } from 'actions/groupPage';
 import {
   prepareGroups, prepareThreads, prepareUsers
@@ -57,6 +57,9 @@ function listenCallback(emitter, channel) {
   channel.on('add threads', ({ threads }) => {
     emitter(updateGroupThreads(threads));
   });
+  channel.on('add groups', ({ groups }) => {
+    emitter(updateGroupGroups(groups));
+  });
 }
 
 function* addMemberSaga(action) {
@@ -66,16 +69,6 @@ function* addMemberSaga(action) {
     user_id: user
   };
   yield call(pushMessage, commonChannel, 'members', 'add', params);
-}
-
-function* addThreadSaga(action) {
-  const { group, user, title } = action.payload;
-  const params = {
-    parent_group_id: group,
-    user_id: user,
-    title: title
-  };
-  yield call(pushMessage, commonChannel, 'threads', 'add', params);
 }
 
 function* prepareSaga(prepare, action) {
@@ -91,8 +84,6 @@ export default function*() {
   yield fork(takeLatest, openGroupMembersTab.getType(), fetchGroupMembersSaga);
 
   yield fork(takeEvery, addMember.getType(), addMemberSaga);
-  yield fork(takeEvery, addThread.getType(), addThreadSaga);
-
   yield fork(takeEvery, updateGroupGroups.getType(), prepareSaga, prepareGroups);
   yield fork(takeEvery, updateGroupThreads.getType(), prepareSaga, prepareThreads);
   yield fork(takeEvery, updateGroupMembers.getType(), prepareSaga, prepareUsers);

@@ -17,5 +17,3 @@ export const updateGroupMembers = createAction('Update group members', ids => id
 
 export const addMember = createAction('Add group member',
   (group, user) => ({ group, user }));
-export const addThread = createAction('Add group thread',
-  (group, user, title) => ({ group, user, title }));
