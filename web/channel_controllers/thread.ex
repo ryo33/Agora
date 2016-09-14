@@ -28,10 +28,20 @@ defmodule Agora.ChannelController.Thread do
   end
 
   def handle_action("fetch", ids, socket) do
+    posts_query = Agora.Post
+                  |> select([p], p.id)
     query = Agora.Thread
             |> where([t], t.id in ^ids)
-            |> select([t], {t.id, t})
-    threads = Repo.all(query) |> Enum.map(fn {k, v} -> {Integer.to_string(k), v} end) |> Enum.into(%{})
+            |> select([t], t)
+            |> preload([posts: ^posts_query])
+    func = fn t ->
+      t
+      |> Map.update!(:posts, fn ids -> length(ids) end)
+      |> (fn t -> {Integer.to_string(t.id), t} end).()
+    end
+    threads = Repo.all(query)
+              |> Enum.map(func)
+              |> Enum.into(%{})
     {:ok, %{threads: threads}, socket}
   end
 

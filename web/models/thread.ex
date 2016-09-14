@@ -2,6 +2,7 @@ defmodule Agora.Thread do
   use Agora.Web, :model
   @derive {Poison.Encoder, only: [
     :id, :title, :user_id, :parent_group_id,
+    :posts,
     :inserted_at, :updated_at
   ]}
 

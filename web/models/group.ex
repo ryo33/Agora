@@ -2,6 +2,7 @@ defmodule Agora.Group do
   use Agora.Web, :model
   @derive {Poison.Encoder, only: [
     :name, :user_id, :id, :parent_group_id,
+    :members, :threads, :groups,
     :inserted_at, :updated_at
   ]}
 
@@ -13,6 +14,7 @@ defmodule Agora.Group do
 
     has_many :threads, Agora.Thread
     has_many :members, Agora.Member
+    has_many :groups, Agora.Group
 
     timestamps
   end

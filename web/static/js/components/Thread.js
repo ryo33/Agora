@@ -46,7 +46,7 @@ class Thread extends Component {
             title=""
             insertedAt={thread.insertedAt}
           />}
-          showExpandableButton
+          showExpandableButton={true}
         />
         <Divider />
         <CardText
@@ -56,7 +56,7 @@ class Thread extends Component {
             cursor: 'pointer',
           }}
         >
-          {thread.title}
+          {`${thread.title} (${thread.posts})`}
         </CardText>
         <CardActions expandable>
           <Unimplemented />

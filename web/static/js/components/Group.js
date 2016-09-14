@@ -55,7 +55,7 @@ class Group extends Component {
         cursor: 'pointer'
       }}
     >
-      {group.name}
+      {`${group.name} (${group.threads}, ${group.groups}, ${group.members})`}
     </CardText>
     <CardActions expandable={true}>
       <Unimplemented />
