@@ -44,3 +44,15 @@ html {
     /* Support for IE. */
     font-feature-settings: 'liga';
 }
+
+div#header-fixed {
+    position: fixed;
+    z-index: 999;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+}
+
+div#body {
+    padding:80px 0 80px 0;
+}

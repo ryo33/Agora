@@ -26,15 +26,19 @@ class Application extends Component {
   render() {
     return (<MuiThemeProvider muiTheme={muiTheme}>
             <div>
+              <div id='header-fixed'>
                 <NavBar
                   toggleLeftNav={this.toggleLeftNav.bind(this)}
                 />
+              </div>
+              <div id='body'>
                 <LeftNav
                   open={this.state.leftNav}
                   toggleLeftNav={this.toggleLeftNav.bind(this)}
                   setLeftNav={this.setLeftNav.bind(this)}
                 />
                 {this.props.children}
+              </div>
             </div>
         </MuiThemeProvider>);
   }

@@ -10,6 +10,7 @@ import MenuItem from 'material-ui/MenuItem';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import RaisedButton from 'material-ui/RaisedButton';
 import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from 'material-ui/Toolbar';
+import AppBar from 'material-ui/AppBar'
 
 import { SignedIn, NotSignedIn } from './util';
 
@@ -20,38 +21,44 @@ class NavBar extends Component {
     };
   }
   render() {
-    return (<Toolbar>
-            <ToolbarGroup firstChild={true}>
-                <IconButton
-                  iconClassName="material-icons"
-                  touch
-                  children="menu"
-                  onClick={this.props.toggleLeftNav}
+    return (
+      <AppBar
+        title="Agora"
+        iconElementLeft={
+          <span>
+            <IconButton
+              iconClassName="material-icons"
+              touch
+              children="menu"
+              onClick={this.props.toggleLeftNav}
+            />
+            <IconButton
+              iconClassName="material-icons"
+              touch
+              children="home"
+              onClick={this.transitionTo('/')}
+            />
+          </span>
+        }
+        iconElementRight={
+          <span>
+            <SignedIn><IconButton
+              iconClassName="material-icons"
+              touch
+              children="notifications"
+              onClick={this.transitionTo('/account/notifications')}
+            /></SignedIn>
+            {!window.signedIn
+                ? <RaisedButton
+                  label="Sign in"
+                  onClick={this.transitionTo('/signin')}
                 />
-                <IconButton
-                  iconClassName="material-icons"
-                  touch
-                  children="home"
-                  onClick={this.transitionTo('/')}
-                />
-                <SignedIn><IconButton
-                  iconClassName="material-icons"
-                  touch
-                  children="notifications"
-                  onClick={this.transitionTo('/account/notifications')}
-                /></SignedIn>
-            </ToolbarGroup>
-            <ToolbarGroup>
-                {!window.signedIn
-                    ? <RaisedButton
-                      label="Sign in"
-                      primary
-                      onClick={this.transitionTo('/signin')}
-                    />
-                    : null
-                }
-            </ToolbarGroup>
-        </Toolbar>);
+                : null
+            }
+          </span>
+        }
+      />
+    )
   }
 }
 
