@@ -3,7 +3,7 @@ defmodule Agora.Repo.Migrations.CreatePost do
 
   def change do
     create table(:posts) do
-      add :name, :string
+      add :title, :string
       add :text, :string
       add :account_id, references(:accounts, on_delete: :nothing)
       add :user_id, references(:users, on_delete: :nothing)
