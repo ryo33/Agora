@@ -46,16 +46,7 @@ defmodule Agora.ChannelController do
 
   defmacro __using__(_opts) do
     quote do
-      alias Agora.Repo
-      import Ecto.Query, only: [from: 1, from: 2]
       import Agora.ChannelController, except: [action: 4]
-
-      alias Agora.Account
-      alias Agora.User
-      alias Agora.Thread
-      alias Agora.Post
-      alias Agora.Group
-      alias Agora.Member
     end
   end
 end

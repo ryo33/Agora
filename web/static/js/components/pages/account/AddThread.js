@@ -1,20 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
-
-import { Card, CardActions, CardHeader,
-    CardMedia, CardTitle, CardText } from 'material-ui/Card';
-import Divider from 'material-ui/Divider';
-import Avatar from 'material-ui/Avatar';
 
 import ThreadForm from 'components/ThreadForm';
 
-import { addThread } from 'actions/accountPage';
+import { submitThread } from 'actions/resources';
 
 const mapStateToProps = () => ({});
 
 const actionCreators = {
-  addThread
+  submitThread
 };
 
 class AddThread extends Component {
@@ -24,8 +18,8 @@ class AddThread extends Component {
   }
 
   submit({ user, title }) {
-    const { addThread } = this.props;
-    addThread(user, title);
+    const { submitThread } = this.props;
+    submitThread({ user, title });
   }
 
   render() {

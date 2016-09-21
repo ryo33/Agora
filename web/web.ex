@@ -20,6 +20,20 @@ defmodule Agora.Web do
     quote do
       use Agora.ChannelController
       import Ecto.Query
+      alias Ecto.Changeset
+
+      alias Agora.Repo
+
+      alias Agora.Account
+      alias Agora.User
+      alias Agora.Thread
+      alias Agora.Post
+      alias Agora.Group
+      alias Agora.Member
+      alias Agora.Watchlist
+
+      alias Agora.WatchThread
+      alias Agora.WatchGroup
     end
   end
 

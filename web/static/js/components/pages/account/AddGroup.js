@@ -9,12 +9,12 @@ import Avatar from 'material-ui/Avatar';
 
 import GroupForm from 'components/GroupForm';
 
-import { addGroup } from 'actions/accountPage';
+import { submitGroup } from 'actions/resources';
 
 const mapStateToProps = () => ({});
 
 const actionCreators = {
-  addGroup
+  submitGroup
 };
 
 class AddGroup extends Component {
@@ -24,8 +24,8 @@ class AddGroup extends Component {
   }
 
   submit({ user, name }) {
-    const { addGroup } = this.props;
-    addGroup(user, name);
+    const { submitGroup } = this.props;
+    submitGroup({ user, name });
   }
 
   render() {

@@ -5,7 +5,7 @@ import {
 import Loading from 'components/Loading';
 
 import {
-  prepareGroups, prepareThreads, preparePosts, prepareUsers
+  prepareGroups, prepareThreads, preparePosts, prepareUsers, prepareWatchlists
 } from 'actions/resources';
 
 function createRequireResource(resource, prepareResource) {
@@ -30,3 +30,4 @@ export const requireGroup = createRequireResource('group', prepareGroups);
 export const requireThread = createRequireResource('thread', prepareThreads);
 export const requirePost = createRequireResource('post', preparePosts);
 export const requireUser = createRequireResource('user', prepareUsers);
+export const requireWatchlist = createRequireResource('watchlist', prepareWatchlists);

@@ -4,7 +4,6 @@ defmodule Agora.ChannelController.Post do
   require Logger
 
   def handle_action("add", post_params, socket) do
-    IO.inspect(post_params)
     changeset = Post.changeset(%Post{}, put_info(post_params, socket))
     true = validate_info(changeset, socket)
 
@@ -15,7 +14,6 @@ defmodule Agora.ChannelController.Post do
           order_by: [desc: p.inserted_at],
           select: p.id
         posts = Repo.all(query)
-        post_id = to_string(post.id)
         broadcast_to_thread(post.thread_id, "add posts", %{
           posts: posts
         })

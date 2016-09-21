@@ -26,7 +26,8 @@ defmodule Agora.Account do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, @required_fields, @optional_fields)
+    |> cast(params, @optional_fields)
+    |> validate_required(@required_fields)
     |> validate_length(:provider, min: 1)
     |> validate_length(:provided_id, min: 1)
     |> validate_length(:name, min: 1)

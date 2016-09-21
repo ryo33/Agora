@@ -1,11 +1,11 @@
 import { Socket } from 'phoenix';
 
 import {
-  updateAccountUsers, updateCurrentUser, addAccountUser
+  updateAccountUsers, updateCurrentUser, addAccountUser, updateWatchlists
 } from 'actions/accountPage.js';
 
 import {
-  prepareUsers
+  prepareUsers, prepareWatchlists
 } from 'actions/resources';
 
 export const socket = new Socket('/socket', {
@@ -35,26 +35,32 @@ export const pushMessage = (channel, event, action, params=null) => {
 }
 
 export function pushMessageToGroupChannel(event, msg) {
-  return pushMessage(window.groupChannel, event, msg)
+  return pushMessage(groupChannel, event, msg)
 }
 
 export function pushMessageToCommonChannel(event, msg) {
-  return pushMessage(window.commonChannel, event, msg)
+  return pushMessage(commonChannel, event, msg)
 }
 
 export const joinAccountChannel = (dispatch) => {
-  window.accountChannel.on('add user', ({ user }) => {
+  accountChannel.on('add user', ({ user }) => {
     dispatch(prepareUsers([user]));
     dispatch(addAccountUser(user));
   });
-  window.accountChannel.on('update current user', ({ user }) => {
+  accountChannel.on('add watchlists', ({ watchlists }) => {
+    dispatch(prepareUsers(watchlists));
+    dispatch(updateWatchlists(watchlists));
+  });
+  accountChannel.on('update current user', ({ user }) => {
     dispatch(prepareUsers([user]));
     dispatch(updateCurrentUser(user));
   });
-  window.accountChannel.join()
-    .receive('ok', ({ users }) => {
+  accountChannel.join()
+    .receive('ok', ({ users, watchlists }) => {
       dispatch(prepareUsers(users));
       dispatch(updateAccountUsers(users));
+      dispatch(prepareWatchlists(watchlists));
+      dispatch(updateWatchlists(watchlists));
     })
     .receive('error', resp => { console.log('Unable to join', resp); });
 };

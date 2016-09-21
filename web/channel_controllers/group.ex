@@ -9,7 +9,6 @@ defmodule Agora.ChannelController.Group do
 
     case Repo.insert(changeset) do
       {:ok, group} ->
-        Logger.debug "#{inspect group}"
         group_id = group.parent_group_id
         if group_id != nil do
           query = from g in Agora.Group,

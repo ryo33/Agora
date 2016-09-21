@@ -22,7 +22,6 @@ defmodule Agora.ChannelController.Thread do
         end
         {:ok, %{"id" => thread.id}, socket}
       {:error, changeset} ->
-        Logger.debug "#{inspect changeset}"
         {:error, socket} # TODO return error message
     end
   end

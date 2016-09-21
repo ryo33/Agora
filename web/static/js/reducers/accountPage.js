@@ -3,7 +3,7 @@ import { createReducer } from 'redux-act';
 
 import {
   openAccountThreadsPage, updateThreads,
-    openAccountGroupsPage, updateGroups
+    openAccountGroupsPage, updateGroups,
 } from 'actions/accountPage'
 
 const threads = createReducer({

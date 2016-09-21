@@ -10,6 +10,7 @@ import Divider from 'material-ui/Divider';
 import Loading from 'components/Loading';
 import Unimplemented from 'components/Unimplemented';
 import ResourceTitle from 'components/ResourceTitle';
+import ThreadActions from 'components/ThreadActions';
 
 import { requireThread } from 'hocs/resources';
 
@@ -59,7 +60,7 @@ class Thread extends Component {
           {`${thread.title} (${thread.posts})`}
         </CardText>
         <CardActions expandable>
-          <Unimplemented />
+          <ThreadActions id={id} />
         </CardActions>
       </Card>
     );

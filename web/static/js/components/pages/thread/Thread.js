@@ -1,18 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
-import {
-  branch, renderNothing, renderComponent
-} from 'recompose';
 
 import Divider from 'material-ui/Divider';
-import Avatar from 'material-ui/Avatar';
 
-import Loading from 'components/Loading';
 import PostForm from 'components/PostForm';
 import { SignedIn } from 'components/util';
 import Post from 'components/Post';
-import ResourceTitle from 'components/ResourceTitle';
 
 import {
   openThreadPage,

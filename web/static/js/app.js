@@ -11,10 +11,11 @@ import { persistStore, getStoredState } from 'redux-persist';
 
 import { Application } from './components/index';
 import {
-  Account, UserList, AccountThreads, AccountGroups,
-  AddUser, AddThread, AddGroup
+  Account, UserList, AccountThreads, AccountGroups, AccountWatchlists,
+  AddUser, AddThread, AddGroup, AddWatchlist
 } from 'components/pages/account/index';
 import { ThreadPage, ThreadAll, Thread } from 'components/pages/thread/index';
+import { WatchlistPage, Watchlist } from 'components/pages/watchlist/index';
 import {
   GroupPage, GroupAll, Group,
   GroupGroups, GroupThreads, GroupMembers
@@ -34,7 +35,6 @@ injectTapEventPlugin();
 const sagaMiddleware = createSagaMiddleware();
 
 const middlewares = [sagaMiddleware, thunk, routerMiddleware(browserHistory)]
-console.log(process.env.NODE_ENV)
 if (process.env.NODE_ENV !== 'production') {
   const logger = createLogger();
   middlewares.push(logger);
@@ -80,14 +80,19 @@ render(
           <Route path="users" component={UserList} />
           <Route path="threads" component={AccountThreads} />
           <Route path="groups" component={AccountGroups} />
+          <Route path="watchlists" component={AccountWatchlists} />
           <Route path="add-user" component={AddUser} />
           <Route path="add-thread" component={AddThread} />
           <Route path="add-group" component={AddGroup} />
+          <Route path="add-watchlist" component={AddWatchlist} />
           <Route path="notifications" component={Unimplemented} />
         </Route>
         <Route path="threads" component={ThreadPage}>
           <IndexRoute component={ThreadAll}/>
           <Route path=":id" component={Thread} />
+        </Route>
+        <Route path="watchlists" component={WatchlistPage}>
+          <Route path=":id" component={Watchlist} />
         </Route>
         <Route path="groups" component={GroupPage}>
           <IndexRoute component={GroupAll}/>

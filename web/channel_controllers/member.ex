@@ -6,7 +6,6 @@ defmodule Agora.ChannelController.Member do
   def handle_action("add", member_params, socket) do
     account_id = socket.assigns.account.id
     member_params = Map.put(member_params, "account_id", account_id)
-    IO.inspect(member_params)
     changeset = Member.changeset(%Member{}, member_params)
     user_id = Ecto.Changeset.get_change(changeset, :user_id)
     group_id = Ecto.Changeset.get_change(changeset, :group_id)

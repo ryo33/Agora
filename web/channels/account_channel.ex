@@ -7,11 +7,20 @@ defmodule Agora.AccountChannel do
 
   def join("account:" <> id, _params, socket) do
     if String.to_integer(id) == socket.assigns.account.id do
+      account_id = socket.assigns.account.id
+      # Users
       query = from p in Agora.User,
         where: p.account_id == ^socket.assigns.account.id,
         select: p.id
       users = Agora.Repo.all(query)
-      {:ok, %{users: users}, socket}
+      # Watchlists
+      query = from w in Agora.Watchlist,
+        where: w.account_id == ^account_id,
+        select: w.id,
+        order_by: [desc: w.updated_at],
+        limit: 100
+      watchlists = Repo.all(query)
+      {:ok, %{users: users, watchlists: watchlists}, socket}
     else
       {:error, %{reason: "Unmatched ID"}}
     end

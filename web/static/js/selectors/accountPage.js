@@ -1,9 +1,9 @@
 export const getAccountUsers = ({ account, users }) => {
-  if (account.users) {
-    return account.users.map(id => users[id]).filter(user => user != null);
-  } else {
-    return [];
-  }
+  return account.users.map(id => users[id]).filter(u => u != null);
+};
+
+export const getAccountWatchlists = ({ account }) => {
+  return account.watchlists;
 };
 
 export const getCurrentUser = (state) => state.account.currentUser;

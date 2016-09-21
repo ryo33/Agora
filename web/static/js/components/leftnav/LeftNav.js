@@ -11,6 +11,7 @@ import { SignedIn, NotSignedIn } from './../util';
 import Users from './Users';
 import Groups from './Groups';
 import Threads from './Threads';
+import Watchlists from './Watchlists';
 import SignoutDialog from './SignoutDialog';
 
 class LeftNav extends Component {
@@ -19,6 +20,9 @@ class LeftNav extends Component {
     this.state = {
       isSignoutDialogOpen: false,
     };
+    this.transitionTo = this.transitionTo.bind(this);
+    this.handleOpen = this.handleOpen.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
   }
   transitionTo(path) {
     return (event) => {
@@ -38,19 +42,20 @@ class LeftNav extends Component {
       docked={false}
       onRequestChange={this.props.setLeftNav}
     >
-            <Groups click={this.transitionTo.bind(this)} />
-            <Threads click={this.transitionTo.bind(this)} />
-            <SignedIn children={<Users transitionTo={this.transitionTo.bind(this)} />} />
+            <Groups click={this.transitionTo} />
+            <Threads click={this.transitionTo} />
+            <Watchlists click={this.transitionTo} />
+            <SignedIn children={<Users transitionTo={this.transitionTo} />} />
             <SignedIn>
                 <Divider />
                 <MenuItem
                   children="Sign out"
-                  onClick={this.handleOpen.bind(this)}
+                  onClick={this.handleOpen}
                 />
             </SignedIn>
             <SignoutDialog
               isSignoutDialogOpen={this.state.isSignoutDialogOpen}
-              handleSignoutCancel={this.handleCancel.bind(this)}
+              handleSignoutCancel={this.handleCancel}
             />
         </Drawer>);
   }

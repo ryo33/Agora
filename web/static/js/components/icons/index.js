@@ -15,3 +15,8 @@ export const ThreadIcon = (<FontIcon
   children="forum"
   className="material-icons"
 />);
+
+export const WatchlistIcon = (<FontIcon
+  children="remove_red_eye"
+  className="material-icons"
+/>);

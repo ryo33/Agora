@@ -37,8 +37,8 @@ defmodule Agora.Thread do
       where: t.id == ^id,
       limit: 1,
       select: count(t.id)
-    case Repo.all(query) do
-      [1] -> true
+    case Repo.one(query) do
+      1 -> true
       _ -> false
     end
   end

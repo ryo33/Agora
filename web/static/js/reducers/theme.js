@@ -2,6 +2,17 @@ import MaterialColors from 'material-colors';
 import deepAssign from 'deep-assign';
 
 const initialState = {
+  watchlist: {
+    root: {
+      margin: "0.17em 0"
+    },
+    header: {
+      backgroundColor: MaterialColors.lime[200]
+    },
+    body: {
+      backgroundColor: MaterialColors.grey[100]
+    },
+  },
   group: {
     root: {
       margin: "0.17em 0"
