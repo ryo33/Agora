@@ -9,9 +9,6 @@ import {
 } from 'actions/resources'
 
 function updateItem(resources, id, newInfo) {
-  console.log(resources)
-  console.log(id)
-  console.log(newInfo)
   return Object.assign({}, resources, {
     [id]: Object.assign({}, resources[id], newInfo)
   });

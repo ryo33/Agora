@@ -90,7 +90,6 @@ class UserForm extends Component {
   }
 
   submit() {
-    console.log('submit')
     const { updateUserFormQuery, updateUserFormSelected,
       groupID, submit, selectedUser } = this.props;
     submit({
