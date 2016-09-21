@@ -13,11 +13,10 @@ defmodule Agora.UserSocket do
   transport :websocket, Phoenix.Transports.WebSocket
 
   def connect(%{"token" => token}, socket) do
-    case Onetime.pop(:channel_token, token) do
+    case Phoenix.Token.verify(Agora.Endpoint, "channel", token) do
       {:ok, client} ->
         socket = socket
                   |> assign(:account, client.account)
-                  |> assign(:conn, client.conn)
         {:ok, socket}
       :error -> :error
     end

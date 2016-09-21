@@ -9,8 +9,6 @@ defmodule Agora do
     children = [
       supervisor(Agora.Endpoint, []),
       supervisor(Agora.Repo, []),
-      worker(Onetime, [[name: :channel_token]])
-      # worker(Agora.Worker, [arg1, arg2, arg3]),
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html

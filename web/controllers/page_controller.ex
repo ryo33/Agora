@@ -7,19 +7,15 @@ defmodule Agora.PageController do
     case conn.assigns[:account] do
       nil ->
         client = %{
-          account: nil,
-          conn: nil,
+          account: nil
         }
-        token = UUID.uuid4(:hex)
-        Onetime.register(:channel_token, token, client)
+        token = Phoenix.Token.sign(Agora.Endpoint, "channel", client)
         render conn, "index.html", signed_in: false, token: token
       account ->
         client = %{
-          account: account,
-          conn: conn,
+          account: account
         }
-        token = UUID.uuid4(:hex)
-        Onetime.register(:channel_token, token, client)
+        token = Phoenix.Token.sign(Agora.Endpoint, "channel", client)
         render conn, "index.html", signed_in: true, token: token, id: client.account.id
     end
   end
