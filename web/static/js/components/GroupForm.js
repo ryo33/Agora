@@ -94,30 +94,24 @@ class GroupForm extends Component {
           value={name}
           onChange={this.handleChangeName}
         />
-        {
-          group != null
-          ? <span>
-            <Toggle
-              label="Allow only members to create new groups"
-              labelPosition="right"
-              toggled={groupLimited}
-              onToggle={this.handleToggleGroup}
-            />
-            <Toggle
-              label="Allow only members to create new threads"
-              labelPosition="right"
-              toggled={threadLimited}
-              onToggle={this.handleToggleThread}
-            />
-            <Toggle
-              label="Allow only members to add new members"
-              labelPosition="right"
-              toggled={joinLimited}
-              onToggle={this.handleToggleJoin}
-            />
-          </span>
-          : null
-        }
+        <Toggle
+          label="Allow only members to create new groups"
+          labelPosition="right"
+          toggled={groupLimited}
+          onToggle={this.handleToggleGroup}
+        />
+        <Toggle
+          label="Allow only members to create new threads"
+          labelPosition="right"
+          toggled={threadLimited}
+          onToggle={this.handleToggleThread}
+        />
+        <Toggle
+          label="Allow only members to add new members"
+          labelPosition="right"
+          toggled={joinLimited}
+          onToggle={this.handleToggleJoin}
+        />
       </CardText>
       <CardActions>
         <RaisedButton

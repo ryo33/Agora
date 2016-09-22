@@ -23,9 +23,9 @@ class AddGroup extends Component {
     this.submit = this.submit.bind(this);
   }
 
-  submit({ user, name }) {
+  submit(params) {
     const { submitGroup } = this.props;
-    submitGroup({ user, name });
+    submitGroup(params);
   }
 
   render() {
