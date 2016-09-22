@@ -11,8 +11,8 @@ defmodule Agora.WatchlistChannel do
 
   def join("watchlist:" <> id, _params, socket) do
     import Ecto.Query
+    id = String.to_integer id
     if Agora.Watchlist.exists?(id) do
-      id = String.to_integer id
       threads = WatchThread
                 |> where([thread], thread.watchlist_id == ^id)
                 |> select([thread], thread.id)

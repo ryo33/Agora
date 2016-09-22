@@ -6,8 +6,8 @@ defmodule Agora.AccountChannel do
   require Logger
 
   def join("account:" <> id, _params, socket) do
-    if String.to_integer(id) == socket.assigns.account.id do
-      account_id = socket.assigns.account.id
+    account_id = String.to_integer id
+    if account_id == socket.assigns.account.id do
       # Users
       query = from p in Agora.User,
         where: p.account_id == ^socket.assigns.account.id,

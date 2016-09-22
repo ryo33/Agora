@@ -15,7 +15,7 @@ import {
 
 const mapStateToProps = ({ groupPage }, { params }) => {
   return {
-    id: params.id,
+    id: parseInt(params.id, 10),
     tab: groupPage.tab
   };
 };
@@ -65,9 +65,7 @@ class Group extends Component {
         >
         </Tab>
       </Tabs>
-      {cloneElement(this.props.children, {
-        groupID: id
-      })}
+      {this.props.children}
     </div>
   }
 }

@@ -14,7 +14,8 @@ import { submitThread } from 'actions/resources';
 const mapStateToProps = ({ groupPage }, { params }) => {
   return {
     threads: groupPage.groupThreads,
-    id: params.id
+    members: groupPage.groupMembers,
+    id: parseInt(params.id, 10)
   };
 };
 
@@ -33,17 +34,19 @@ class GroupThreads extends Component {
     openGroupThreadsTab(id);
   }
 
-  submit({ user, title }) {
+  submit(params) {
     const { id, submitThread } = this.props;
-    submitThread({group: id, user, title});
+    submitThread(Object.assign(params, {group: id}));
   }
 
   render() {
-    const { threads, theme } = this.props;
+    const { id, members, threads, theme } = this.props;
     return (
       <div>
         <Divider style={{margin: "0.15em 0"}} />
         <SignedIn><ThreadForm
+            group={id}
+            members={members}
             submit={this.submit}
             expandable={true}
             expand={false}

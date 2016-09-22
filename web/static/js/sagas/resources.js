@@ -106,22 +106,28 @@ const watchUsers      = createWatcherFor('users', prepareUsers, addUsers);
 const watchWatchlists = createWatcherFor('watchlists', prepareWatchlists, addWatchlists);
 
 function* addGroupSaga(action) {
-  const { group, user, name } = action.payload;
+  const {
+    group, user, name, groupLimited, threadLimited, joinLimited
+  } = action.payload;
   const params = {
     parent_group_id: group,
     user_id: user,
-    name: name
+    name: name,
+    group_limited: groupLimited,
+    thread_limited: threadLimited,
+    join_limited: joinLimited
   };
   const { id } = yield call(pushMessage, commonChannel, 'groups', 'add', params);
   yield put(push("/groups/" + id))
 }
 
 function* addThreadSaga(action) {
-  const { group, user, title } = action.payload;
+  const { group, user, title, postLimited } = action.payload;
   const params = {
     parent_group_id: group,
     user_id: user,
-    title: title
+    title: title,
+    post_limited: postLimited
   };
   const { id } = yield call(pushMessage, commonChannel, 'threads', 'add', params);
   yield put(push("/threads/" + id))

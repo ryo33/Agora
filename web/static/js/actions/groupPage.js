@@ -12,7 +12,6 @@ export const openGroupThreadsTab = createAction('Open group threads tab', id => 
 export const updateGroupThreads = createAction('Update group threads', ids => ids);
 export const openGroupGroupsTab = createAction('Open group groups tab', id => id);
 export const updateGroupGroups = createAction('Update group groups', ids => ids);
-export const openGroupMembersTab = createAction('Open group members tab', id => id);
 export const updateGroupMembers = createAction('Update group members', ids => ids);
 
 export const addMember = createAction('Add group member',

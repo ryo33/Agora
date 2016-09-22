@@ -9,9 +9,15 @@ import Divider from 'material-ui/Divider';
 
 import UserSelector from './UserSelector';
 
-const mapStateToProps = ({ account }) => {
+const mapStateToProps = ({ account, threads }, { members, thread }) => {
+  if (threads[thread] == null) {
+    members = [];
+  } else if (threads[thread].post_limited != true) {
+    members = null;
+  }
   return {
     currentUser: account.currentUser,
+    members
   };
 };
 
@@ -73,8 +79,12 @@ class PostForm extends Component {
   }
 
   render() {
-    const { user, title, text, titleForm, messageError, titleError } = this.state;
-    const { zDepth } = this.props;
+    const {
+      user,
+      title, text,
+      titleForm, messageError, titleError
+    } = this.state;
+    const { members, zDepth } = this.props;
     return (
       <Card
         zDepth={zDepth}
@@ -122,6 +132,7 @@ class PostForm extends Component {
           />
           <UserSelector
             user={user}
+            members={members}
             changeUser={this.changeUser}
           />
         </CardActions>

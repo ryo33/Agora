@@ -40,14 +40,9 @@ function* fetchGroupThreadsSaga(action) {
   yield put(updateGroupThreads(threads));
 }
 
-function* fetchGroupMembersSaga(action) {
-  const id = action.payload;
-  const { members } = yield call(pushMessage, commonChannel, 'members', 'get by group', id);
-  yield put(prepareUsers(members));
-  yield put(updateGroupMembers(members));
-}
-
-function joinCallback(emitter, resp) {
+function joinCallback(emitter, { members }) {
+  emitter(prepareUsers(members));
+  emitter(updateGroupMembers(members));
 }
 
 function listenCallback(emitter, channel) {
@@ -81,7 +76,6 @@ export default function*() {
   yield fork(takeLatest, openAllGroupsPage.getType(), fetchGroupsSaga);
   yield fork(takeLatest, openGroupGroupsTab.getType(), fetchGroupGroupsSaga);
   yield fork(takeLatest, openGroupThreadsTab.getType(), fetchGroupThreadsSaga);
-  yield fork(takeLatest, openGroupMembersTab.getType(), fetchGroupMembersSaga);
 
   yield fork(takeEvery, addMember.getType(), addMemberSaga);
   yield fork(takeEvery, updateGroupGroups.getType(), prepareSaga, prepareGroups);

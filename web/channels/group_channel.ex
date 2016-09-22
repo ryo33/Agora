@@ -3,7 +3,13 @@ defmodule Agora.GroupChannel do
 
   def join("group:" <> id, _params, socket) do
     if Agora.Group.exists?(id) do
-      {:ok, socket}
+      query = from m in Agora.Member,
+        where: m.group_id == ^id,
+        select: m.user_id,
+        order_by: [desc: m.updated_at],
+        limit: 100
+      members = Repo.all(query)
+      {:ok, %{members: members}, socket}
     else
       {:error, %{reason: "ID does not exist"}}
     end

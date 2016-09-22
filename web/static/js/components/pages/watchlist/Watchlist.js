@@ -32,7 +32,7 @@ const mapStateToProps = ({ watchlistPage }, { params }) => {
   return {
     groups: watchlistPage.groups,
     threads: watchlistPage.threads,
-    id: params.id
+    id: parseInt(params.id, 10)
   }
 }
 
@@ -57,7 +57,7 @@ class Watchlist extends Component {
 
   render() {
     const {
-      groups, threads, params, theme
+      id, groups, threads, theme
     } = this.props;
     const groupItems = groups.map(({ id, groups, threads, members }) => {
       const list = [];
@@ -101,7 +101,7 @@ class Watchlist extends Component {
     return (
       <div>
         <WatchlistComponent
-          id={params.id}
+          id={id}
         />
         <Divider style={styles.divider} />
         {

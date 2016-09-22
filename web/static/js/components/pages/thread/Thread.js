@@ -17,7 +17,8 @@ import ThreadComponent from 'components/Thread';
 const mapStateToProps = ({ threadPage }, { params }) => {
   return {
     posts: threadPage.posts,
-    id: params.id
+    members: threadPage.members,
+    id: parseInt(params.id, 10)
   }
 }
 
@@ -48,15 +49,17 @@ class Thread extends Component {
 
   render() {
     const {
-      posts, params, theme
+      posts, id, members, theme
     } = this.props;
     return (
       <div>
         <ThreadComponent
-          id={params.id}
+          id={id}
         />
         <Divider style={{ margin: '0.15em 0' }} />
         <SignedIn><PostForm
+            thread={id}
+            members={members}
             submit={this.post}
             expandable
             expand={false}

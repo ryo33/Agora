@@ -11,7 +11,7 @@ defmodule Agora.ChannelController.Thread do
       {:ok, thread} ->
         group_id = thread.parent_group_id
         if group_id != nil do
-          query = from t in Agora.Thread,
+          query = from t in Thread,
             where: t.parent_group_id == ^group_id,
             order_by: [desc: t.inserted_at],
             select: t.id
@@ -27,18 +27,18 @@ defmodule Agora.ChannelController.Thread do
   end
 
   def handle_action("fetch", ids, socket) do
-    posts_query = Agora.Post
+    posts_query = Post
                   |> select([p], p.id)
-    query = Agora.Thread
-            |> where([t], t.id in ^ids)
-            |> select([t], t)
-            |> preload([posts: ^posts_query])
     func = fn t ->
-      t
-      |> Map.update!(:posts, fn ids -> length(ids) end)
-      |> (fn t -> {Integer.to_string(t.id), t} end).()
+      t = t
+          |> Map.update!(:posts, fn ids -> length(ids) end)
+          |> (fn t -> {Integer.to_string(t.id), t} end).()
     end
-    threads = Repo.all(query)
+    threads = Thread
+              |> where([t], t.id in ^ids)
+              |> select([t], t)
+              |> preload([posts: ^posts_query])
+              |> Repo.all()
               |> Enum.map(func)
               |> Enum.into(%{})
     {:ok, %{threads: threads}, socket}
@@ -65,8 +65,7 @@ defmodule Agora.ChannelController.Thread do
   end
 
   def handle_action("get by group", id, socket) do
-    id = String.to_integer id
-    query = from t in Agora.Thread,
+    query = from t in Thread,
       where: t.parent_group_id == ^id,
       select: t.id,
       order_by: [desc: t.inserted_at],

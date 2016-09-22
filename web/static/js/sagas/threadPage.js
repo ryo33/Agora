@@ -5,7 +5,7 @@ import { socket, commonChannel, pushMessage } from 'socket';
 import {
   openThreadPage, closeThreadPage, updateCurrentThread,
     openAllThreadsPage, updateThreads,
-    updateThreadPosts
+    updateThreadPosts, updateThreadMembers
 } from 'actions/threadPage';
 
 import {
@@ -74,8 +74,9 @@ function* preparePostsSaga(action) {
   yield put(preparePosts(ids));
 }
 
-function joinCallback(emitter, { posts }) {
+function joinCallback(emitter, { posts, members }) {
   emitter(preparePosts(posts));
+  emitter(updateThreadMembers(members));
   emitter(updateThreadPosts(posts));
 }
 
