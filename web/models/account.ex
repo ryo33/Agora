@@ -15,8 +15,9 @@ defmodule Agora.Account do
     timestamps
   end
 
-  @required_fields ~w(provider provided_id name)
-  @optional_fields ~w()
+  @required_fields ~w(provider provided_id name)a
+  @optional_fields ~w()a
+  @fields @required_fields ++ @optional_fields
 
   @doc """
   Creates a changeset based on the `model` and `params`.
@@ -26,7 +27,7 @@ defmodule Agora.Account do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, @optional_fields)
+    |> cast(params, @fields)
     |> validate_required(@required_fields)
     |> validate_length(:provider, min: 1)
     |> validate_length(:provided_id, min: 1)
