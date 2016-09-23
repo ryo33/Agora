@@ -20,19 +20,10 @@ const mapStateToProps = (state) => {
 };
 
 const actionCreators = {
-  updateCurrentUser
+  updateCurrentUser, push
 };
 
 class UserList extends Component {
-  componentDidMount() {
-  }
-
-  transitionTo(path) {
-    return (event) => {
-      this.props.dispatch(push(path));
-    };
-  }
-
   setCurrentUser(id) {
     return () => {
       const { updateCurrentUser } = this.props;
@@ -46,6 +37,7 @@ class UserList extends Component {
       primaryText="No Current User"
       disabled
     />);
+    const { push } = this.props;
     if (this.props.users) {
       this.props.users.forEach(({ uid, name, id }, key) => {
         if (id == this.props.currentUser) {
@@ -83,7 +75,7 @@ class UserList extends Component {
             children="add_box"
             className="material-icons"
           />}
-          onClick={this.transitionTo('/account/add-user')}
+          onClick={() => push('/account/add-user')}
         />
       </List>
     </div>);
