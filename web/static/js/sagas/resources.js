@@ -2,7 +2,7 @@ import { fork, take, put, select, call, race, actionChannel } from 'redux-saga/e
 import { takeEvery, channel, delay } from 'redux-saga';
 import { push } from 'react-router-redux';
 
-import { commonChannel, pushMessage } from 'socket';
+import { commonChannel, pushMessage, pushMessage2 } from 'socket';
 
 import {
   addGroups, addThreads, addPosts, addUsers, addWatchlists,
@@ -11,6 +11,7 @@ import {
   watchThread, watchGroup, addWatchGroup, addWatchThread,
   updateWatchlist
 } from 'actions/resources';
+import { showLoadingError } from 'actions/global';
 
 const TIMEOUT = 1500;
 
@@ -19,10 +20,18 @@ function* fetchResources(resource, resultChannel, idsSet) {
   const havingResources = yield select(({ [resource]: resources }) => resources);
   const lackingIDs = ids.filter(id => ! havingResources.hasOwnProperty(id));
   if (lackingIDs.length != 0) {
-    const result = yield call(pushMessage, commonChannel, resource, 'fetch', lackingIDs);
-    const lackingResources = result[resource];
-    if (lackingResources.length != 0) {
-      resultChannel.put(lackingResources);
+    const {
+      result, error, timeout
+    } = yield call(pushMessage2, commonChannel, resource, 'fetch', lackingIDs);
+    if (result) {
+      const lackingResources = result[resource];
+      if (lackingResources.length != 0) {
+        resultChannel.put({ resources: lackingResources });
+      }
+    } else if (timeout) {
+      resultChannel.put({ timeout: true });
+    } else {
+      resultChannel.put({ error });
     }
   }
 }
@@ -45,6 +54,10 @@ function createWatcherFor(resource, prepare, add) {
     }
 
     function* fetch() {
+      for(const id of waitingIDs.values()) {
+        fetchingIDs.add(id);
+      }
+      waitingIDs.clear();
       if (fetchingIDs.size != 0) {
         countDown = TIMEOUT;
         fetchingTask = yield fork(fetchResources, resource, resultChannel, fetchingIDs);
@@ -69,18 +82,22 @@ function createWatcherFor(resource, prepare, add) {
       const { result, fetchingAction, timeout } = res;
 
       if (timeout) {
-        if (fetchingTask) {
-          for(const id of waitingIDs.values()) {
-            fetchingIDs.add(id);
-          }
+        if (!fetchingTask) {
           yield* fetch();
         }
       } else if (result) {
+        const { resources, timeout, error } = result;
         fetchingTask = null;
-        swapIDs();
-        yield* fetch();
-        yield put(add(result));
-      } else {
+        if (resources) {
+          swapIDs();
+          yield* fetch();
+          yield put(add(resources));
+        } else if (timeout) {
+          yield* fetch();
+        } else {
+          yield put(showLoadingError(error));
+        }
+      } else { // fetchingAction
         const ids = fetchingAction.payload;
         if (ids.length != 0) {
           if (fetchingTask) {
