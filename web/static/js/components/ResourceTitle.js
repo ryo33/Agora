@@ -2,8 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { push } from 'react-router-redux';
+import moment from 'moment';
 
-import Time from 'components/Time';
+import TimeAgo from 'react-timeago';
 
 import { requireUser } from 'hocs/resources';
 
@@ -53,7 +54,7 @@ const ResourceTitle = ({ push, user, title, path, onClick, linkedTitle, inserted
       marginLeft: '1.0em',
     }}
   >
-    <Time time={insertedAt} />
+    <TimeAgo date={insertedAt} />
   </span>
 </span>;
 
