@@ -5,8 +5,8 @@ import { push } from 'react-router-redux';
 import Avatar from 'material-ui/Avatar';
 import { List, ListItem } from 'material-ui/List';
 
-import Group from 'components/Group';
 import Thread from 'components/Thread';
+import Group from 'components/Group';
 
 import { CSSGrid, layout, measureItems, makeResponsive } from 'react-stonecutter';
 
@@ -32,17 +32,17 @@ class ResourceList extends Component {
           gutterWidth={16}
           gutterHeight={16}
           layout={layout.pinterest}
-          duration={0}
+          duration={400}
           easing="ease-out"
         >
           {
-            this.props.groups.map(id => <li id='no-indent' itemHeight={250}><Group
-            key={id}
-            id={id}
+            this.props.groups.map(id => <li id='no-indent' key={id} itemHeight={250}><Group
+              key={id}
+              id={id}
           /></li>)
           }
           {
-            this.props.threads.map(id => <li id='no-indent' itemHeight={250}><Thread
+            this.props.threads.map(id => <li id='no-indent' key={id} itemHeight={250}><Thread
               key={id}
               id={id}
             /></li>)
@@ -51,6 +51,11 @@ class ResourceList extends Component {
       </div>
     );
   }
+}
+
+ResourceList.defaultProps = {
+  groups: [],
+  threads: [],
 }
 
 export default connect()(ResourceList);

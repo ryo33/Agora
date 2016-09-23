@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { push } from 'react-router-redux';
 
-import { Card, CardHeader, CardActions, CardTitle, CardText } from 'material-ui/Card';
-import FlatButton from 'material-ui/FlatButton';
+import FontIcon from 'material-ui/FontIcon';
+import {Card, CardActions, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import Divider from 'material-ui/Divider';
 
 import Loading from 'components/Loading';
@@ -37,29 +37,25 @@ class Thread extends Component {
     const { id, thread, push, zDepth, theme } = this.props;
     return (
       <Card
+        onClick={() => push('/threads/' + id)}
         style={theme.thread.root}
         zDepth={zDepth}
       >
-        <CardHeader
-          style={theme.thread.header}
-          title={<ResourceTitle
-            user={thread.user_id}
-            title=""
-            insertedAt={thread.insertedAt}
-          />}
-          showExpandableButton={true}
-        />
-        <Divider />
-        <CardText
-          style={theme.thread.body}
-          onClick={() => push('/threads/' + id)}
-          style={{
-            cursor: 'pointer',
-          }}
+        <CardMedia
+          overlay={<CardTitle title={thread.title} subtitle="Thread description" />}
         >
-          {`${thread.title} (${thread.posts})`}
+          <div id='resource-image'>
+            <h1>IMAGE IMAGE IMAGE IMAGE IMAGE IMAGE</h1>
+          </div>
+        </CardMedia>
+        <CardText>
+          <FontIcon
+            children="chat_bubble_outline"
+            className="material-icons"
+          />
+          {`  ${thread.posts}  `}
         </CardText>
-        <CardActions expandable>
+        <CardActions expandable={true}>
           <ThreadActions id={id} />
         </CardActions>
       </Card>

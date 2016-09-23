@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { push } from 'react-router-redux';
 
-import { Card, CardHeader, CardActions, CardTitle, CardText } from 'material-ui/Card';
+import FontIcon from 'material-ui/FontIcon';
+import {Card, CardActions, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import Divider from 'material-ui/Divider';
 
 import Unimplemented from 'components/Unimplemented';
@@ -35,32 +36,38 @@ class Group extends Component {
     const { id, group, push, zDepth, theme } = this.props;
     return (
       <Card
+        onClick={() => push('/groups/' + id)}
         style={theme.group.root}
         zDepth={zDepth}
       >
-        <CardHeader
-          style={theme.group.header}
-          title={<ResourceTitle
-            insertedAt={group.insertedAt}
-            user={group.user_id}
-            title=""
-          />}
-          showExpandableButton={true}
-        />
-        <Divider />
-        <CardText
-          style={theme.group.body}
-          onClick={() => push('/groups/' + id)}
-          style={{
-            cursor: 'pointer'
-          }}
+        <CardMedia
+          overlay={<CardTitle title={group.name} subtitle="Group description" />}
         >
-          {`${group.name} (${group.threads}, ${group.groups}, ${group.members})`}
+          <div id='resource-image'>
+            <h1>IMAGE IMAGE IMAGE IMAGE IMAGE IMAGE</h1>
+          </div>
+        </CardMedia>
+        <CardText>
+          <FontIcon
+            children="group"
+            className="material-icons"
+          />
+          {`  ${group.groups}  `}
+          <FontIcon
+            children="forum"
+            className="material-icons"
+          />
+          {`  ${group.threads}  `}
+          <FontIcon
+            children="person"
+            className="material-icons"
+          />
+          {`  ${group.members}  `}
         </CardText>
         <CardActions expandable={true}>
           <GroupActions id={id} />
         </CardActions>
-      </Card>
+    </Card>
     );
   }
 }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import Group from 'components/Group'
+import ResourceList from 'components/ResourceList';
 
 import { openAccountGroupsPage } from 'actions/accountPage';
 
@@ -29,14 +29,7 @@ class AccountGroups extends Component {
     const { groups } = this.props;
     return (
       <div>
-        {
-          groups.map(id => (
-            <Group
-              key={id}
-              id={id}
-            />
-          ))
-        }
+        <ResourceList groups={groups} />
       </div>
     )
   }

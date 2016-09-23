@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import ThreadList from 'components/ThreadList';
+import ResourceList from 'components/ResourceList';
 
 import { openAccountThreadsPage } from 'actions/accountPage';
 
@@ -29,7 +29,7 @@ class AccountThreads extends Component {
     const { threads } = this.props;
     return (
       <div>
-        <ThreadList threads={threads} />
+        <ResourceList threads={threads} />
       </div>
     );
   }
