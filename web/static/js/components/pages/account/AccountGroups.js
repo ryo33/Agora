@@ -27,11 +27,7 @@ class AccountGroups extends Component {
 
   render() {
     const { groups } = this.props;
-    return (
-      <div>
-        <ResourceList groups={groups} />
-      </div>
-    )
+    return <ResourceList groups={groups} />
   }
 }
 

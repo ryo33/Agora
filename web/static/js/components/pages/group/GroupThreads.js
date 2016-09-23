@@ -4,8 +4,7 @@ import { connect } from 'react-redux';
 import Divider from 'material-ui/Divider';
 
 import { SignedIn } from 'components/util';
-import Group from 'components/Group';
-import Thread from 'components/Thread';
+import ResourceList from 'components/ResourceList';
 import ThreadForm from 'components/ThreadForm';
 
 import { openGroupThreadsTab } from 'actions/groupPage';
@@ -50,14 +49,7 @@ class GroupThreads extends Component {
             zDepth={2}
           /></SignedIn>
         <Divider style={{margin: "1em 0"}} />
-        {
-          threads.map(id => (
-            <Thread
-              key={id}
-              id={id}
-            />
-          ))
-        }
+        <ResourceList threads={threads} />
       </div>
     );
   }
