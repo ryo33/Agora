@@ -8,10 +8,11 @@ import TimeAgo from 'react-timeago';
 
 import { requireUser } from 'hocs/resources';
 
-const mapStateToProps = ({ users }, { user }) => {
+const mapStateToProps = ({ users }, { user, insertedAt }) => {
   return {
     id: user,
     user: users[user],
+    insertedAt: moment.utc(insertedAt).format()
   };
 };
 
