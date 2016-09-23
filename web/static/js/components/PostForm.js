@@ -85,6 +85,7 @@ class PostForm extends Component {
       titleForm, messageError, titleError
     } = this.state;
     const { members, zDepth } = this.props;
+    const disabled = user == null || text.length == 0;
     return (
       <Card
         zDepth={zDepth}
@@ -128,7 +129,7 @@ class PostForm extends Component {
             label="Submit"
             primary
             onClick={this.submit}
-            disabled={user == null}
+            disabled={disabled}
           />
           <UserSelector
             user={user}

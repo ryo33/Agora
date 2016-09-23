@@ -44,7 +44,7 @@ class Post extends Component {
             user={post.user_id}
             title={post.title}
             path={'/posts/' + id}
-            insertedAt={post.insertedAt}
+            insertedAt={post.inserted_at}
           />}
           showExpandableButton
         />

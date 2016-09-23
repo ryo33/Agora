@@ -41,7 +41,7 @@ class Group extends Component {
         <CardHeader
           style={theme.group.header}
           title={<ResourceTitle
-            insertedAt={group.insertedAt}
+            insertedAt={group.inserted_at}
             user={group.user_id}
             title=""
           />}

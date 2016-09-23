@@ -45,7 +45,7 @@ class Thread extends Component {
           title={<ResourceTitle
             user={thread.user_id}
             title=""
-            insertedAt={thread.insertedAt}
+            insertedAt={thread.inserted_at}
           />}
           showExpandableButton={true}
         />
