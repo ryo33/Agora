@@ -28,11 +28,7 @@ class ThreadAll extends Component {
 
   render() {
     const { threads } = this.props;
-    return (
-      <div>
-        <ResourceList threads={threads} />
-      </div>
-    );
+    return <ResourceList threads={threads} />
   }
 }
 

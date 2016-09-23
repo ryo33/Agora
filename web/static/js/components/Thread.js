@@ -5,7 +5,6 @@ import { push } from 'react-router-redux';
 
 import FontIcon from 'material-ui/FontIcon';
 import {Card, CardActions, CardMedia, CardTitle, CardText} from 'material-ui/Card';
-import Divider from 'material-ui/Divider';
 
 import Loading from 'components/Loading';
 import Unimplemented from 'components/Unimplemented';
