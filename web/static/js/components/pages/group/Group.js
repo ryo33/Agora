@@ -25,40 +25,22 @@ const actionCreators = {
 };
 
 class Group extends Component {
-  constructor() {
-    super()
-    this.onScroll = this.onScroll.bind(this)
-    this.state = {
-      tabsID: 'group-tabs',
-      contentsID: 'group-contents'
-    }
+  constructor(props) {
+    super(props);
   }
 
   componentDidMount() {
     const { openGroupPage, id } = this.props;
     openGroupPage(this.props.id);
-    window.addEventListener('scroll', this.onScroll);
   }
 
   componentWillUnmount() {
     const { closeGroupPage, id } = this.props;
-    window.removeEventListener('scroll', this.onScroll, false);
     closeGroupPage(this.props.id);
   }
 
   handleChange(value) {
     this.props.push('/groups/' + this.props.id + '/' + value);
-  }
-
-  onScroll() {
-    const group_header_height = 130
-    const y = document.documentElement.scrollTop || document.body.scrollTop;
-    if(y > group_header_height) {
-      this.setState({ tabsID: 'group-tabs-fixed', contentsID: 'group-contents-tabs-fixed'})
-    }
-    else {
-      this.setState({ tabsID: 'group-tabs', contentsID: 'group-contents'})
-    }
   }
 
   render() {
@@ -67,7 +49,7 @@ class Group extends Component {
       <div id='group-header'>
         <GroupHeader id={id} />
       </div>
-      <div id={this.state.tabsID}>
+      <div>
         <Tabs
           value={tab}
           onChange={this.handleChange.bind(this)}
@@ -89,7 +71,7 @@ class Group extends Component {
           </Tab>
         </Tabs>
       </div>
-      <div id={this.state.contentsID}>
+      <div>
         {this.props.children}
       </div>
     </div>

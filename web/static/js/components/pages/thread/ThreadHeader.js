@@ -4,10 +4,10 @@ import { bindActionCreators } from 'redux';
 
 import FontIcon from 'material-ui/FontIcon';
 import { grey900 } from 'material-ui/styles/colors';
-import {Card, CardTitle } from 'material-ui/Card';
+import { Card, CardTitle, CardActions } from 'material-ui/Card';
 
 import Unimplemented from 'components/Unimplemented';
-import GroupActions from 'components/GroupActions';
+import ThreadActions from 'components/ThreadActions';
 
 import { requireThread } from 'hocs/resources';
 
@@ -22,7 +22,7 @@ class ThreadHeader extends Component {
     const { id, thread } = this.props;
     const title = <div>
       {`  ${thread.title}  `}
-      <span style={{float: "right"}}>
+      <span>
         <FontIcon
           children="chat_bubble_outline"
           color={grey900}
@@ -32,8 +32,18 @@ class ThreadHeader extends Component {
       </span>
     </div>
     return (
-      <Card>
-        <CardTitle title={title} subtitle="Thread description" />
+      <Card
+        initiallyExpanded={false}
+      >
+        <CardTitle
+          actAsExpander={true}
+          showExpandableButton={true}
+          title={title}
+          subtitle="Thread description"
+        />
+        <CardActions expandable={true}>
+          <ThreadActions id={id} />
+        </CardActions>
     </Card>
     );
   }

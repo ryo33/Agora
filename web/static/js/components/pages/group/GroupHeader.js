@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 
 import FontIcon from 'material-ui/FontIcon';
 import { grey900 } from 'material-ui/styles/colors';
-import {Card, CardActions, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import { Card, CardActions, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 
 import Unimplemented from 'components/Unimplemented';
 import GroupActions from 'components/GroupActions';
@@ -22,7 +22,7 @@ class GroupHeader extends Component {
     const { id, group } = this.props;
     const title = <div>
       {`  ${group.name}  `}
-      <span style={{float: "right"}}>
+      <span>
         <FontIcon
           children="group"
           color={grey900}
@@ -44,10 +44,18 @@ class GroupHeader extends Component {
       </span>
     </div>
     return (
-      <Card>
-        <CardTitle title={title} subtitle="Group description" />
-        <CardText>
-        </CardText>
+      <Card
+        initiallyExpanded={false}
+      >
+        <CardTitle
+          actAsExpander={true}
+          showExpandableButton={true}
+          title={title}
+          subtitle="Group description"
+        />
+        <CardActions expandable={true}>
+          <GroupActions id={id} />
+        </CardActions>
     </Card>
     );
   }
