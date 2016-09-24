@@ -30,6 +30,11 @@ defmodule Agora.ChannelController.User do
     {:ok, %{users: users}, socket}
   end
 
+  def handle_action("exists", %{"query" => query}, socket) do
+    exists = Repo.exists(from u in User, where: like(u.uid, ^query))
+    {:ok, %{exists: exists}, socket}
+  end
+
   def handle_action("fetch", ids, socket) do
     query = Agora.User
             |> where([u], u.id in ^ids)

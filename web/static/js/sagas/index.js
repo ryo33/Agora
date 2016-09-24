@@ -9,6 +9,8 @@ import accountPageSaga from 'sagas/accountPage';
 
 import userFormSaga from 'sagas/userForm';
 
+import newUserFormSaga from 'sagas/accountPage/newUserForm';
+
 export default function*() {
   yield fork(resourcesSaga);
 
@@ -18,4 +20,6 @@ export default function*() {
   yield fork(accountPageSaga);
 
   yield fork(userFormSaga);
+
+  yield fork(newUserFormSaga);
 };

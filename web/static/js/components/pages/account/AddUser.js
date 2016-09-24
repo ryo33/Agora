@@ -9,11 +9,18 @@ import { Card, CardActions, CardHeader,
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 
-const mapStateToProps = ({ account }) => {
+import { updateNewUserFormQuery } from 'actions/accountPage/newUserForm';
+
+const mapStateToProps = ({ account, newUserForm }) => {
   return {
     id: account.forms.addUser.id,
     name: account.forms.addUser.name,
+    suggestedUserExists: newUserForm.suggestedUserExists,
   };
+};
+
+const actionCreators = {
+  updateNewUserFormQuery
 };
 
 class AddUser extends Component {
@@ -22,10 +29,10 @@ class AddUser extends Component {
     this.state = {
       id: '',
       name: '',
-      idLen: '',
-      nameLen: '',
-      idColor: { colors: '#00bcd4', textAlign: 'right' },
-      nameColor: { colors: '#00bcd4', textAlign: 'right' },
+      idMessage: '',
+      nameMessage: '',
+      idError: { colors: '#00bcd4', textAlign: 'right' },
+      nameError: { colors: '#00bcd4', textAlign: 'right' },
       isDisabled: true,
     };
   }
@@ -38,76 +45,94 @@ class AddUser extends Component {
   }
 
   componentWillReceiveProps(props) {
-    this.setState({
-      id: props.id,
-      name: props.name,
-    });
+    if (props.suggestedUserExists) {
+      this.setState({
+        idMessage: 'This id is already exists.',
+        idError: true,
+      });
+    } else {
+      this.checkLength(this.state.id, this.state.name)
+    }
+  }
+
+  checkLength(id, name) {
+    const minLen = { id:  3, name: 1 };
+    const maxLen = { id: 30, name: 30 };
+    let newProps = {};
+    const idLen = id.length;
+    const nameLen = name.length;
+
+    if (idLen != 0) {
+      newProps['id'] = id;
+      newProps['idError'] = (idLen < minLen.id || idLen > maxLen.id);
+      newProps['idMessage'] = idLen + '/' + maxLen.id;
+    } else {
+      newProps['id'] = '';
+      newProps['idError'] = null;
+      newProps['idMessage'] = null;
+    }
+    if (nameLen != 0) {
+      newProps['name'] = name;
+      newProps['nameError'] = (nameLen < minLen.name || nameLen > maxLen.name);
+      newProps['nameMessage'] = nameLen + '/' + maxLen.name;
+    } else {
+      newProps['name'] = '';
+      newProps['nameError'] = null;
+      newProps['nameMessage'] = null;
+    }
+    this.setState(Object.assign({}, this.state, newProps));
   }
 
   handleChange(column, event) {
-    const minLen = { id:  3, name: 1 };
-    const maxLen = { id: 30, name: 30 };
-    const other = { id: 'name', name: 'id' };
-    let tmp = {};
-
-    tmp[column] = event.target.value;
-    if (event.target.value != '') {
-      let len = event.target.value.length;
-      tmp[column + 'Len'] = len + '/' + maxLen[column];
-      tmp[column + 'Color'] = (len < minLen[column] || len > maxLen[column]
-                                    ? { color: '#F44336', textAlign: 'right' }
-                                    : { color: '#8BC34A', textAlign: 'right' });
-
-      let col2 = other[column];
-      let len2 = this.state[col2].length;
-      tmp['isDisabled'] = len < minLen[column] || len > maxLen[column]
-                             || len2 < minLen[col2] || len2 > maxLen[col2];
-    } else {
-      tmp[column + 'Len'] = '';
-      tmp[column + 'Color'] = { color: '#00bcd4' };
-      tmp['isDisabled'] = true;
+    switch (column) {
+      case 'id':
+        this.checkLength(event.target.value, this.state.name)
+        this.props.updateNewUserFormQuery(event.target.value)
+        break;
+      case 'name':
+        this.checkLength(this.state.id, event.target.value)
+        break;
     }
-    this.setState(Object.assign({}, this.state, tmp));
   }
 
   click() {
     window.accountChannel
-        .push('add_user', { uid: this.state.id, name: this.state.name })
-        .receive('ok', () => {
-          this.props.dispatch(push('/account/users'));
-        });
+      .push('add_user', { uid: this.state.id, name: this.state.name })
+      .receive('ok', () => {
+        this.props.dispatch(push('/account/users'));
+      });
   }
 
   render() {
     return (<Card>
-            <CardTitle title="Add New User" />
-            <CardText>
-                <TextField
-                  hintText="ID"
-                  floatingLabelText="ID"
-                  errorText={this.state.idLen}
-                  errorStyle={this.state.idColor}
-                  value={this.state.id}
-                  onChange={this.handleChange.bind(this, 'id')}
-                /><br />
-                <TextField
-                  hintText="Name"
-                  floatingLabelText="Name"
-                  errorText={this.state.nameLen}
-                  errorStyle={this.state.nameColor}
-                  value={this.state.name}
-                  onChange={this.handleChange.bind(this, 'name')}
-                /><br />
-            </CardText>
-            <CardActions>
-                <RaisedButton
-                  label="Submit"
-                  onClick={this.click.bind(this)}
-                  disabled={this.state.isDisabled}
-                />
-            </CardActions>
-        </Card>);
+      <CardTitle title="Add New User" />
+      <CardText>
+        <TextField
+          hintText="ID"
+          floatingLabelText="ID"
+          errorText={this.state.idMessage}
+          errorStyle={this.state.idError ? ({ color: '#F44336', textAlign: 'right' }) : ({ color: '#8BC34A', textAlign: 'right' })}
+          value={this.state.id}
+          onChange={this.handleChange.bind(this, 'id')}
+        /><br />
+        <TextField
+          hintText="Name"
+          floatingLabelText="Name"
+          errorText={this.state.nameMessage}
+          errorStyle={this.state.nameError ? ({ color: '#F44336', textAlign: 'right' }) : ({ color: '#8BC34A', textAlign: 'right' })}
+          value={this.state.name}
+          onChange={this.handleChange.bind(this, 'name')}
+        /><br />
+      </CardText>
+      <CardActions>
+        <RaisedButton
+          label="Submit"
+          onClick={this.click.bind(this)}
+          disabled={this.state.isDisabled}
+        />
+      </CardActions>
+    </Card>);
   }
 }
 
-export default connect(mapStateToProps)(AddUser);
+export default connect(mapStateToProps, actionCreators)(AddUser);

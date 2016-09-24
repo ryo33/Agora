@@ -11,6 +11,8 @@ import watchlistPage from './watchlistPage';
 
 import userForm from './userForm';
 
+import newUserForm from './accountPage/newUserForm'
+
 import theme from './theme';
 
 const reducers = {
@@ -27,6 +29,7 @@ const reducers = {
   accountPage,
   watchlistPage,
   userForm,
+  newUserForm,
   theme,
 };
 
