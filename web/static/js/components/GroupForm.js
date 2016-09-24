@@ -8,12 +8,21 @@ import { Card, CardActions, CardHeader,
   CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
+import Toggle from 'material-ui/Toggle';
 
 import UserSelector from './UserSelector';
 
-const mapStateToProps = ({ account }) => {
+const mapStateToProps = ({ account, groups }, { members, group }) => {
+  if (group == null) {
+    members == null;
+  } else if (groups[group] == null) {
+    members = [];
+  } else if (groups[group].group_limited != true) {
+    members = null;
+  }
   return {
-    currentUser: account.currentUser
+    currentUser: account.currentUser,
+    members
   };
 };
 
@@ -22,10 +31,17 @@ class GroupForm extends Component {
     super(props);
     this.state = {
       name: props.name || "",
-      user: this.props.currentUser
+      user: this.props.currentUser,
+      groupLimited: true,
+      threadLimited: true,
+      joinLimited: true
     };
     this.submit = this.submit.bind(this);
     this.changeUser = this.changeUser.bind(this);
+    this.handleChangeName = this.handleChange.bind(this, "name")
+    this.handleToggleGroup = this.handleToggleGroup.bind(this);
+    this.handleToggleThread = this.handleToggleThread.bind(this);
+    this.handleToggleJoin = this.handleToggleJoin.bind(this);
   }
 
   handleChange(column, event) {
@@ -34,10 +50,23 @@ class GroupForm extends Component {
     })
   }
 
+  handleToggleGroup() {
+    this.setState({ groupLimited: ! this.state.groupLimited });
+  }
+  handleToggleThread() {
+    this.setState({ threadLimited: ! this.state.threadLimited });
+  }
+  handleToggleJoin() {
+    this.setState({ joinLimited: ! this.state.joinLimited });
+  }
+
   submit() {
     this.props.submit({
       user: this.state.user,
-      name: this.state.name
+      name: this.state.name,
+      groupLimited: this.state.groupLimited,
+      threadLimited: this.state.threadLimited,
+      joinLimited: this.state.joinLimited
     });
     this.setState({ name: '' });
   }
@@ -53,14 +82,35 @@ class GroupForm extends Component {
   }
 
   render() {
+    const { group, members } = this.props;
+    const { name, user, groupLimited, threadLimited, joinLimited } = this.state;
+    const disabled = user == null || name.length == 0;
     return <Card>
       <CardTitle title="New Group" />
       <CardText>
         <TextField
           hintText="Title"
           floatingLabelText="Title"
-          value={this.state.name}
-          onChange={this.handleChange.bind(this, "name")}
+          value={name}
+          onChange={this.handleChangeName}
+        />
+        <Toggle
+          label="Allow only members to create new groups"
+          labelPosition="right"
+          toggled={groupLimited}
+          onToggle={this.handleToggleGroup}
+        />
+        <Toggle
+          label="Allow only members to create new threads"
+          labelPosition="right"
+          toggled={threadLimited}
+          onToggle={this.handleToggleThread}
+        />
+        <Toggle
+          label="Allow only members to add new members"
+          labelPosition="right"
+          toggled={joinLimited}
+          onToggle={this.handleToggleJoin}
         />
       </CardText>
       <CardActions>
@@ -68,9 +118,11 @@ class GroupForm extends Component {
           label="Submit"
           primary={true}
           onClick={this.submit}
+          disabled={disabled}
         />
         <UserSelector
           user={this.state.user}
+          members={members}
           changeUser={this.changeUser}
         />
       </CardActions>

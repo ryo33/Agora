@@ -2,12 +2,15 @@ defmodule Agora.Thread do
   use Agora.Web, :model
   @derive {Poison.Encoder, only: [
     :id, :title, :user_id, :parent_group_id,
+    :post_limited,
     :posts,
     :inserted_at, :updated_at
   ]}
 
   schema "threads" do
     field :title, :string
+    field :post_limited, :boolean
+    field :read_limited, :boolean
     belongs_to :account, Agora.Account
     belongs_to :user, Agora.User
     belongs_to :parent_group, Agora.Group
@@ -18,7 +21,7 @@ defmodule Agora.Thread do
   end
 
   @required_fields ~w(title account_id user_id)
-  @optional_fields ~w(parent_group_id)
+  @optional_fields ~w(parent_group_id post_limited read_limited)
 
   @doc """
   Creates a changeset based on the `model` and `params`.

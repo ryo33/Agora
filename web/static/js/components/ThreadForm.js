@@ -10,12 +10,21 @@ import {
 } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
+import Toggle from 'material-ui/Toggle';
 
 import UserSelector from './UserSelector';
 
-const mapStateToProps = ({ account }) => {
+const mapStateToProps = ({ account, groups }, { members, group }) => {
+  if (group == null) {
+    members == null;
+  } else if (groups[group] == null) {
+    members = [];
+  } else if (groups[group].thread_limited != true) {
+    members = null;
+  }
   return {
     currentUser: account.currentUser,
+    members
   };
 };
 
@@ -25,21 +34,31 @@ class ThreadForm extends Component {
     this.state = {
       title: props.title || '',
       user: this.props.currentUser,
+      postLimited: false
     };
     this.submit = this.submit.bind(this);
     this.changeUser = this.changeUser.bind(this);
+    this.handleTogglePost = this.handleTogglePost.bind(this);
+    this.handleChangeTitle = this.handleChangeTitle.bind(this);
   }
 
-  handleChange(column, event) {
+  handleChangeTitle(event) {
     this.setState({
-      [column]: event.target.value
+      title: event.target.value
     })
+  }
+
+  handleTogglePost() {
+    this.setState({
+      postLimited: ! this.state.postLimited
+    });
   }
 
   submit() {
     this.props.submit({
       user: this.state.user,
-      title: this.state.title
+      title: this.state.title,
+      postLimited: this.state.postLimited
     })
     this.setState({ title: '' })
   }
@@ -55,6 +74,9 @@ class ThreadForm extends Component {
   }
 
   render() {
+    const { group, members } = this.props;
+    const { title, user, postLimited } = this.state;
+    const disabled = user == null || title.length == 0;
     return (
       <Card>
         <CardTitle title="New Thread" />
@@ -62,18 +84,31 @@ class ThreadForm extends Component {
           <TextField
             hintText="Title"
             floatingLabelText="Title"
-            value={this.state.title}
-            onChange={this.handleChange.bind(this, 'title')}
+            value={title}
+            onChange={this.handleChangeTitle}
           />
+          {
+            group != null
+            ? <Toggle
+              label="Allow only members to post"
+              labelPosition="right"
+              toggled={postLimited}
+              onToggle={this.handleTogglePost}
+            />
+            : null
+          }
         </CardText>
         <CardActions>
           <RaisedButton
             label="Submit"
-            primary
+            primary={true}
+            disabled={this.state.user == null}
             onClick={this.submit}
+            disabled={disabled}
           />
           <UserSelector
             user={this.state.user}
+            members={members}
             changeUser={this.changeUser}
           />
         </CardActions>

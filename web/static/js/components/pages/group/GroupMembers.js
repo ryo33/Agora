@@ -7,28 +7,23 @@ import { SignedIn } from 'components/util';
 import User from 'components/User';
 import UserForm from 'components/UserForm';
 
-import { openGroupMembersTab, addMember } from 'actions/groupPage'
+import { addMember } from 'actions/groupPage'
 
 const mapStateToProps = ({ groupPage }, { params }) => {
   return {
     members: groupPage.groupMembers,
-    id: params.id
+    id: parseInt(params.id, 10)
   };
 };
 
 const actionCreators = {
-  openGroupMembersTab, addMember
+  addMember
 };
 
 class GroupMembers extends Component {
   constructor(props) {
     super(props);
     this.submit = this.submit.bind(this);
-  }
-
-  componentDidMount() {
-    const { openGroupMembersTab, id } = this.props;
-    openGroupMembersTab(id);
   }
 
   submit({ user }) {
@@ -42,12 +37,14 @@ class GroupMembers extends Component {
       <div>
         <Divider style={{ margin: '0.15em 0' }} />
         <SignedIn><UserForm
+            group={id}
+            members={members}
             title="Add New Members"
             submit={this.submit}
             expandable
             expand={false}
             zDepth={2}
-            groupID={id}
+            group={id}
           /></SignedIn>
         <Divider style={{ margin: '1em 0' }} />
         {

@@ -2,12 +2,17 @@ defmodule Agora.Group do
   use Agora.Web, :model
   @derive {Poison.Encoder, only: [
     :name, :user_id, :id, :parent_group_id,
+    :group_limited, :thread_limited, :join_limited,
     :members, :threads, :groups,
     :inserted_at, :updated_at
   ]}
 
   schema "groups" do
     field :name, :string
+    field :group_limited, :boolean
+    field :thread_limited, :boolean
+    field :join_limited, :boolean
+    field :read_limited, :boolean
     belongs_to :account, Agora.Account
     belongs_to :user, Agora.User
     belongs_to :parent_group, Agora.Group
@@ -20,7 +25,11 @@ defmodule Agora.Group do
   end
 
   @required_fields ~w(name account_id user_id)
-  @optional_fields ~w(parent_group_id)
+  @optional_fields ~w(
+                      parent_group_id
+                      group_limited thread_limited
+                      join_limited read_limited
+                    )
 
   @doc """
   Creates a changeset based on the `model` and `params`.

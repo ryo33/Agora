@@ -2,7 +2,7 @@ import { fork, take, put, select, call, race, actionChannel } from 'redux-saga/e
 import { takeEvery, channel, delay } from 'redux-saga';
 import { push } from 'react-router-redux';
 
-import { commonChannel, pushMessage } from 'socket';
+import { commonChannel, pushMessage, pushMessage2 } from 'socket';
 
 import {
   addGroups, addThreads, addPosts, addUsers, addWatchlists,
@@ -11,88 +11,88 @@ import {
   watchThread, watchGroup, addWatchGroup, addWatchThread,
   updateWatchlist
 } from 'actions/resources';
+import { showLoadingError } from 'actions/global';
 
-const TIMEOUT = 1500;
+const COLLECT_TIME = 30;
 
 function* fetchResources(resource, resultChannel, idsSet) {
   const ids = Array.from(idsSet);
   const havingResources = yield select(({ [resource]: resources }) => resources);
   const lackingIDs = ids.filter(id => ! havingResources.hasOwnProperty(id));
   if (lackingIDs.length != 0) {
-    const result = yield call(pushMessage, commonChannel, resource, 'fetch', lackingIDs);
-    const lackingResources = result[resource];
-    if (lackingResources.length != 0) {
-      resultChannel.put(lackingResources);
+    const {
+      result, error, timeout
+    } = yield call(pushMessage2, commonChannel, resource, 'fetch', lackingIDs);
+    if (result) {
+      const lackingResources = result[resource];
+      resultChannel.put({ resources: lackingResources });
+    } else if (timeout) {
+      resultChannel.put({ timeout: true });
+    } else {
+      resultChannel.put({ error });
     }
   }
+}
+
+function* delaySaga(time, timeoutChannel) {
+  yield call(delay, time);
+  timeoutChannel.put(true);
 }
 
 function createWatcherFor(resource, prepare, add) {
   return function*() {
     let fetchingIDs = new Set();
     let waitingIDs = new Set();
-    let fetchingTask = false;
-    let countDown = TIMEOUT;
-    let lastTime = Date.now();
+
+    let fetchingTask = null;
+    let timeoutTask = null;
+
     const resultChannel = channel();
     const resourceChannel = yield actionChannel(prepare.getType());
+    const timeoutChannel = channel();
 
-    function swapIDs() {
-      const tmp = fetchingIDs;
-      fetchingIDs = waitingIDs;
-      waitingIDs = tmp;
-      waitingIDs.clear();
-    }
-
-    function* fetch() {
-      if (fetchingIDs.size != 0) {
-        countDown = TIMEOUT;
-        fetchingTask = yield fork(fetchResources, resource, resultChannel, fetchingIDs);
+    function* collect() {
+      if (timeoutTask == null) {
+        timeoutTask = yield fork(delaySaga, COLLECT_TIME, timeoutChannel);
       }
     }
 
     while (true) {
-      const now = Date.now();
-      countDown -= (now - lastTime);
-      lastTime = now;
-      let res;
-      if (fetchingTask) {
-        res = yield race({
-          result: take(resultChannel),
-          fetchingAction: take(resourceChannel),
-          timeout: call(delay, countDown)
-        });
-      } else {
-        const action = yield take(resourceChannel);
-        res = { fetchingAction: action };
-      }
-      const { result, fetchingAction, timeout } = res;
-
-      if (timeout) {
-        if (fetchingTask) {
-          for(const id of waitingIDs.values()) {
-            fetchingIDs.add(id);
-          }
-          yield* fetch();
-        }
-      } else if (result) {
+      const { result, prepareAction, collected } = yield race({
+        result: take(resultChannel),
+        prepareAction: take(resourceChannel),
+        collected: take(timeoutChannel),
+      });
+      if (result) {
+        const { resources, timeout, error } = result;
         fetchingTask = null;
-        swapIDs();
-        yield* fetch();
-        yield put(add(result));
-      } else {
-        const ids = fetchingAction.payload;
-        if (ids.length != 0) {
-          if (fetchingTask) {
-            ids.forEach(id => {
-              if (!fetchingIDs.has(id)) { waitingIDs.add(id); }
-            });
-          } else {
-            ids.forEach(id => {
-              fetchingIDs.add(id);
-            });
-            yield* fetch();
+        if (resources) {
+          fetchingIDs.clear();
+          if (waitingIDs.size != 0) {
+            yield* collect();
           }
+          if (resources.length != 0) {
+            yield put(add(resources));
+          }
+        } else if (timeout) {
+          yield* collect();
+        } else {
+          yield put(showLoadingError(error));
+        }
+      } else if (prepareAction) {
+        const ids = prepareAction.payload;
+        ids.forEach(id => {
+          if (!fetchingIDs.has(id)) { waitingIDs.add(id); }
+        })
+        yield* collect();
+      } else if (collected) {
+        timeoutTask = null;
+        for(const id of waitingIDs.values()) {
+          fetchingIDs.add(id);
+        }
+        waitingIDs.clear();
+        if (fetchingIDs.size != 0) {
+          fetchingTask = yield fork(fetchResources, resource, resultChannel, fetchingIDs);
         }
       }
     }
@@ -106,22 +106,28 @@ const watchUsers      = createWatcherFor('users', prepareUsers, addUsers);
 const watchWatchlists = createWatcherFor('watchlists', prepareWatchlists, addWatchlists);
 
 function* addGroupSaga(action) {
-  const { group, user, name } = action.payload;
+  const {
+    group, user, name, groupLimited, threadLimited, joinLimited
+  } = action.payload;
   const params = {
     parent_group_id: group,
     user_id: user,
-    name: name
+    name: name,
+    group_limited: groupLimited,
+    thread_limited: threadLimited,
+    join_limited: joinLimited
   };
   const { id } = yield call(pushMessage, commonChannel, 'groups', 'add', params);
   yield put(push("/groups/" + id))
 }
 
 function* addThreadSaga(action) {
-  const { group, user, title } = action.payload;
+  const { group, user, title, postLimited } = action.payload;
   const params = {
     parent_group_id: group,
     user_id: user,
-    title: title
+    title: title,
+    post_limited: postLimited
   };
   const { id } = yield call(pushMessage, commonChannel, 'threads', 'add', params);
   yield put(push("/threads/" + id))

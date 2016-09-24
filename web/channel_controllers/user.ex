@@ -34,7 +34,9 @@ defmodule Agora.ChannelController.User do
     query = Agora.User
             |> where([u], u.id in ^ids)
             |> select([u], {u.id, u})
-    users = Repo.all(query) |> Enum.map(fn {k, v} -> {Integer.to_string(k), v} end) |> Enum.into(%{})
+    users = Repo.all(query)
+            |> Enum.map(fn {k, v} -> {Integer.to_string(k), v} end)
+            |> Enum.into(%{})
     {:ok, %{users: users}, socket}
   end
 end

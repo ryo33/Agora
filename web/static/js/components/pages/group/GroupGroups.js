@@ -13,7 +13,8 @@ import { submitGroup } from 'actions/resources';
 const mapStateToProps = ({ groupPage }, { params }) => {
   return {
     groups: groupPage.groupGroups,
-    id: params.id
+    members: groupPage.groupMembers,
+    id: parseInt(params.id, 10)
   };
 };
 
@@ -32,16 +33,18 @@ class GroupGroups extends Component {
     openGroupGroupsTab(id);
   }
 
-  submit({ user, name }) {
+  submit(params) {
     const { id, submitGroup } = this.props;
-    submitGroup({group: id, user, name});
+    submitGroup(Object.assign(params, {group: id}));
   }
 
   render() {
-    const { groups, id } = this.props;
+    const { groups, members, id } = this.props;
     return <div>
       <Divider style={{ margin: '0.15em 0' }} />
       <SignedIn><GroupForm
+          group={id}
+          members={members}
           title="Add New Groups"
           submit={this.submit}
           expandable={true}

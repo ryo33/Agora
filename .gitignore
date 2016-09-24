@@ -2,6 +2,7 @@
 /_build
 /db
 /deps
+/rel
 /*.ez
 /web/static/assets/images
 

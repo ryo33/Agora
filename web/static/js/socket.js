@@ -12,8 +12,8 @@ export const socket = new Socket('/socket', {
   reconnectAfterMs: (tries) => {
     if (tries < 10) return 1000;
     else if (tries < 20) return 2000;
-        else if (tries < 30) return 3000;
-        else return 5000;
+    else if (tries < 30) return 3000;
+    else return 5000;
   },
   params: { token: window.token },
 });
@@ -24,6 +24,15 @@ export const accountChannel = window.socket.channel("account:" + window.accountI
 window.accountChannel = accountChannel;
 export const commonChannel = window.socket.channel("common", {});
 window.commonChannel = commonChannel;
+
+export const pushMessage2 = (channel, event, action, params=null) => {
+  return new Promise((resolve, reject) => {
+    channel.push(event, {action, params})
+    .receive('ok', result => resolve({ result }))
+    .receive('error', reasons => resolve({error: reasons}))
+    .receive('timeout', () => resolve({timeout: true}))
+  });
+}
 
 export const pushMessage = (channel, event, action, params=null) => {
   return new Promise((resolve, reject) => {

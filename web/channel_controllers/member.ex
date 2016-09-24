@@ -19,7 +19,7 @@ defmodule Agora.ChannelController.Member do
           query = from m in Agora.Member,
             where: m.group_id == ^member.group_id,
             order_by: [desc: m.inserted_at],
-            select: m.id
+            select: m.user_id
           members = Repo.all(query)
           broadcast_to_group(member.group_id, "add members", %{
             members: members
@@ -32,7 +32,6 @@ defmodule Agora.ChannelController.Member do
   end
 
   def handle_action("fetch", %{"id" => id}, socket) do
-    id = String.to_integer id
     query = from m in Agora.Member,
       where: m.group_id == ^id,
       select: m,

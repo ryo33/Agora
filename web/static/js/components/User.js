@@ -43,7 +43,7 @@ class User extends Component {
             user={id}
             onClick={onClick}
             path={'/users/' + user.id}
-            insertedAt={user.insertedAt}
+            insertedAt={user.inserted_at}
           />}
           showExpandableButton={true}
         />

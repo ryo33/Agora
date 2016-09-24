@@ -9,6 +9,11 @@ defmodule Agora.ChannelController.Group do
 
     case Repo.insert(changeset) do
       {:ok, group} ->
+        # Add owner as a member
+        member_params = %{"user_id" => group.user_id, "group_id" => group.id}
+        changeset = Member.changeset(%Member{}, put_info(member_params, socket))
+        Repo.insert!(changeset)
+        # Broadcast to channel
         group_id = group.parent_group_id
         if group_id != nil do
           query = from g in Agora.Group,

@@ -40,7 +40,7 @@ class Watchlist extends Component {
     <CardHeader
       style={theme.watchlist.header}
       title={<ResourceTitle
-        insertedAt={watchlist.insertedAt}
+        insertedAt={watchlist.inserted_at}
         user={watchlist.user_id}
         title=""
       />}

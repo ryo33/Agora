@@ -18,7 +18,8 @@ import ThreadHeader from 'components/pages/thread/ThreadHeader'
 const mapStateToProps = ({ threadPage }, { params }) => {
   return {
     posts: threadPage.posts,
-    id: params.id
+    members: threadPage.members,
+    id: parseInt(params.id, 10)
   }
 }
 
@@ -49,15 +50,17 @@ class Thread extends Component {
 
   render() {
     const {
-      posts, params, theme
+      posts, id, members, theme
     } = this.props;
     return (
       <div>
         <div id='thread-header'>
-          <ThreadHeader id={params.id} />
+          <ThreadHeader id={id} />
         </div>
         <Divider style={{ margin: '0.15em 0' }} />
         <SignedIn><PostForm
+            thread={id}
+            members={members}
             submit={this.post}
             expandable
             expand={false}

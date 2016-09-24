@@ -21,7 +21,7 @@ import { addUserForm, unmountUserForm,
 const SelectedUser = ({ id }) => <User id={id} />;
 
 const SuggestForm = ({
-  query, onChange, suggestedUsers, dispatch, groupID,
+  query, onChange, suggestedUsers, dispatch, group,
   updateUserFormSelected
 }) => (
   <div>
@@ -34,16 +34,22 @@ const SuggestForm = ({
     { suggestedUsers.map(id => <User
       key={id}
       id={id}
-      onClick={() => updateUserFormSelected(groupID, id)}
+      onClick={() => updateUserFormSelected(group, id)}
     />)}
   </div>
 )
 
-const mapStateToProps = ({ account, userForm }, { groupID }) => {
-  const { query="", suggestedUsers=[], selectedUser=null } = userForm[groupID] || {};
+const mapStateToProps = ({ account, userForm, groups }, { members, group }) => {
+  const { query="", suggestedUsers=[], selectedUser=null } = userForm[group] || {};
+  if (groups[group] == null) {
+    members = [];
+  } else if (groups[group].join_limited != true) {
+    members = null;
+  }
   return {
     currentUser: account.currentUser,
-    query, suggestedUsers, selectedUser
+    query, suggestedUsers, selectedUser,
+    members
   };
 };
 
@@ -55,8 +61,6 @@ const actionCreators = {
 class UserForm extends Component {
   constructor(props) {
     super(props);
-    const { addUserForm, groupID } = this.props;
-    addUserForm(groupID);
     this.state = {
       user: this.props.currentUser,
     };
@@ -68,40 +72,40 @@ class UserForm extends Component {
   }
 
   componentWillMount() {
-    const { addUserForm, groupID } = this.props;
-    addUserForm(groupID);
+    const { addUserForm, group } = this.props;
+    addUserForm(group);
   }
 
   componentWillUnmount() {
-    const { unmountUserForm, groupID } = this.props;
-    unmountUserForm(groupID);
+    const { unmountUserForm, group } = this.props;
+    unmountUserForm(group);
   }
 
   handleQueryChange(event) {
     const value = event.target.value;
-    const { updateUserFormQuery, groupID } = this.props;
-    updateUserFormQuery(groupID, value, groupID);
+    const { updateUserFormQuery, group } = this.props;
+    updateUserFormQuery(group, value, group);
   }
 
   handleSelectedChange(event) {
     const value = event.target.value;
-    const { updateUserFormSelected, groupID } = this.props;
-    updateUserFormSelected(groupID, user);
+    const { updateUserFormSelected, group } = this.props;
+    updateUserFormSelected(group, user);
   }
 
   submit() {
     const { updateUserFormQuery, updateUserFormSelected,
-      groupID, submit, selectedUser } = this.props;
+      group, submit, selectedUser } = this.props;
     submit({
       user: selectedUser,
     });
-    updateUserFormSelected(groupID, null);
-    updateUserFormQuery(groupID, '');
+    updateUserFormSelected(group, null);
+    updateUserFormQuery(group, '');
   }
 
   cancel() {
-    const { updateUserFormSelected, groupID } = this.props;
-    updateUserFormSelected(groupID, null);
+    const { updateUserFormSelected, group } = this.props;
+    updateUserFormSelected(group, null);
   }
 
   changeUser(user) {
@@ -110,8 +114,11 @@ class UserForm extends Component {
 
   render() {
     const {
-      query, suggestedUsers, selectedUser, updateUserFormSelected, groupID
-    } = this.props
+      members, query, suggestedUsers, selectedUser, updateUserFormSelected, group
+    } = this.props;
+    const { user } = this.state;
+    const notSelected = !selectedUser
+    const disabled = user == null || notSelected;
     return (
       <Card>
         <CardTitle title={this.props.title} />
@@ -124,7 +131,7 @@ class UserForm extends Component {
                 onChange={this.handleQueryChange}
                 suggestedUsers={suggestedUsers}
                 updateUserFormSelected={updateUserFormSelected}
-                groupID={groupID}
+                group={group}
               />
           }
         </CardText>
@@ -133,16 +140,17 @@ class UserForm extends Component {
             label="Submit"
             primary={true}
             onClick={this.submit}
-            disabled={!selectedUser}
+            disabled={disabled}
           />
           <RaisedButton
             label="Cancel"
             secondary={true}
             onClick={this.cancel}
-            disabled={!selectedUser}
+            disabled={notSelected}
           />
           <UserSelector
             user={this.state.user}
+            members={members}
             changeUser={this.changeUser}
           />
         </CardActions>

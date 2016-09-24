@@ -53,6 +53,8 @@ class WatchlistForm extends Component {
   }
 
   render() {
+    const { user, name } = this.state;
+    const disabled = user == null || name.length == 0;
     return (
       <Card>
         <CardTitle title="New Watchlist" />
@@ -60,7 +62,7 @@ class WatchlistForm extends Component {
           <TextField
             hintText="Name"
             floatingLabelText="Name"
-            value={this.state.name}
+            value={name}
             onChange={this.handleNameChange}
           />
         </CardText>
@@ -69,9 +71,10 @@ class WatchlistForm extends Component {
             label="Submit"
             primary
             onClick={this.submit}
+            disabled={disabled}
           />
           <UserSelector
-            user={this.state.user}
+            user={user}
             changeUser={this.changeUser}
           />
         </CardActions>
