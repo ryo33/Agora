@@ -2,10 +2,11 @@ import { createReducer } from 'redux-act';
 
 import {
   addGroups, updateGroup,
-    addThreads, updateThread,
-    addPosts, updatePost,
-    addUsers, updateUser,
-    addWatchlists, updateWatchlist
+  addThreads, updateThread,
+  addPosts, updatePost,
+  addUsers, updateUser,
+  addWatchlists, updateWatchlist,
+  addUserIDs
 } from 'actions/resources'
 
 function updateItem(resources, id, newInfo) {
@@ -26,3 +27,7 @@ export const threads = createResourceReducer(addThreads, updateThread);
 export const posts   = createResourceReducer(addPosts, updatePost);
 export const users   = createResourceReducer(addUsers, updateUser);
 export const watchlists   = createResourceReducer(addWatchlists, updateWatchlist);
+
+export const userIDs = createReducer({
+  [addUserIDs]: (state, ids) => Object.assign({}, state, ids),
+}, {});

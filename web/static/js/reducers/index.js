@@ -1,6 +1,8 @@
+import { globalInfo } from './global';
+
 import account from './account/index';
 
-import { threads, posts, users, groups, watchlists } from './resources';
+import { threads, posts, users, groups, watchlists, userIDs } from './resources';
 
 import threadPage from './threadPage';
 import groupPage from './groupPage';
@@ -12,11 +14,13 @@ import userForm from './userForm';
 import theme from './theme';
 
 const reducers = {
+  globalInfo,
   account,
   threads,
   groups,
   posts,
   users,
+  userIDs,
   watchlists,
   threadPage,
   groupPage,

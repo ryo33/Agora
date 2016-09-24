@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import WatchAction from 'components/resourceActions/WatchAction';
+import CopyAction from 'components/resourceActions/CopyAction';
 
 import { watchGroup } from 'actions/resources';
 
@@ -22,6 +23,9 @@ class GroupActions extends Component {
           id={id}
           watch={watchGroup}
           itemsKey="watch_groups"
+        />
+        <CopyAction
+          link={`groups/${id}`}
         />
       </div>
     );

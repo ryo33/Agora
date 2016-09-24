@@ -9,6 +9,7 @@ import Divider from 'material-ui/Divider';
 
 import Unimplemented from 'components/Unimplemented';
 import ResourceTitle from 'components/ResourceTitle';
+import UserActions from 'components/UserActions';
 
 import { requireUser } from 'hocs/resources';
 
@@ -49,7 +50,7 @@ class User extends Component {
         />
         <Divider />
         <CardActions expandable={true}>
-          <Unimplemented />
+          <UserActions id={id} />
         </CardActions>
       </Card>
     );

@@ -11,6 +11,7 @@
     "phoenix": "file:deps/phoenix",
     "phoenix_html": "file:deps/phoenix_html",
     "react": "^15.0.1",
+    "react-copy-to-clipboard": "^4.2.3",
     "react-dom": "^15.0.1",
     "react-redux": "^4.4.5",
     "react-router": "^2.2.2",
@@ -22,9 +23,10 @@
     "redux": "^3.4.0",
     "redux-act": "^1.0.0",
     "redux-logger": "^2.6.1",
+    "redux-logic": "^0.9.3",
     "redux-persist": "^3.0.1",
     "redux-saga": "^0.11.1",
-    "redux-thunk": "^2.0.1"
+    "rxjs": "^5.0.0-beta.12"
   },
   "devDependencies": {
     "babel-core": "^6.7.6",

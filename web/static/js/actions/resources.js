@@ -41,3 +41,5 @@ export const submitWatchlist = createSubmitFor('watchlist');
 
 export const watchGroup = createWatchFor('group');
 export const watchThread = createWatchFor('thread');
+
+export const addUserIDs = createAction('Add User IDs', ids => ids)

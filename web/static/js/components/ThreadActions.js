@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import WatchAction from 'components/resourceActions/WatchAction';
+import CopyAction from 'components/resourceActions/CopyAction';
 
 import { watchThread } from 'actions/resources';
 
@@ -22,6 +23,9 @@ class ThreadActions extends Component {
           id={id}
           watch={watchThread}
           itemsKey="watch_threads"
+        />
+        <CopyAction
+          link={`threads/${id}`}
         />
       </div>
     );

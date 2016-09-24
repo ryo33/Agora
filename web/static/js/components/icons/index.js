@@ -6,6 +6,11 @@ export const AddBoxIcon = (<FontIcon
   className="material-icons"
 />);
 
+export const CopyLinkIcon = (<FontIcon
+  children="link"
+  className="material-icons"
+/>);
+
 export const GroupIcon = (<FontIcon
   children="group"
   className="material-icons"

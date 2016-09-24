@@ -9,6 +9,7 @@ import Divider from 'material-ui/Divider';
 
 import Unimplemented from 'components/Unimplemented';
 import ResourceTitle from 'components/ResourceTitle';
+import PostActions from 'components/PostActions';
 
 import { requirePost } from 'hocs/resources';
 
@@ -57,7 +58,7 @@ class Post extends Component {
         </CardText>
         <Divider />
         <CardActions expandable>
-          <Unimplemented />
+          <PostActions id={id} />
         </CardActions>
         </Card>
     );
