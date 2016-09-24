@@ -16,7 +16,17 @@ export const ThreadIcon = (<FontIcon
   className="material-icons"
 />);
 
+export const PostIcon = (<FontIcon
+  children="chat_bubble_outline"
+  className="material-icons"
+/>);
+
 export const WatchlistIcon = (<FontIcon
   children="remove_red_eye"
+  className="material-icons"
+/>);
+
+export const UserIcon = (<FontIcon
+  children="person"
   className="material-icons"
 />);

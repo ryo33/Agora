@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 
-import ThreadList from 'components/ThreadList';
+import ResourceList from 'components/ResourceList';
 
 import { openAllThreadsPage } from 'actions/threadPage';
 
@@ -28,11 +28,7 @@ class ThreadAll extends Component {
 
   render() {
     const { threads } = this.props;
-    return (
-      <div>
-        <ThreadList threads={threads} />
-      </div>
-    );
+    return <ResourceList threads={threads} />
   }
 }
 

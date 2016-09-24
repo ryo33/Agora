@@ -4,8 +4,8 @@ import { push } from 'react-router-redux';
 
 import { SignedIn } from 'components/util';
 import Divider from 'material-ui/Divider';
-import Group from 'components/Group';
 import GroupForm from 'components/GroupForm';
+import ResourceList from 'components/ResourceList';
 
 import { openGroupGroupsTab } from 'actions/groupPage';
 import { submitGroup } from 'actions/resources';
@@ -53,14 +53,7 @@ class GroupGroups extends Component {
           groupID={id}
         /></SignedIn>
       <Divider style={{ margin: '1em 0' }} />
-      {
-        groups.map((id) => (
-          <Group
-            key={id}
-            id={id}
-          />
-        ))
-      }
+      <ResourceList groups={groups} />
     </div>
   }
 }

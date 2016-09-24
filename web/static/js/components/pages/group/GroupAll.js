@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 
-import Group from 'components/Group';
-
 import { openAllGroupsPage } from 'actions/groupPage';
+
+import ResourceList from 'components/ResourceList';
 
 const mapStateToProps = ({ groupPage }) => {
   return {
@@ -34,14 +34,7 @@ class GroupAll extends Component {
 
   render() {
     const { groups } = this.props;
-    return (
-      <div>
-        {groups.map(id => <Group
-          key={id}
-          id={id}
-        />)}
-      </div>
-    );
+    return <ResourceList groups={groups} />
   }
 }
 

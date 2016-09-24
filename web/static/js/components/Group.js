@@ -3,12 +3,14 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { push } from 'react-router-redux';
 
-import { Card, CardHeader, CardActions, CardTitle, CardText } from 'material-ui/Card';
-import Divider from 'material-ui/Divider';
+import FontIcon from 'material-ui/FontIcon';
+import { grey900 } from 'material-ui/styles/colors';
+import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card';
 
 import Unimplemented from 'components/Unimplemented';
-import ResourceTitle from 'components/ResourceTitle';
 import GroupActions from 'components/GroupActions';
+
+import { GroupIcon } from 'components/icons/index'
 
 import { requireGroup } from 'hocs/resources';
 
@@ -33,34 +35,42 @@ const mapDispatchToProps = dispatch => {
 class Group extends Component {
   render() {
     const { id, group, push, zDepth, theme } = this.props;
+    const title = <div>
+      <FontIcon
+        children="group"
+        color={grey900}
+        className="material-icons"
+      />
+      {`  ${group.name}  `}
+    </div>
     return (
       <Card
+        onClick={() => push('/groups/' + id)}
         style={theme.group.root}
         zDepth={zDepth}
       >
-        <CardHeader
-          style={theme.group.header}
-          title={<ResourceTitle
-            insertedAt={group.inserted_at}
-            user={group.user_id}
-            title=""
-          />}
-          showExpandableButton={true}
-        />
-        <Divider />
-        <CardText
-          style={theme.group.body}
-          onClick={() => push('/groups/' + id)}
-          style={{
-            cursor: 'pointer'
-          }}
-        >
-          {`${group.name} (${group.threads}, ${group.groups}, ${group.members})`}
+        <CardTitle title={title} subtitle="Group description" />
+        <CardText>
+          <FontIcon
+            children="group"
+            className="material-icons"
+          />
+          {`  ${group.groups}  `}
+          <FontIcon
+            children="forum"
+            className="material-icons"
+          />
+          {`  ${group.threads}  `}
+          <FontIcon
+            children="person"
+            className="material-icons"
+          />
+          {`  ${group.members}  `}
         </CardText>
         <CardActions expandable={true}>
           <GroupActions id={id} />
         </CardActions>
-      </Card>
+    </Card>
     );
   }
 }
