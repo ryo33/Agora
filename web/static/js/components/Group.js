@@ -7,7 +7,6 @@ import FontIcon from 'material-ui/FontIcon';
 import {Card, CardActions, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 
 import Unimplemented from 'components/Unimplemented';
-import ResourceTitle from 'components/ResourceTitle';
 import GroupActions from 'components/GroupActions';
 
 import { requireGroup } from 'hocs/resources';
