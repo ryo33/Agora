@@ -13,7 +13,7 @@ import {
 } from 'actions/resources';
 import { showLoadingError } from 'actions/global';
 
-const TIMEOUT = 1500;
+const COLLECT_TIME = 30;
 
 function* fetchResources(resource, resultChannel, idsSet) {
   const ids = Array.from(idsSet);
@@ -25,9 +25,7 @@ function* fetchResources(resource, resultChannel, idsSet) {
     } = yield call(pushMessage2, commonChannel, resource, 'fetch', lackingIDs);
     if (result) {
       const lackingResources = result[resource];
-      if (lackingResources.length != 0) {
-        resultChannel.put({ resources: lackingResources });
-      }
+      resultChannel.put({ resources: lackingResources });
     } else if (timeout) {
       resultChannel.put({ timeout: true });
     } else {
@@ -36,80 +34,65 @@ function* fetchResources(resource, resultChannel, idsSet) {
   }
 }
 
+function* delaySaga(time, timeoutChannel) {
+  yield call(delay, time);
+  timeoutChannel.put(true);
+}
+
 function createWatcherFor(resource, prepare, add) {
   return function*() {
     let fetchingIDs = new Set();
     let waitingIDs = new Set();
-    let fetchingTask = false;
-    let countDown = TIMEOUT;
-    let lastTime = Date.now();
+
+    let fetchingTask = null;
+    let timeoutTask = null;
+
     const resultChannel = channel();
     const resourceChannel = yield actionChannel(prepare.getType());
+    const timeoutChannel = channel();
 
-    function swapIDs() {
-      const tmp = fetchingIDs;
-      fetchingIDs = waitingIDs;
-      waitingIDs = tmp;
-      waitingIDs.clear();
-    }
-
-    function* fetch() {
-      for(const id of waitingIDs.values()) {
-        fetchingIDs.add(id);
-      }
-      waitingIDs.clear();
-      if (fetchingIDs.size != 0) {
-        countDown = TIMEOUT;
-        fetchingTask = yield fork(fetchResources, resource, resultChannel, fetchingIDs);
+    function* collect() {
+      if (timeoutTask == null) {
+        timeoutTask = yield fork(delaySaga, COLLECT_TIME, timeoutChannel);
       }
     }
 
     while (true) {
-      const now = Date.now();
-      countDown -= (now - lastTime);
-      lastTime = now;
-      let res;
-      if (fetchingTask) {
-        res = yield race({
-          result: take(resultChannel),
-          fetchingAction: take(resourceChannel),
-          timeout: call(delay, countDown)
-        });
-      } else {
-        const action = yield take(resourceChannel);
-        res = { fetchingAction: action };
-      }
-      const { result, fetchingAction, timeout } = res;
-
-      if (timeout) {
-        if (!fetchingTask) {
-          yield* fetch();
-        }
-      } else if (result) {
+      const { result, prepareAction, collected } = yield race({
+        result: take(resultChannel),
+        prepareAction: take(resourceChannel),
+        collected: take(timeoutChannel),
+      });
+      if (result) {
         const { resources, timeout, error } = result;
         fetchingTask = null;
         if (resources) {
-          swapIDs();
-          yield* fetch();
-          yield put(add(resources));
+          fetchingIDs.clear();
+          if (waitingIDs.size != 0) {
+            yield* collect();
+          }
+          if (resources.length != 0) {
+            yield put(add(resources));
+          }
         } else if (timeout) {
-          yield* fetch();
+          yield* collect();
         } else {
           yield put(showLoadingError(error));
         }
-      } else { // fetchingAction
-        const ids = fetchingAction.payload;
-        if (ids.length != 0) {
-          if (fetchingTask) {
-            ids.forEach(id => {
-              if (!fetchingIDs.has(id)) { waitingIDs.add(id); }
-            });
-          } else {
-            ids.forEach(id => {
-              fetchingIDs.add(id);
-            });
-            yield* fetch();
-          }
+      } else if (prepareAction) {
+        const ids = prepareAction.payload;
+        ids.forEach(id => {
+          if (!fetchingIDs.has(id)) { waitingIDs.add(id); }
+        })
+        yield* collect();
+      } else if (collected) {
+        timeoutTask = null;
+        for(const id of waitingIDs.values()) {
+          fetchingIDs.add(id);
+        }
+        waitingIDs.clear();
+        if (fetchingIDs.size != 0) {
+          fetchingTask = yield fork(fetchResources, resource, resultChannel, fetchingIDs);
         }
       }
     }
