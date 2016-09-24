@@ -67,13 +67,8 @@ div#resource-list {
     padding:0px 0px 64px 64px;
 }
 
-div#resource-image {
-    width: 250px;
-    height: 175px;
-}
-
 div#group-header {
-    height: 200px;
+    height: 130px;
 }
 
 div#group-tabs-fixed {

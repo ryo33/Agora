@@ -51,7 +51,7 @@ class Group extends Component {
   }
 
   onScroll() {
-    const group_header_height = 200
+    const group_header_height = 130
     const y = document.documentElement.scrollTop || document.body.scrollTop;
     if(y > group_header_height) {
       this.setState({ tabsID: 'group-tabs-fixed', contentsID: 'group-contents-tabs-fixed'})

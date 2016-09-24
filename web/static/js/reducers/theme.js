@@ -17,7 +17,7 @@ const initialState = {
     root: {
       margin: "0.17em 0",
       width: "250px",
-      height: "250px"
+      height: "200px"
     },
     header: {
       backgroundColor: MaterialColors.purple[200]
@@ -30,7 +30,7 @@ const initialState = {
     root: {
       margin: "0.17em 0",
       width: "250px",
-      height: "250px"
+      height: "200px"
     },
     header: {
       backgroundColor: MaterialColors.brown[200],

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import FontIcon from 'material-ui/FontIcon';
-import { grey100 } from 'material-ui/styles/colors';
+import { grey900 } from 'material-ui/styles/colors';
 import {Card, CardActions, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 
 import Unimplemented from 'components/Unimplemented';
@@ -25,19 +25,19 @@ class GroupHeader extends Component {
       <span style={{float: "right"}}>
         <FontIcon
           children="group"
-          color={grey100}
+          color={grey900}
           className="material-icons"
         />
         {`  ${group.groups}  `}
         <FontIcon
           children="forum"
-          color={grey100}
+          color={grey900}
           className="material-icons"
         />
         {`  ${group.threads}  `}
         <FontIcon
           children="person"
-          color={grey100}
+          color={grey900}
           className="material-icons"
         />
         {`  ${group.members}  `}
@@ -45,13 +45,7 @@ class GroupHeader extends Component {
     </div>
     return (
       <Card>
-        <CardMedia
-          overlay={<CardTitle title={title} subtitle="Group description" />}
-        >
-          <div id='group-header-image'>
-            <h1>IMAGE IMAGE IMAGE IMAGE IMAGE IMAGE</h1>
-          </div>
-        </CardMedia>
+        <CardTitle title={title} subtitle="Group description" />
         <CardText>
         </CardText>
     </Card>

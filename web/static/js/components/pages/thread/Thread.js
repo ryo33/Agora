@@ -12,7 +12,8 @@ import {
   closeThreadPage
 } from 'actions/threadPage';
 import { submitPost } from 'actions/resources';
-import ThreadComponent from 'components/Thread';
+
+import ThreadHeader from 'components/pages/thread/ThreadHeader'
 
 const mapStateToProps = ({ threadPage }, { params }) => {
   return {
@@ -52,9 +53,9 @@ class Thread extends Component {
     } = this.props;
     return (
       <div>
-        <ThreadComponent
-          id={params.id}
-        />
+        <div id='thread-header'>
+          <ThreadHeader id={params.id} />
+        </div>
         <Divider style={{ margin: '0.15em 0' }} />
         <SignedIn><PostForm
             submit={this.post}

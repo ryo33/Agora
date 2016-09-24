@@ -36,13 +36,13 @@ class ResourceList extends Component {
           easing="ease-out"
         >
           {
-            this.props.groups.map(id => <li id='no-indent' key={id} itemHeight={250}><Group
+            this.props.groups.map(id => <li id='no-indent' key={id} itemHeight={200}><Group
               key={id}
               id={id}
           /></li>)
           }
           {
-            this.props.threads.map(id => <li id='no-indent' key={id} itemHeight={250}><Thread
+            this.props.threads.map(id => <li id='no-indent' key={id} itemHeight={200}><Thread
               key={id}
               id={id}
             /></li>)

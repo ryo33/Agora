@@ -4,7 +4,8 @@ import { bindActionCreators } from 'redux';
 import { push } from 'react-router-redux';
 
 import FontIcon from 'material-ui/FontIcon';
-import {Card, CardActions, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import { grey900 } from 'material-ui/styles/colors';
+import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card';
 
 import Loading from 'components/Loading';
 import Unimplemented from 'components/Unimplemented';
@@ -34,19 +35,21 @@ const mapDispatchToProps = dispatch => {
 class Thread extends Component {
   render() {
     const { id, thread, push, zDepth, theme } = this.props;
+    const title = <div>
+      <FontIcon
+        children="forum"
+        color={grey900}
+        className="material-icons"
+      />
+      {`  ${thread.title}  `}
+    </div>
     return (
       <Card
         onClick={() => push('/threads/' + id)}
         style={theme.thread.root}
         zDepth={zDepth}
       >
-        <CardMedia
-          overlay={<CardTitle title={thread.title} subtitle="Thread description" />}
-        >
-          <div id='resource-image'>
-            <h1>IMAGE IMAGE IMAGE IMAGE IMAGE IMAGE</h1>
-          </div>
-        </CardMedia>
+        <CardTitle title={title} subtitle="Thread description" />
         <CardText>
           <FontIcon
             children="chat_bubble_outline"
