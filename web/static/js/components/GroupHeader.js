@@ -42,13 +42,11 @@ class GroupHeader extends Component {
 
   render() {
     const { id, group } = this.props;
-    const title = <div>
+    const title = (
       <span
         onClick={this.handleClick}
       >
         {`  ${group.name}  `}
-      </span>
-      <span>
         <FontIcon
           children="group"
           color={grey900}
@@ -68,7 +66,7 @@ class GroupHeader extends Component {
         />
         {`  ${group.members}  `}
       </span>
-    </div>
+    );
     return (
       <Card
         initiallyExpanded={false}

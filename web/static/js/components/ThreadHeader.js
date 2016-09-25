@@ -42,13 +42,11 @@ class ThreadHeader extends Component {
 
   render() {
     const { id, thread } = this.props;
-    const title = <div>
+    const title = (
       <span
         onClick={this.handleClick}
       >
         {`  ${thread.title}  `}
-      </span>
-      <span>
         <FontIcon
           children="chat_bubble_outline"
           color={grey900}
@@ -56,7 +54,7 @@ class ThreadHeader extends Component {
         />
         {`  ${thread.posts}  `}
       </span>
-    </div>
+    );
     return (
       <Card
         initiallyExpanded={false}
