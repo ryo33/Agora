@@ -38,6 +38,7 @@ export const submitGroup = createSubmitFor('group');
 export const submitThread = createSubmitFor('thread');
 export const submitPost = createSubmitFor('post');
 export const submitWatchlist = createSubmitFor('watchlist');
+export const submitUser = createSubmitFor('user');
 
 export const watchGroup = createWatchFor('group');
 export const watchThread = createWatchFor('thread');

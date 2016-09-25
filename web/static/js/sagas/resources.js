@@ -2,12 +2,12 @@ import { fork, take, put, select, call, race, actionChannel } from 'redux-saga/e
 import { takeEvery, channel, delay } from 'redux-saga';
 import { push } from 'react-router-redux';
 
-import { commonChannel, pushMessage, pushMessage2 } from 'socket';
+import { accountChannel, commonChannel, pushMessage, pushMessage2 } from 'socket';
 
 import {
   addGroups, addThreads, addPosts, addUsers, addWatchlists,
   prepareGroups, prepareThreads, preparePosts, prepareUsers, prepareWatchlists,
-  submitGroup, submitThread, submitPost, submitWatchlist,
+  submitGroup, submitThread, submitPost, submitWatchlist, submitUser,
   watchThread, watchGroup, addWatchGroup, addWatchThread,
   updateWatchlist
 } from 'actions/resources';
@@ -118,7 +118,7 @@ function* addGroupSaga(action) {
     join_limited: joinLimited
   };
   const { id } = yield call(pushMessage, commonChannel, 'groups', 'add', params);
-  yield put(push("/groups/" + id))
+  yield put(push('/groups/' + id))
 }
 
 function* addThreadSaga(action) {
@@ -130,7 +130,7 @@ function* addThreadSaga(action) {
     post_limited: postLimited
   };
   const { id } = yield call(pushMessage, commonChannel, 'threads', 'add', params);
-  yield put(push("/threads/" + id))
+  yield put(push('/threads/' + id))
 }
 
 function* addPostSaga(action) {
@@ -151,7 +151,16 @@ function* addWatchlistSaga(action) {
     name
   };
   const { id } = yield call(pushMessage, commonChannel, 'watchlists', 'add', params);
-  yield put(push("/watchlists/" + id))
+  yield put(push('/watchlists/' + id))
+}
+
+function* addUserSaga(action) {
+  const { uid, name } = action.payload;
+  const params = {
+    uid, name
+  };
+  yield call(pushMessage, accountChannel, 'users', 'add', params);
+  yield put(push('/account/users'))
 }
 
 function* watchGroupSaga(action) {
@@ -191,6 +200,7 @@ export default function*() {
   yield fork(takeEvery, submitThread.getType(), addThreadSaga);
   yield fork(takeEvery, submitPost.getType(), addPostSaga);
   yield fork(takeEvery, submitWatchlist.getType(), addWatchlistSaga);
+  yield fork(takeEvery, submitUser.getType(), addUserSaga);
 
   yield fork(takeEvery, watchGroup.getType(), watchGroupSaga);
   yield fork(takeEvery, watchThread.getType(), watchThreadSaga);
