@@ -42,7 +42,6 @@ class Application extends Component {
 
   render() {
     const { globalInfo } = this.props;
-    console.log(this.props)
     return (
         <MuiThemeProvider muiTheme={muiTheme}>
         <div>
