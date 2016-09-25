@@ -13,7 +13,7 @@ import {
 } from 'actions/threadPage';
 import { submitPost } from 'actions/resources';
 
-import ThreadHeader from 'components/pages/thread/ThreadHeader'
+import ThreadHeader from 'components/ThreadHeader'
 
 const mapStateToProps = ({ threadPage }, { params }) => {
   return {

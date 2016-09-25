@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import Divider from 'material-ui/Divider';
 
-import ThreadHeader from 'components/pages/thread/ThreadHeader'
+import ThreadHeader from 'components/ThreadHeader'
 import PostComponent from 'components/Post';
 
 const mapStateToProps = ({ posts }, { params }) => {

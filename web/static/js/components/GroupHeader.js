@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { push } from 'react-router-redux';
 
 import FontIcon from 'material-ui/FontIcon';
 import { grey900 } from 'material-ui/styles/colors';
@@ -17,11 +18,36 @@ const mapStateToProps = ({ theme, groups }, { id }) => {
   }
 };
 
+const actionCreators = {
+  push
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    ...bindActionCreators(actionCreators, dispatch),
+    dispatch
+  };
+};
+
 class GroupHeader extends Component {
+  constructor(props) {
+    super(props);
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick() {
+    const { id, push } = this.props;
+    push('/groups/' + id);
+  }
+
   render() {
     const { id, group } = this.props;
     const title = <div>
-      {`  ${group.name}  `}
+      <span
+        onClick={this.handleClick}
+      >
+        {`  ${group.name}  `}
+      </span>
       <span>
         <FontIcon
           children="group"
@@ -61,4 +87,4 @@ class GroupHeader extends Component {
   }
 }
 
-export default connect(mapStateToProps)(requireGroup(GroupHeader));
+export default connect(mapStateToProps, mapDispatchToProps)(requireGroup(GroupHeader));

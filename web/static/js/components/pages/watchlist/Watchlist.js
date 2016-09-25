@@ -8,6 +8,9 @@ import Divider from 'material-ui/Divider';
 import { SignedIn } from 'components/util';
 import Group from 'components/Group';
 import Thread from 'components/Thread';
+import GroupHeader from 'components/GroupHeader';
+import ThreadHeader from 'components/ThreadHeader';
+import ResourceList from 'components/ResourceList';
 import Post from 'components/Post';
 import User from 'components/User';
 
@@ -62,22 +65,26 @@ class Watchlist extends Component {
     const groupItems = groups.map(({ id, groups, threads, members }) => {
       const list = [];
       let insertedAt = null;
-      list.push(...groups.map(({ id, inserted_at }) => {
+      groups.forEach(({ id, inserted_at }) => {
         insertedAt = Math.max(insertedAt, inserted_at);
-        return <Group key={'g-' + id} id={id} />;
-      }));
-      list.push(...threads.map(({ id, inserted_at }) => {
+      });
+      threads.forEach(({ id, inserted_at }) => {
         insertedAt = Math.max(insertedAt, inserted_at);
-        return <Thread key={'t-' + id} id={id} />;
-      }));
+      });
       list.push(...members.map(({ id, inserted_at }) => {
         insertedAt = Math.max(insertedAt, inserted_at);
         return <User key={'u-' + id} id={id} />;
       }));
       const element = (
         <div>
-          <Group id={id} />
-          <Paper style={styles.paper}>{list}</Paper>
+          <GroupHeader id={id} />
+          <Paper style={styles.paper}>
+            <ResourceList
+              threads={threads.map(({ id }) => id)}
+              groups={groups.map(({ id }) => id)}
+            />
+            {list}
+          </Paper>
         </div>
       )
       return { length: list.length, key:'g-' + id, insertedAt, element }
@@ -90,7 +97,7 @@ class Watchlist extends Component {
       });
       const element = (
         <div>
-          <Thread id={id} />
+          <ThreadHeader id={id} />
           <Paper style={styles.paper}>{list}</Paper>
         </div>
       )

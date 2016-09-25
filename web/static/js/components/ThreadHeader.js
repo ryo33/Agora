@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { push } from 'react-router-redux';
 
 import FontIcon from 'material-ui/FontIcon';
 import { grey900 } from 'material-ui/styles/colors';
@@ -17,11 +18,36 @@ const mapStateToProps = ({ theme, threads }, { id }) => {
   }
 };
 
+const actionCreators = {
+  push
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    ...bindActionCreators(actionCreators, dispatch),
+    dispatch
+  };
+};
+
 class ThreadHeader extends Component {
+  constructor(props) {
+    super(props);
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick() {
+    const { id, push } = this.props;
+    push('/threads/' + id);
+  }
+
   render() {
     const { id, thread } = this.props;
     const title = <div>
-      {`  ${thread.title}  `}
+      <span
+        onClick={this.handleClick}
+      >
+        {`  ${thread.title}  `}
+      </span>
       <span>
         <FontIcon
           children="chat_bubble_outline"
@@ -49,4 +75,4 @@ class ThreadHeader extends Component {
   }
 }
 
-export default connect(mapStateToProps)(requireThread(ThreadHeader));
+export default connect(mapStateToProps, mapDispatchToProps)(requireThread(ThreadHeader));

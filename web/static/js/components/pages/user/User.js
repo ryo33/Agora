@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 
 import Divider from 'material-ui/Divider';
 
-import ThreadHeader from 'components/pages/thread/ThreadHeader'
 import UserComponent from 'components/User';
 
 const mapStateToProps = ({ userIDs }, { params }) => {

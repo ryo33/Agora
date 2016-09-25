@@ -6,7 +6,7 @@ import { Tabs, Tab } from 'material-ui/Tabs';
 
 import { joinGroupChannel, leaveChannel } from '../../../socket';
 
-import GroupHeader from 'components/pages/group/GroupHeader';
+import GroupHeader from 'components/GroupHeader';
 
 import {
   openGroupPage, closeGroupPage
