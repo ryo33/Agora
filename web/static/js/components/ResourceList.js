@@ -7,6 +7,7 @@ import { List, ListItem } from 'material-ui/List';
 
 import Thread from 'components/Thread';
 import Group from 'components/Group';
+import Watchlist from 'components/Watchlist';
 
 import { CSSGrid, layout, measureItems, makeResponsive } from 'react-stonecutter';
 
@@ -23,6 +24,11 @@ class ResourceList extends Component {
   }
 
   render() {
+    const {
+      groups = [],
+      threads = [],
+      watchlists = []
+    } = this.props;
     return (
       <div id='resource-list'>
         <Grid
@@ -36,13 +42,19 @@ class ResourceList extends Component {
           easing="ease-out"
         >
           {
-            this.props.groups.map(id => <li id='no-indent' key={id} itemHeight={200}><Group
+            groups.map(id => <li id='no-indent' key={id} itemHeight={200}><Group
               key={id}
               id={id}
           /></li>)
           }
           {
-            this.props.threads.map(id => <li id='no-indent' key={id} itemHeight={200}><Thread
+            threads.map(id => <li id='no-indent' key={id} itemHeight={200}><Thread
+              key={id}
+              id={id}
+            /></li>)
+          }
+          {
+            watchlists.map(id => <li id='no-indent' key={id} itemHeight={200}><Watchlist
               key={id}
               id={id}
             /></li>)

@@ -3,14 +3,13 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { push } from 'react-router-redux';
 
-import FontIcon from 'material-ui/FontIcon';
 import { grey900 } from 'material-ui/styles/colors';
 import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card';
 
 import Unimplemented from 'components/Unimplemented';
 import GroupActions from 'components/GroupActions';
 
-import { GroupIcon } from 'components/icons/index'
+import { GroupIcon, ThreadIcon, UserIcon } from 'components/icons/index'
 
 import { requireGroup } from 'hocs/resources';
 
@@ -36,11 +35,7 @@ class Group extends Component {
   render() {
     const { id, group, push, zDepth, theme } = this.props;
     const title = <div>
-      <FontIcon
-        children="group"
-        color={grey900}
-        className="material-icons"
-      />
+      {GroupIcon}
       {`  ${group.name}  `}
     </div>
     return (
@@ -51,20 +46,11 @@ class Group extends Component {
       >
         <CardTitle title={title} subtitle="Group description" />
         <CardText>
-          <FontIcon
-            children="group"
-            className="material-icons"
-          />
+          {GroupIcon}
           {`  ${group.groups}  `}
-          <FontIcon
-            children="forum"
-            className="material-icons"
-          />
+          {ThreadIcon}
           {`  ${group.threads}  `}
-          <FontIcon
-            children="person"
-            className="material-icons"
-          />
+          {UserIcon}
           {`  ${group.members}  `}
         </CardText>
         <CardActions expandable={true}>

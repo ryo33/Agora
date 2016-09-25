@@ -7,14 +7,14 @@ import { grey900 } from 'material-ui/styles/colors';
 import { Card, CardActions, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 
 import Unimplemented from 'components/Unimplemented';
-import GroupActions from 'components/GroupActions';
-import { GroupIcon, ThreadIcon, UserIcon } from 'components/icons';
+import WatchlistActions from 'components/WatchlistActions';
+import { WatchlistIcon } from 'components/icons/index';
 
-import { requireGroup } from 'hocs/resources';
+import { requireWatchlist } from 'hocs/resources';
 
-const mapStateToProps = ({ theme, groups }, { id }) => {
+const mapStateToProps = ({ theme, watchlists }, { id }) => {
   return {
-    group: groups[id],
+    watchlist: watchlists[id],
   }
 };
 
@@ -29,7 +29,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-class GroupHeader extends Component {
+class WatchlistHeader extends Component {
   constructor(props) {
     super(props);
     this.handleClick = this.handleClick.bind(this);
@@ -37,23 +37,17 @@ class GroupHeader extends Component {
 
   handleClick() {
     const { id, push } = this.props;
-    push('/groups/' + id);
+    push('/watchlists/' + id);
   }
 
   render() {
-    const { id, group } = this.props;
+    const { id, watchlist } = this.props;
     const title = (
       <span
         onClick={this.handleClick}
       >
-        {GroupIcon}
-        {`  ${group.name}  `}
-        {ThreadIcon}
-        {`  ${group.threads}  `}
-        {GroupIcon}
-        {`  ${group.groups}  `}
-        {UserIcon}
-        {`  ${group.members}  `}
+        {WatchlistIcon}
+        {`  ${watchlist.name}  `}
       </span>
     );
     return (
@@ -64,14 +58,14 @@ class GroupHeader extends Component {
           actAsExpander={true}
           showExpandableButton={true}
           title={title}
-          subtitle="Group description"
+          subtitle="Watchlist description"
         />
         <CardActions expandable={true}>
-          <GroupActions id={id} />
+          <WatchlistActions id={id} />
         </CardActions>
     </Card>
     );
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(requireGroup(GroupHeader));
+export default connect(mapStateToProps, mapDispatchToProps)(requireWatchlist(WatchlistHeader));

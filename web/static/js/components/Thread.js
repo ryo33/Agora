@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { push } from 'react-router-redux';
 
-import FontIcon from 'material-ui/FontIcon';
 import { grey900 } from 'material-ui/styles/colors';
 import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card';
 
@@ -11,6 +10,8 @@ import Loading from 'components/Loading';
 import Unimplemented from 'components/Unimplemented';
 import ResourceTitle from 'components/ResourceTitle';
 import ThreadActions from 'components/ThreadActions';
+
+import { ThreadIcon, PostIcon } from 'components/icons/index'
 
 import { requireThread } from 'hocs/resources';
 
@@ -36,11 +37,7 @@ class Thread extends Component {
   render() {
     const { id, thread, push, zDepth, theme } = this.props;
     const title = <div>
-      <FontIcon
-        children="forum"
-        color={grey900}
-        className="material-icons"
-      />
+      {ThreadIcon}
       {`  ${thread.title}  `}
     </div>
     return (
@@ -51,10 +48,7 @@ class Thread extends Component {
       >
         <CardTitle title={title} subtitle="Thread description" />
         <CardText>
-          <FontIcon
-            children="chat_bubble_outline"
-            className="material-icons"
-          />
+          {PostIcon}
           {`  ${thread.posts}  `}
         </CardText>
         <CardActions expandable={true}>

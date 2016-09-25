@@ -4,7 +4,9 @@ import deepAssign from 'deep-assign';
 const initialState = {
   watchlist: {
     root: {
-      margin: "0.17em 0"
+      margin: "0.17em 0",
+      width: "250px",
+      height: "100px"
     },
     header: {
       backgroundColor: MaterialColors.lime[200]

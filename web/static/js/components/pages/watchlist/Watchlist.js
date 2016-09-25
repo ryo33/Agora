@@ -10,6 +10,7 @@ import Group from 'components/Group';
 import Thread from 'components/Thread';
 import GroupHeader from 'components/GroupHeader';
 import ThreadHeader from 'components/ThreadHeader';
+import WatchlistHeader from 'components/WatchlistHeader';
 import ResourceList from 'components/ResourceList';
 import Post from 'components/Post';
 import User from 'components/User';
@@ -107,7 +108,7 @@ class Watchlist extends Component {
     items.sort((a, b) => b.insertedAt - a.insertedAt); // Desc
     return (
       <div>
-        <WatchlistComponent
+        <WatchlistHeader
           id={id}
         />
         <Divider style={styles.divider} />

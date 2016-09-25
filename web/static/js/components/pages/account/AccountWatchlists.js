@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import Watchlist from 'components/Watchlist'
+import ResourceList from 'components/ResourceList';
 
 import { openAccountWatchlistsPage } from 'actions/accountPage';
 import { getAccountWatchlists } from 'selectors/accountPage';
@@ -30,14 +31,7 @@ class AccountWatchlists extends Component {
     const { watchlists } = this.props;
     return (
       <div>
-        {
-          watchlists.map(id => (
-            <Watchlist
-              key={id}
-              id={id}
-            />
-          ))
-        }
+        <ResourceList watchlists={watchlists} />
       </div>
     )
   }

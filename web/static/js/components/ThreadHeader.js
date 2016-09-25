@@ -3,12 +3,12 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { push } from 'react-router-redux';
 
-import FontIcon from 'material-ui/FontIcon';
 import { grey900 } from 'material-ui/styles/colors';
 import { Card, CardTitle, CardActions } from 'material-ui/Card';
 
 import Unimplemented from 'components/Unimplemented';
 import ThreadActions from 'components/ThreadActions';
+import { ThreadIcon, PostIcon } from 'components/icons';
 
 import { requireThread } from 'hocs/resources';
 
@@ -46,12 +46,9 @@ class ThreadHeader extends Component {
       <span
         onClick={this.handleClick}
       >
+        {ThreadIcon}
         {`  ${thread.title}  `}
-        <FontIcon
-          children="chat_bubble_outline"
-          color={grey900}
-          className="material-icons"
-        />
+        {PostIcon}
         {`  ${thread.posts}  `}
       </span>
     );
