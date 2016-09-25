@@ -30,37 +30,38 @@ class ResourceList extends Component {
       watchlists = []
     } = this.props;
     return (
-      <div id='resource-list'>
-        <Grid
-          component="ul"
-          columns={2}
-          columnWidth={250}
-          gutterWidth={16}
-          gutterHeight={16}
-          layout={layout.pinterest}
-          duration={400}
-          easing="ease-out"
-        >
-          {
-            groups.map(id => <li id='no-indent' key={id} itemHeight={200}><Group
+      <Grid
+        className='resource-list'
+        columns={2}
+        columnWidth={250}
+        gutterWidth={16}
+        gutterHeight={16}
+        layout={layout.pinterest}
+        duration={400}
+        easing="ease-out"
+      >
+        {
+          this.props.groups.map(id => <li className='no-indent' key={id} itemHeight={200}>
+            <Group
               key={id}
               id={id}
           /></li>)
-          }
-          {
-            threads.map(id => <li id='no-indent' key={id} itemHeight={200}><Thread
+        }
+        {
+          this.props.threads.map(id => <li className='no-indent' key={id} itemHeight={200}>
+            <Thread
               key={id}
               id={id}
-            /></li>)
-          }
-          {
-            watchlists.map(id => <li id='no-indent' key={id} itemHeight={200}><Watchlist
+          /></li>)
+        }
+        {
+          watchlists.map(id => <li className='no-indent' key={id} itemHeight={200}>
+            <Watchlist
               key={id}
               id={id}
-            /></li>)
-          }
-        </Grid>
-      </div>
+          /></li>)
+        }
+      </Grid>
     );
   }
 }
