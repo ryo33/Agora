@@ -48,17 +48,17 @@ class GroupHeader extends Component {
       >
         {`  ${group.name}  `}
         <FontIcon
-          children="group"
-          color={grey900}
-          className="material-icons"
-        />
-        {`  ${group.groups}  `}
-        <FontIcon
           children="forum"
           color={grey900}
           className="material-icons"
         />
         {`  ${group.threads}  `}
+        <FontIcon
+          children="group"
+          color={grey900}
+          className="material-icons"
+        />
+        {`  ${group.groups}  `}
         <FontIcon
           children="person"
           color={grey900}

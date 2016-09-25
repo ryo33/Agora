@@ -22,11 +22,11 @@ function createResourceReducer(add, update) {
   }, {});
 }
 
-export const groups  = createResourceReducer(addGroups, updateGroup);
-export const threads = createResourceReducer(addThreads, updateThread);
-export const posts   = createResourceReducer(addPosts, updatePost);
-export const users   = createResourceReducer(addUsers, updateUser);
-export const watchlists   = createResourceReducer(addWatchlists, updateWatchlist);
+export const groups     = createResourceReducer(addGroups, updateGroup);
+export const threads    = createResourceReducer(addThreads, updateThread);
+export const posts      = createResourceReducer(addPosts, updatePost);
+export const users      = createResourceReducer(addUsers, updateUser);
+export const watchlists = createResourceReducer(addWatchlists, updateWatchlist);
 
 export const userIDs = createReducer({
   [addUserIDs]: (state, ids) => Object.assign({}, state, ids),
