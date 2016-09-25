@@ -50,7 +50,7 @@ div#body {
     padding:64px 0 0 0;
 }
 
-li#no-indent {
+.no-indent {
     list-style: none;
     margin-left: -20px;
 }
@@ -63,32 +63,6 @@ div#header-fixed {
     width: 100%;
 }
 
-div#resource-list {
-    padding:0px 0px 64px 64px;
-}
-
-div#group-header {
-}
-
-div#group-tabs-fixed {
-    position: fixed;
-    width: 100%;
-    z-index: 999;
-    top: 64px;
-    left: 0px;
-    width: 100%;
-}
-
-div#group-tabs {
-}
-
-div#group-contents {
-}
-
-div#group-contents-tabs-fixed {
-    padding: 48px 0 0 0;
-}
-
-div#group-header-image {
-    height: 200px;
+.resource-list {
+    margin: auto;
 }
