@@ -9,11 +9,23 @@ import { Card, CardActions, CardHeader,
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 
-const mapStateToProps = ({ account }) => {
+import { updateNewUserFormQuery } from 'actions/accountPage/newUserForm';
+import { submitUser } from 'actions/resources';
+
+const minLen = { id:  3, name: 1 };
+const maxLen = { id: 30, name: 30 };
+
+const mapStateToProps = ({ account, newUserForm }) => {
   return {
     id: account.forms.addUser.id,
     name: account.forms.addUser.name,
+    suggestedUserExists: newUserForm.suggestedUserExists,
   };
+};
+
+const actionCreators = {
+  updateNewUserFormQuery,
+  submitUser
 };
 
 class AddUser extends Component {
@@ -21,12 +33,7 @@ class AddUser extends Component {
     super(props);
     this.state = {
       id: '',
-      name: '',
-      idLen: '',
-      nameLen: '',
-      idColor: { colors: '#00bcd4', textAlign: 'right' },
-      nameColor: { colors: '#00bcd4', textAlign: 'right' },
-      isDisabled: true,
+      name: ''
     };
   }
 
@@ -37,77 +44,78 @@ class AddUser extends Component {
     });
   }
 
-  componentWillReceiveProps(props) {
-    this.setState({
-      id: props.id,
-      name: props.name,
-    });
-  }
-
   handleChange(column, event) {
-    const minLen = { id:  3, name: 1 };
-    const maxLen = { id: 30, name: 30 };
-    const other = { id: 'name', name: 'id' };
-    let tmp = {};
-
-    tmp[column] = event.target.value;
-    if (event.target.value != '') {
-      let len = event.target.value.length;
-      tmp[column + 'Len'] = len + '/' + maxLen[column];
-      tmp[column + 'Color'] = (len < minLen[column] || len > maxLen[column]
-                                    ? { color: '#F44336', textAlign: 'right' }
-                                    : { color: '#8BC34A', textAlign: 'right' });
-
-      let col2 = other[column];
-      let len2 = this.state[col2].length;
-      tmp['isDisabled'] = len < minLen[column] || len > maxLen[column]
-                             || len2 < minLen[col2] || len2 > maxLen[col2];
-    } else {
-      tmp[column + 'Len'] = '';
-      tmp[column + 'Color'] = { color: '#00bcd4' };
-      tmp['isDisabled'] = true;
+    const value = event.target.value;
+    if (column == 'id') {
+      this.props.updateNewUserFormQuery(value);
     }
-    this.setState(Object.assign({}, this.state, tmp));
+    this.setState({
+      [column]: value,
+      idExists: null
+    })
   }
 
   click() {
-    window.accountChannel
-        .push('add_user', { uid: this.state.id, name: this.state.name })
-        .receive('ok', () => {
-          this.props.dispatch(push('/account/users'));
-        });
+    const params = {
+      uid: this.state.id,
+      name: this.state.name
+    };
+    this.props.submitUser(params);
   }
 
   render() {
+    const { suggestedUserExists } = this.props;
+    const { id, name } = this.state;
+    const idLen = id.length;
+    const nameLen = name.length;
+    const isValidID = !(idLen < minLen.id || idLen > maxLen.id);
+    const isValidName = !(nameLen < minLen.name || nameLen > maxLen.name);
+    let idError = !isValidID;
+    let idMessage = `${idLen} (min: ${minLen.id}, max: ${maxLen.id})`;
+    let nameError = !isValidName;;
+    let nameMessage = `${nameLen} (min: ${minLen.name}, max: ${maxLen.name})`;
+    if (suggestedUserExists) {
+      idError = true;
+      idMessage = 'The ID already exists';
+    }
+    if (idLen == 0) {
+      idError = null;
+      idMessage = null;
+    }
+    if (nameLen == 0) {
+      nameError = null;
+      nameMessage = null;
+    }
+    const isDisabled = !(isValidID && isValidName);
     return (<Card>
-            <CardTitle title="Add New User" />
-            <CardText>
-                <TextField
-                  hintText="ID"
-                  floatingLabelText="ID"
-                  errorText={this.state.idLen}
-                  errorStyle={this.state.idColor}
-                  value={this.state.id}
-                  onChange={this.handleChange.bind(this, 'id')}
-                /><br />
-                <TextField
-                  hintText="Name"
-                  floatingLabelText="Name"
-                  errorText={this.state.nameLen}
-                  errorStyle={this.state.nameColor}
-                  value={this.state.name}
-                  onChange={this.handleChange.bind(this, 'name')}
-                /><br />
-            </CardText>
-            <CardActions>
-                <RaisedButton
-                  label="Submit"
-                  onClick={this.click.bind(this)}
-                  disabled={this.state.isDisabled}
-                />
-            </CardActions>
-        </Card>);
+      <CardTitle title="Add New User" />
+      <CardText>
+        <TextField
+          hintText="ID"
+          floatingLabelText="ID"
+          errorText={idMessage}
+          errorStyle={idError ? ({ color: '#F44336', textAlign: 'right' }) : ({ color: '#8BC34A', textAlign: 'right' })}
+          value={id}
+          onChange={this.handleChange.bind(this, 'id')}
+        /><br />
+        <TextField
+          hintText="Name"
+          floatingLabelText="Name"
+          errorText={nameMessage}
+          errorStyle={nameError ? ({ color: '#F44336', textAlign: 'right' }) : ({ color: '#8BC34A', textAlign: 'right' })}
+          value={name}
+          onChange={this.handleChange.bind(this, 'name')}
+        /><br />
+      </CardText>
+      <CardActions>
+        <RaisedButton
+          label="Submit"
+          onClick={this.click.bind(this)}
+          disabled={isDisabled}
+        />
+      </CardActions>
+    </Card>);
   }
 }
 
-export default connect(mapStateToProps)(AddUser);
+export default connect(mapStateToProps, actionCreators)(AddUser);

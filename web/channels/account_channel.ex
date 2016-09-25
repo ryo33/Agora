@@ -26,23 +26,6 @@ defmodule Agora.AccountChannel do
     end
   end
 
-  def handle_in("add_user", user, socket) do
-    user = Map.put(user, "account_id", socket.assigns.account.id)
-    changeset = User.changeset(%User{}, user)
-    if changeset.valid? do
-      case Repo.insert(changeset) do
-        {:ok, user} ->
-          broadcast! socket, "add user", %{user: user.id}
-          {:reply, :ok, socket}
-        {:error, _changeset} ->
-          # TODO Return error message
-          {:reply, {:ok, %{actions: []}}, socket}
-      end
-    else
-      {:reply, :error, socket}
-    end
-  end
-
   def handle_in("set_current_user", user, socket) do
     if Agora.Account.has_user?(socket.assigns.account.id, user) do
         socket = assign(socket, :current_user, user)
@@ -62,5 +45,9 @@ defmodule Agora.AccountChannel do
 
   def handle_in("posts", %{"action" => action, "params" => params}, socket) do
     ChannelController.action(ChannelController.Post, socket, action, params)
+  end
+
+  def handle_in("users", %{"action" => action, "params" => params}, socket) do
+    ChannelController.action(ChannelController.User, socket, action, params)
   end
 end

@@ -30,6 +30,11 @@ defmodule Agora.ChannelController.User do
     {:ok, %{users: users}, socket}
   end
 
+  def handle_action("exists", %{"query" => query}, socket) do
+    exists = Repo.exists(from u in User, where: like(u.uid, ^query))
+    {:ok, %{exists: exists}, socket}
+  end
+
   def handle_action("fetch", ids, socket) do
     query = Agora.User
             |> where([u], u.id in ^ids)
@@ -38,5 +43,18 @@ defmodule Agora.ChannelController.User do
             |> Enum.map(fn {k, v} -> {Integer.to_string(k), v} end)
             |> Enum.into(%{})
     {:ok, %{users: users}, socket}
+  end
+
+  def handle_action("add", user, socket) do
+    account_id = socket.assigns.account.id
+    user = Map.put(user, "account_id", account_id)
+    changeset = User.changeset(%User{}, user)
+    case Repo.insert(changeset) do
+      {:ok, user} ->
+        broadcast_to_account(account_id, "add user", %{user: user.id})
+        {:ok, %{}, socket}
+      {:error, _changeset} ->
+        {:error, socket}
+    end
   end
 end
