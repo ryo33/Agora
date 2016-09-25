@@ -65,6 +65,4 @@ div#header-fixed {
 
 .resource-list {
     margin: auto;
-    position: relative;
-    right: -20px; /* against .no-indent margin-left */
 }
