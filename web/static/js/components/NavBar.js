@@ -5,10 +5,10 @@ import { push } from 'react-router-redux';
 import IconMenu from 'material-ui/IconMenu';
 import IconButton from 'material-ui/IconButton';
 import FontIcon from 'material-ui/FontIcon';
-import NavigationExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-more';
-import MenuItem from 'material-ui/MenuItem';
-import DropDownMenu from 'material-ui/DropDownMenu';
-import RaisedButton from 'material-ui/RaisedButton';
+import { grey50 } from 'material-ui/styles/colors';
+import { grey200 } from 'material-ui/styles/colors';
+import { grey900 } from 'material-ui/styles/colors';
+import FlatButton from 'material-ui/FlatButton';
 import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from 'material-ui/Toolbar';
 import AppBar from 'material-ui/AppBar'
 
@@ -23,39 +23,27 @@ class NavBar extends Component {
   render() {
     return (
       <AppBar
-        title="Agora"
+        title={<span style={{cursor: 'pointer'}}>Agora</span>}
+        onTitleTouchTap={this.transitionTo('/')}
         iconElementLeft={
-          <span>
-            <IconButton
-              iconClassName="material-icons"
-              touch
-              children="menu"
-              onClick={this.props.toggleLeftNav}
-            />
-            <IconButton
-              iconClassName="material-icons"
-              touch
-              children="home"
-              onClick={this.transitionTo('/')}
-            />
-          </span>
+          <IconButton
+            iconClassName="material-icons"
+            touch
+            iconStyle={{color: grey50}}
+            children="menu"
+            onClick={this.props.toggleLeftNav}
+          />
         }
         iconElementRight={
-          <span>
-            <SignedIn><IconButton
-              iconClassName="material-icons"
-              touch
-              children="notifications"
-              onClick={this.transitionTo('/account/notifications')}
-            /></SignedIn>
-            {!window.signedIn
-                ? <RaisedButton
-                  label="Sign in"
-                  onClick={this.transitionTo('/signin')}
-                />
-                : null
-            }
-          </span>
+          !window.signedIn
+            ? <FlatButton
+              backgroundColor={grey50}
+              hoverColor={grey200}
+              labelStyle={{color: grey900}}
+              label="Sign in"
+              onClick={this.transitionTo('/signin')}
+            />
+            : null
         }
       />
     )
