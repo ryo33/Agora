@@ -50,11 +50,6 @@ div#body {
     padding:64px 0 0 0;
 }
 
-.no-indent {
-    list-style: none;
-    margin-left: -20px;
-}
-
 div#header-fixed {
     position: fixed;
     z-index: 999;
@@ -64,7 +59,5 @@ div#header-fixed {
 }
 
 .resource-list {
-    margin: auto;
-    position: relative;
-    right: -20px; /* against .no-indent margin-left */
+    margin: 24px auto;
 }

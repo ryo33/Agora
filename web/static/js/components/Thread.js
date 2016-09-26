@@ -34,6 +34,10 @@ const mapDispatchToProps = dispatch => {
 };
 
 class Thread extends Component {
+  componentDidMount () {
+    this.props.onRender();
+  }
+
   render() {
     const { id, thread, push, zDepth, theme } = this.props;
     const title = <div>
