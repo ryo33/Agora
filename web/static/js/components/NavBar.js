@@ -2,17 +2,20 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 
-import IconMenu from 'material-ui/IconMenu';
-import IconButton from 'material-ui/IconButton';
-import FontIcon from 'material-ui/FontIcon';
-import { grey50 } from 'material-ui/styles/colors';
-import { grey200 } from 'material-ui/styles/colors';
-import { grey900 } from 'material-ui/styles/colors';
 import FlatButton from 'material-ui/FlatButton';
-import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from 'material-ui/Toolbar';
+import IconButton from 'material-ui/IconButton';
+import { grey50, grey200, grey900 } from 'material-ui/styles/colors';
 import AppBar from 'material-ui/AppBar'
 
 import { SignedIn, NotSignedIn } from './util';
+
+const mapStateToProps = ({ routing }) => {
+  const path = routing.locationBeforeTransitions.pathname.split('/');
+        path.shift()
+  return {
+    path
+  }
+}
 
 class NavBar extends Component {
   transitionTo(path) {
@@ -20,11 +23,36 @@ class NavBar extends Component {
       this.props.dispatch(push(path));
     };
   }
+
+  getTitle(path) {
+    let title = " | "
+    switch(path[0]) {
+      case 'groups':     title += "Groups"; break;
+      case 'threads':    title += "Threads"; break;
+      case 'watchlists': title += "Watchlist"; break;
+      case 'account':    switch(path[1]) {
+        case 'groups':     title += "Your Groups"; break;
+        case 'threads':    title += "Your Threads"; break;
+        case 'watchlists': title += "Watchlists"; break;
+        case 'users':      title += "Users"; break;
+        default:           title += "Add"; break;
+      } break;
+      default: title = ""; break;
+    }
+    return (
+      <span>
+        <span style={{cursor: 'pointer'}} onClick={this.transitionTo('/')}>Agora</span>
+        {title}
+      </span>
+    );
+  }
+
   render() {
+    const { path } = this.props;
+    const title = this.getTitle(path)
     return (
       <AppBar
-        title={<span style={{cursor: 'pointer'}}>Agora</span>}
-        onTitleTouchTap={this.transitionTo('/')}
+        title={title}
         iconElementLeft={
           <IconButton
             iconClassName="material-icons"
@@ -50,4 +78,4 @@ class NavBar extends Component {
   }
 }
 
-export default connect()(NavBar);
+export default connect(mapStateToProps)(NavBar);
