@@ -50,10 +50,10 @@ class Group extends Component {
       >
         <CardTitle title={title} subtitle="Group description" />
         <CardText>
-          {GroupIcon}
-          {`  ${group.groups}  `}
           {ThreadIcon}
           {`  ${group.threads}  `}
+          {GroupIcon}
+          {`  ${group.groups}  `}
           {UserIcon}
           {`  ${group.members}  `}
         </CardText>
