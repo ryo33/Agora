@@ -46,7 +46,7 @@ class WatchAction extends Component {
             isWatched={this.isWatched}
           />
           : <FlatButton
-            icon={WatchlistIcon}
+            icon={<WatchlistIcon />}
             label="Watch"
             onClick={this.switchWatch}
           />

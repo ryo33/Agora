@@ -11,19 +11,19 @@ import { SignedIn } from 'components/util';
 let menuItems = [
   {
     children: 'All Threads',
-    leftIcon: ThreadIcon,
+    leftIcon: <ThreadIcon />,
     path: '/threads',
   },
   {
     signedIn: true,
     children: 'All Your Threads',
-    leftIcon: ThreadIcon,
+    leftIcon: <ThreadIcon />,
     path: '/account/threads',
   },
   {
     signedIn: true,
     children: 'Create New Thread',
-    leftIcon: AddBoxIcon,
+    leftIcon: <AddBoxIcon />,
     path: '/account/add-thread',
   },
 ];
@@ -40,7 +40,7 @@ const Threads = (props) => <MenuItem
         />
         : null).filter(mi => mi != null)}
   rightIcon={<ArrowDropRight />}
-  leftIcon={ThreadIcon}
+  leftIcon={<ThreadIcon />}
 />;
 
 export default Threads;

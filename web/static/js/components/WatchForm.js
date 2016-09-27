@@ -39,7 +39,7 @@ class WatchForm extends Component {
         <Subheader>Select a target watchlist</Subheader>
         <ListItem
           primaryText="Create a new watchlist"
-          leftIcon={AddBoxIcon}
+          leftIcon={<AddBoxIcon />}
           onClick={this.handleClick}
         />
         {

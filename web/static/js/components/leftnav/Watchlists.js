@@ -12,13 +12,13 @@ let menuItems = [
   {
     signedIn: true,
     children: 'All Your Watchlists',
-    leftIcon: WatchlistIcon,
+    leftIcon: <WatchlistIcon />,
     path: '/account/watchlists',
   },
   {
     signedIn: true,
     children: 'Create New Watchlist',
-    leftIcon: AddBoxIcon,
+    leftIcon: <AddBoxIcon />,
     path: '/account/add-watchlist',
   },
 ];
@@ -35,7 +35,7 @@ const Watchlists = (props) => <MenuItem
         />
         : null).filter(mi => mi != null)}
   rightIcon={<ArrowDropRight />}
-  leftIcon={WatchlistIcon}
+  leftIcon={<WatchlistIcon />}
 />;
 
 export default Watchlists;

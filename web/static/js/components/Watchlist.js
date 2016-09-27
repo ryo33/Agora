@@ -37,7 +37,7 @@ class Watchlist extends Component {
   render() {
     const { id, watchlist, push, zDepth, theme } = this.props;
     const title = <div>
-      {WatchlistIcon}
+      <WatchlistIcon />
       {`  ${watchlist.name}  `}
     </div>
     return (
