@@ -2,41 +2,28 @@ import MaterialColors from 'material-colors';
 import deepAssign from 'deep-assign';
 
 const initialState = {
-  watchlist: {
+  resource: {
     root: {
-      margin: "0.17em 0",
-      width: "250px",
-      height: "100px"
+      width: "100px",
+      cursor: "pointer",
     },
-    header: {
-      backgroundColor: MaterialColors.lime[200]
+    title: {
+      padding: "0.25em 0.5em",
     },
-    body: {
-      backgroundColor: MaterialColors.grey[100]
+    title_text: {
+      fontSize: "14px",
+      lineHeight: "1em",
     },
-  },
-  group: {
-    root: {
-      margin: "0.17em 0",
-      width: "200px",
+    title_icon: {
+        fontSize: "14px",
     },
-    header: {
-      backgroundColor: MaterialColors.purple[200]
+    text: {
+      fontSize: "8px",
+      lineHeight: "1em",
+      padding: "0.5em 1em",
     },
-    body: {
-      backgroundColor: MaterialColors.grey[100]
-    },
-  },
-  thread: {
-    root: {
-      margin: "0.17em 0",
-      width: "200px",
-    },
-    header: {
-      backgroundColor: MaterialColors.brown[200],
-    },
-    body: {
-      backgroundColor: MaterialColors.grey[100],
+    text_icon: {
+        fontSize: "8px",
     },
   },
   post: {

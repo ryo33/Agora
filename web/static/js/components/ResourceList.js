@@ -11,7 +11,6 @@ import Watchlist from 'components/Watchlist';
 
 import { CSSGrid, layout, measureItems, makeResponsive } from 'react-stonecutter';
 
-
 class ResourceList extends Component {
   constructor() {
     super()
@@ -23,7 +22,7 @@ class ResourceList extends Component {
     let Grid;
     Grid = makeResponsive(measureItems(CSSGrid), {
       maxWidth: 1980,
-      minPadding: 100
+      minPadding: 8,
     });
     return { Grid, remeasured: false, loadedCount: 1 };
   }
@@ -37,9 +36,6 @@ class ResourceList extends Component {
       let Grid = measureItems(this.state.Grid)
       this.setState({Grid: Grid, remeasured: true});
     }
-  }
-
-  componentDidMount() {
   }
 
   transitionTo(path) {
@@ -58,9 +54,9 @@ class ResourceList extends Component {
     return (
       <Grid
         className='resource-list'
-        columnWidth={200}
-        gutterWidth={8}
-        gutterHeight={8}
+        columnWidth={100}
+        gutterWidth={4}
+        gutterHeight={4}
         layout={layout.pinterest}
         duration={400}
         easing="ease-out"

@@ -52,7 +52,7 @@ class GroupHeader extends Component {
         {`  ${group.threads}  `}
         <GroupIcon />
         {`  ${group.groups}  `}
-        <UserIconq />
+        <UserIcon />
         {`  ${group.members}  `}
       </span>
     );
