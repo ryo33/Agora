@@ -11,12 +11,37 @@ import Watchlist from 'components/Watchlist';
 
 import { CSSGrid, layout, measureItems, makeResponsive } from 'react-stonecutter';
 
-const Grid = makeResponsive(measureItems(CSSGrid), {
-  maxWidth: 1920,
-  minPadding: 100
-});
 
 class ResourceList extends Component {
+  constructor() {
+    super()
+    this.onChildNodeDidMount = this.onChildNodeDidMount.bind(this)
+    this.state = this.createGrid()
+  }
+
+  createGrid() {
+    let Grid;
+    Grid = makeResponsive(measureItems(CSSGrid), {
+      maxWidth: 1980,
+      minPadding: 100
+    });
+    return { Grid, remeasured: false, loadedCount: 1 };
+  }
+
+  onChildNodeDidMount () {
+    let all = this.props.groups.length
+      + this.props.threads.length
+      + this.props.watchlists.length;
+    this.setState({loadedCount: this.state.loadedCount + 1});
+    if(!this.state.remeasured && all <= this.state.loadedCount) {
+      let Grid = measureItems(this.state.Grid)
+      this.setState({Grid: Grid, remeasured: true});
+    }
+  }
+
+  componentDidMount() {
+  }
+
   transitionTo(path) {
     return () => {
       this.props.dispatch(push(path));
@@ -25,50 +50,47 @@ class ResourceList extends Component {
 
   render() {
     const {
-      groups = [],
-      threads = [],
-      watchlists = []
+      groups,
+      threads,
+      watchlists
     } = this.props;
+    const { Grid } = this.state
     return (
       <Grid
         className='resource-list'
-        columns={2}
-        columnWidth={250}
-        gutterWidth={16}
-        gutterHeight={16}
+        columnWidth={200}
+        gutterWidth={8}
+        gutterHeight={8}
         layout={layout.pinterest}
         duration={400}
         easing="ease-out"
       >
         {
-          this.props.groups.map(id => <li className='no-indent' key={id} itemHeight={200}>
-            <Group
-              key={id}
-              id={id}
-          /></li>)
+          groups.map(id => <div key={id}><Group
+            key={id}
+            id={id}
+            onRender={this.onChildNodeDidMount}
+          /></div>)
         }
         {
-          this.props.threads.map(id => <li className='no-indent' key={id} itemHeight={200}>
-            <Thread
-              key={id}
-              id={id}
-          /></li>)
+          threads.map(id => <div key={id}><Thread
+            key={id}
+            id={id}
+            onRender={this.onChildNodeDidMount}
+          /></div>)
         }
         {
-          watchlists.map(id => <li className='no-indent' key={id} itemHeight={200}>
-            <Watchlist
-              key={id}
-              id={id}
-          /></li>)
+          watchlists.map(id => <div key={id}><Watchlist
+            key={id}
+            id={id}
+            onRender={this.onChildNodeDidMount}
+          /></div>)
         }
       </Grid>
     );
   }
 }
 
-ResourceList.defaultProps = {
-  groups: [],
-  threads: [],
-}
+ResourceList.defaultProps = { groups: [], threads: [], watchlists: [] };
 
 export default connect()(ResourceList);
