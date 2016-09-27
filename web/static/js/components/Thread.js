@@ -41,7 +41,7 @@ class Thread extends Component {
   render() {
     const { id, thread, push, zDepth, theme } = this.props;
     const title = <div>
-      {ThreadIcon}
+      <ThreadIcon />
       {`  ${thread.title}  `}
     </div>
     return (
@@ -52,7 +52,7 @@ class Thread extends Component {
       >
         <CardTitle title={title} subtitle="Thread description" />
         <CardText>
-          {PostIcon}
+          <PostIcon />
           {`  ${thread.posts}  `}
         </CardText>
         <CardActions expandable={true}>

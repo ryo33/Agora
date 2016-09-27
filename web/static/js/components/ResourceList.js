@@ -66,14 +66,14 @@ class ResourceList extends Component {
         easing="ease-out"
       >
         {
-          groups.map(id => <div key={id}><Group
+          threads.map(id => <div key={id}><Thread
             key={id}
             id={id}
             onRender={this.onChildNodeDidMount}
           /></div>)
         }
         {
-          threads.map(id => <div key={id}><Thread
+          groups.map(id => <div key={id}><Group
             key={id}
             id={id}
             onRender={this.onChildNodeDidMount}

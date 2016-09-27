@@ -46,9 +46,9 @@ class ThreadHeader extends Component {
       <span
         onClick={this.handleClick}
       >
-        {ThreadIcon}
+        <ThreadIcon />
         {`  ${thread.title}  `}
-        {PostIcon}
+        <PostIcon />
         {`  ${thread.posts}  `}
       </span>
     );

@@ -46,7 +46,7 @@ class WatchlistHeader extends Component {
       <span
         onClick={this.handleClick}
       >
-        {WatchlistIcon}
+        <WatchlistIcon />
         {`  ${watchlist.name}  `}
       </span>
     );

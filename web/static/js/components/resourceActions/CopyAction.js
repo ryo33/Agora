@@ -29,7 +29,7 @@ class CopyAction extends Component {
         onCopy={this.handleCopy}
       >
         <FlatButton
-          icon={CopyLinkIcon}
+          icon={<CopyLinkIcon />}
           label="Copy link"
         />
       </CopyToClipboard>

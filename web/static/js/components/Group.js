@@ -39,7 +39,7 @@ class Group extends Component {
   render() {
     const { id, group, push, zDepth, theme } = this.props;
     const title = <div>
-      {GroupIcon}
+      <GroupIcon />
       {`  ${group.name}  `}
     </div>
     return (
@@ -50,11 +50,11 @@ class Group extends Component {
       >
         <CardTitle title={title} subtitle="Group description" />
         <CardText>
-          {GroupIcon}
-          {`  ${group.groups}  `}
-          {ThreadIcon}
+          <ThreadIcon />
           {`  ${group.threads}  `}
-          {UserIcon}
+          <GroupIcon />
+          {`  ${group.groups}  `}
+          <UserIcon />
           {`  ${group.members}  `}
         </CardText>
         <CardActions expandable={true}>

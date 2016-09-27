@@ -46,13 +46,13 @@ class GroupHeader extends Component {
       <span
         onClick={this.handleClick}
       >
-        {GroupIcon}
+        <GroupIcon />
         {`  ${group.name}  `}
-        {ThreadIcon}
+        <ThreadIcon />
         {`  ${group.threads}  `}
-        {GroupIcon}
+        <GroupIcon />
         {`  ${group.groups}  `}
-        {UserIcon}
+        <UserIconq />
         {`  ${group.members}  `}
       </span>
     );
