@@ -27,7 +27,7 @@ class AccountThreads extends Component {
 
   render() {
     const { threads } = this.props;
-    return <ResourceList threads={threads} />
+    return <ResourceList threads={threads} mode='thread'/>
   }
 }
 

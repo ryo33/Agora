@@ -2,17 +2,17 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import TextField from 'material-ui/TextField';
-import {
-  Card, CardActions, CardHeader,
-  CardMedia, CardTitle, CardText
-} from 'material-ui/Card';
-import RaisedButton from 'material-ui/RaisedButton';
+import FlatButton from 'material-ui/FlatButton';
+import Dialog from 'material-ui/Dialog';
 
 import UserSelector from './UserSelector';
 
-const mapStateToProps = ({ account }) => {
+const mapStateToProps = ({ account, theme }, { open, close }) => {
   return {
     currentUser: account.currentUser,
+    theme,
+    open,
+    close,
   };
 };
 
@@ -53,34 +53,51 @@ class WatchlistForm extends Component {
   }
 
   render() {
+    const { theme } = this.props;
     const { user, name } = this.state;
     const disabled = user == null || name.length == 0;
+    const actions = [
+      <FlatButton
+        label="Cansel"
+        labelStyle={theme.form.dialog.button.label}
+        secondary={true}
+        onClick={this.props.close}
+      />,
+      <FlatButton
+        label="Submit"
+        labelStyle={theme.form.dialog.button.label}
+        primary={true}
+        onClick={this.submit}
+        disabled={disabled}
+      />
+    ];
     return (
-      <Card>
-        <CardTitle title="New Watchlist" />
-        <CardText>
+      <Dialog
+        title="New Watchlist"
+        titleStyle={theme.form.dialog.title}
+        bodyStyle={theme.form.dialog.body}
+        actions={actions}
+        modal={false}
+        open={this.props.open}
+        onRequestClose={this.props.close}
+      >
+        <div>
           <TextField
             hintText="Name"
             floatingLabelText="Name"
             value={name}
             onChange={this.handleNameChange}
           />
-        </CardText>
-        <CardActions>
-          <RaisedButton
-            label="Submit"
-            primary
-            onClick={this.submit}
-            disabled={disabled}
-          />
-          <UserSelector
-            user={user}
-            changeUser={this.changeUser}
-          />
-        </CardActions>
-      </Card>
+        </div>
+        <UserSelector
+          user={user}
+          changeUser={this.changeUser}
+        />
+      </Dialog>
     );
   }
 }
+
+WatchlistForm.defaultProps = {open: true, close: () => {}};
 
 export default connect(mapStateToProps)(WatchlistForm);

@@ -1,20 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
-import { Map } from 'immutable';
 
 import TextField from 'material-ui/TextField';
-import {
-  Card, CardActions, CardHeader,
-  CardMedia, CardTitle, CardText
-} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
 import Toggle from 'material-ui/Toggle';
+import Dialog from 'material-ui/Dialog';
 
 import UserSelector from './UserSelector';
 
-const mapStateToProps = ({ account, groups }, { members, group }) => {
+const mapStateToProps = ({ account, groups, theme }, { members, group, open, close }) => {
   if (group == null) {
     members == null;
   } else if (groups[group] == null) {
@@ -24,7 +19,11 @@ const mapStateToProps = ({ account, groups }, { members, group }) => {
   }
   return {
     currentUser: account.currentUser,
-    members
+    theme,
+    members,
+    group,
+    open,
+    close
   };
 };
 
@@ -61,6 +60,7 @@ class ThreadForm extends Component {
       postLimited: this.state.postLimited
     })
     this.setState({ title: '' })
+    this.props.close
   }
 
   changeUser(user) {
@@ -74,13 +74,36 @@ class ThreadForm extends Component {
   }
 
   render() {
-    const { group, members } = this.props;
+    const { group, members, theme } = this.props;
     const { title, user, postLimited } = this.state;
     const disabled = user == null || title.length == 0;
+    const actions = [
+      <FlatButton
+        label="Cansel"
+        labelStyle={theme.form.dialog.button.label}
+        secondary={true}
+        onClick={this.props.close}
+      />,
+      <FlatButton
+        label="Submit"
+        labelStyle={theme.form.dialog.button.label}
+        primary={true}
+        disabled={this.state.user == null}
+        onClick={this.submit}
+        disabled={disabled}
+      />
+    ];
     return (
-      <Card>
-        <CardTitle title="New Thread" />
-        <CardText>
+      <Dialog
+        title="New Thread"
+        titleStyle={theme.form.dialog.title}
+        bodyStyle={theme.form.dialog.body}
+        actions={actions}
+        modal={false}
+        open={this.props.open}
+        onRequestClose={this.props.close}
+      >
+        <div>
           <TextField
             hintText="Title"
             floatingLabelText="Title"
@@ -97,24 +120,17 @@ class ThreadForm extends Component {
             />
             : null
           }
-        </CardText>
-        <CardActions>
-          <RaisedButton
-            label="Submit"
-            primary={true}
-            disabled={this.state.user == null}
-            onClick={this.submit}
-            disabled={disabled}
-          />
-          <UserSelector
-            user={this.state.user}
-            members={members}
-            changeUser={this.changeUser}
-          />
-        </CardActions>
-      </Card>
+        </div>
+        <UserSelector
+          user={this.state.user}
+          members={members}
+          changeUser={this.changeUser}
+        />
+      </Dialog>
     );
   }
 }
+
+ThreadForm.defaultProps = {open: true, close: () => {}};
 
 export default connect(mapStateToProps)(ThreadForm);

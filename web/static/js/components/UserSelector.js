@@ -13,7 +13,8 @@ const mapStateToProps = (state, { members }) => {
   }
   return {
     users,
-    currentUser: getCurrentUser(state)
+    currentUser: getCurrentUser(state),
+    theme: state.theme
   };
 };
 
@@ -47,25 +48,29 @@ class UserSelector extends Component {
   }
 
   render() {
-    const { user, users } = this.props;
+    const { user, users, theme } = this.props;
 
     if (Object.keys(users).length > 0) {
       return (
-        <SelectField
-          value={user}
-          onChange={this.handleChange}
-        >
-          <MenuItem
-            value={null}
-            primaryText="Select A User"
-          />
-          {users.map(({ uid, name, id }, key) => <MenuItem
-            key={key}
-            value={id}
-            secondaryText={uid}
-            primaryText={name}
-          />)}
-        </SelectField>
+          <SelectField
+            value={user}
+            style={{float: "right"}}
+            labelStyle={theme.form.dialog.userSelecter.label}
+            onChange={this.handleChange}
+          >
+            <MenuItem
+              value={null}
+              style={theme.form.dialog.userSelecter.label}
+              primaryText="Select A User"
+            />
+            {users.map(({ uid, name, id }, key) => <MenuItem
+              key={key}
+              value={id}
+              style={theme.form.dialog.userSelecter.label}
+              secondaryText={uid}
+              primaryText={name}
+            />)}
+          </SelectField>
       );
     } else {
       return (

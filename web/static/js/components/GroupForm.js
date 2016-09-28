@@ -1,18 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
-import { Map } from 'immutable';
 
 import TextField from 'material-ui/TextField';
-import { Card, CardActions, CardHeader,
-  CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
 import Toggle from 'material-ui/Toggle';
+import Dialog from 'material-ui/Dialog';
 
 import UserSelector from './UserSelector';
 
-const mapStateToProps = ({ account, groups }, { members, group }) => {
+const mapStateToProps = ({ account, groups, theme }, { open, close, members, group }) => {
   if (group == null) {
     members == null;
   } else if (groups[group] == null) {
@@ -22,7 +19,10 @@ const mapStateToProps = ({ account, groups }, { members, group }) => {
   }
   return {
     currentUser: account.currentUser,
-    members
+    members,
+    theme,
+    open,
+    close
   };
 };
 
@@ -69,6 +69,7 @@ class GroupForm extends Component {
       joinLimited: this.state.joinLimited
     });
     this.setState({ name: '' });
+    this.props.close();
   }
 
   changeUser(user) {
@@ -82,52 +83,66 @@ class GroupForm extends Component {
   }
 
   render() {
-    const { group, members } = this.props;
+    const { group, members, theme } = this.props;
     const { name, user, groupLimited, threadLimited, joinLimited } = this.state;
     const disabled = user == null || name.length == 0;
-    return <Card>
-      <CardTitle title="New Group" />
-      <CardText>
-        <TextField
-          hintText="Title"
-          floatingLabelText="Title"
-          value={name}
-          onChange={this.handleChangeName}
-        />
-        <Toggle
-          label="Allow only members to create new groups"
-          labelPosition="right"
-          toggled={groupLimited}
-          onToggle={this.handleToggleGroup}
-        />
-        <Toggle
-          label="Allow only members to create new threads"
-          labelPosition="right"
-          toggled={threadLimited}
-          onToggle={this.handleToggleThread}
-        />
-        <Toggle
-          label="Allow only members to add new members"
-          labelPosition="right"
-          toggled={joinLimited}
-          onToggle={this.handleToggleJoin}
-        />
-      </CardText>
-      <CardActions>
-        <RaisedButton
-          label="Submit"
-          primary={true}
-          onClick={this.submit}
-          disabled={disabled}
-        />
-        <UserSelector
-          user={this.state.user}
-          members={members}
-          changeUser={this.changeUser}
-        />
-      </CardActions>
-    </Card>
+    const actions = [
+      <FlatButton
+        label="Cansel"
+        labelStyle={theme.form.dialog.button.label}
+        secondary={true}
+        onClick={this.props.close}
+      />,
+      <FlatButton
+        label="Submit"
+        labelStyle={theme.form.dialog.button.label}
+        primary={true}
+        onClick={this.submit}
+        disabled={disabled}
+      />
+    ];
+    return <Dialog
+      title="New Group"
+      titleStyle={theme.form.dialog.title}
+      bodyStyle={theme.form.dialog.body}
+      actions={actions}
+      modal={false}
+      open={this.props.open}
+      onRequestClose={this.props.close}
+    > 
+      <TextField
+        hintText="Title"
+        floatingLabelText="Title"
+        value={name}
+        onChange={this.handleChangeName}
+      />
+      <Toggle
+        label="Allow only members to create new groups"
+        labelPosition="right"
+        toggled={groupLimited}
+        onToggle={this.handleToggleGroup}
+      />
+      <Toggle
+        label="Allow only members to create new threads"
+        labelPosition="right"
+        toggled={threadLimited}
+        onToggle={this.handleToggleThread}
+      />
+      <Toggle
+        label="Allow only members to add new members"
+        labelPosition="right"
+        toggled={joinLimited}
+        onToggle={this.handleToggleJoin}
+      />
+      <UserSelector
+        user={this.state.user}
+        members={members}
+        changeUser={this.changeUser}
+      />
+    </Dialog>
   }
 }
+
+GroupForm.defaultProps = {open: true, close: () => {}};
 
 export default connect(mapStateToProps)(GroupForm)

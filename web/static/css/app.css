@@ -45,6 +45,10 @@ html {
     /* Support for IE. */
     font-feature-settings: 'liga';
 }
+.center {
+    text-align: center;
+    margin: 4px 0;
+}
 
 div#body {
     padding:64px 0 0 0;

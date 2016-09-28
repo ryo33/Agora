@@ -31,7 +31,7 @@ class AccountWatchlists extends Component {
     const { watchlists } = this.props;
     return (
       <div>
-        <ResourceList watchlists={watchlists} />
+        <ResourceList watchlists={watchlists} mode='watchlist'/>
       </div>
     )
   }

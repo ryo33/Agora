@@ -26,6 +26,49 @@ const initialState = {
         fontSize: "8px",
     },
   },
+  form: {
+    box: {
+      root: {
+        width: "100px",
+        cursor: "pointer",
+      },
+      icon: {
+        fontSize: "72px",
+      },
+      text: {
+        fontSize: "14px",
+        lineHeight: "1em",
+      },
+      title: {
+        padding: "0.5em",
+      },
+    },
+    dialog: {
+      title: {
+        padding: "1em",
+        fontSize: "14px",
+      },
+      body: {
+        padding: "1em",
+        fontSize: "8px",
+      },
+      button: {
+        label: {
+          fontSize: "8px",
+        },
+      },
+      textField: {
+      },
+      userSelecter: {
+        root: {
+          width: "10em"
+        },
+        label: {
+          fontSize: "8px",
+        },
+      },
+    },
+  },
   post: {
     root: {
       margin: '0.17em 0',
