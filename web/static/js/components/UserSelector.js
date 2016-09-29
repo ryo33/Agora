@@ -53,7 +53,6 @@ class UserSelector extends Component {
       return (
           <SelectField
             value={user}
-            style={{float: "right"}}
             onChange={this.handleChange}
           >
             <MenuItem
