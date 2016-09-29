@@ -57,7 +57,7 @@ class Thread extends Component {
           style={theme.resource.title} titleColor={grey800}
         />
         <div style={{padding: "0 0.5em"}}><Divider /></div>
-        <CardText style={theme.resource.text} color={grey700}>
+        <CardText className='center' style={theme.resource.text} color={grey700}>
           <PostIcon style={theme.resource.text_icon} color={grey700}/>
           {`  ${thread.posts}  `}
         </CardText>

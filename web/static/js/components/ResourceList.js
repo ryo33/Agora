@@ -73,52 +73,52 @@ class ResourceList extends Component {
   openAddThread() { this.setState({addThread: true}); }
   closeAddThread() { this.setState({addThread: false}); }
   openAddWatchlist() { this.setState({addWatchlist: true}); }
-    closeAddWatchlist() { this.setState({addWatchlist: false}); }
+  closeAddWatchlist() { this.setState({addWatchlist: false}); }
 
 
-    createGrid() {
-      let Grid;
-      Grid = makeResponsive(measureItems(CSSGrid), {
-        maxWidth: 1980,
+  createGrid() {
+    let Grid;
+    Grid = makeResponsive(measureItems(CSSGrid), {
+      maxWidth: 1980,
       minPadding: 8,
-    });
-    return Grid;
+  });
+  return Grid;
+  }
+
+  onChildNodeDidMount () {
+    let all = this.props.groups.length
+      + this.props.threads.length
+      + this.props.watchlists.length;
+    this.setState({loadedCount: this.state.loadedCount + 1});
+    if(!this.state.remeasured && all <= this.state.loadedCount) {
+      let Grid = measureItems(this.state.Grid)
+      this.setState({Grid: Grid, remeasured: true});
+    }
+  }
+
+  getTitle(message) {
+    return (
+      <div>
+        <p className='center'><AddBoxIcon
+          style={this.props.theme.form.box.icon}
+          color={grey700}/>
+        </p>
+        <p className='center'>{message}</p>
+      </div>
+    );
+  }
+
+  transitionTo(path) {
+    return () => {
+      this.props.dispatch(push(path));
+    };
     }
 
-    onChildNodeDidMount () {
-      let all = this.props.groups.length
-        + this.props.threads.length
-        + this.props.watchlists.length;
-      this.setState({loadedCount: this.state.loadedCount + 1});
-      if(!this.state.remeasured && all <= this.state.loadedCount) {
-        let Grid = measureItems(this.state.Grid)
-        this.setState({Grid: Grid, remeasured: true});
-      }
-    }
-
-    getTitle(message) {
-      return (
-        <div>
-          <p className='center'><AddBoxIcon
-            style={this.props.theme.form.box.icon}
-            color={grey700}/>
-          </p>
-          <p className='center'>{message}</p>
-        </div>
-      );
-    }
-
-    transitionTo(path) {
-      return () => {
-        this.props.dispatch(push(path));
-      };
-      }
-
-    render() {
-      const {
-        mode,
-        theme,
-        groups,
+  render() {
+    const {
+      mode,
+      theme,
+      groups,
       threads,
       watchlists,
       formParams,

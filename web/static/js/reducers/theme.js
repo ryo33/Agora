@@ -11,19 +11,19 @@ const initialState = {
       padding: "0.25em 0.5em",
     },
     title_text: {
-      fontSize: "14px",
+      fontSize: "18px",
       lineHeight: "1em",
     },
     title_icon: {
-        fontSize: "14px",
+      fontSize: "18px",
     },
     text: {
       fontSize: "8px",
       lineHeight: "1em",
-      padding: "0.5em 1em",
+      padding: "0.5em",
     },
     text_icon: {
-        fontSize: "8px",
+        fontSize: "14px",
     },
   },
   form: {
@@ -40,7 +40,7 @@ const initialState = {
         lineHeight: "1em",
       },
       title: {
-        padding: "0.5em",
+        padding: "0.25em",
       },
     },
     dialog: {
@@ -50,11 +50,11 @@ const initialState = {
       },
       body: {
         padding: "1em",
-        fontSize: "8px",
+        fontSize: "14px",
       },
       button: {
         label: {
-          fontSize: "8px",
+          fontSize: "14px",
         },
       },
       textField: {
@@ -64,7 +64,7 @@ const initialState = {
           width: "10em"
         },
         label: {
-          fontSize: "8px",
+          fontSize: "14px",
         },
       },
     },
