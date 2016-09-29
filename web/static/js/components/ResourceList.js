@@ -5,6 +5,7 @@ import { push } from 'react-router-redux';
 import { CSSGrid, layout, measureItems, makeResponsive } from 'react-stonecutter';
 import Avatar from 'material-ui/Avatar';
 import { List, ListItem } from 'material-ui/List';
+import Dialog from 'material-ui/Dialog';
 import Thread from 'components/Thread';
 import Group from 'components/Group';
 import Watchlist from 'components/Watchlist';
@@ -201,28 +202,43 @@ class ResourceList extends Component {
             /></div>)
           }
         </Grid>
-        <GroupForm
+        <Dialog
           open={this.state.addGroup}
-          close={this.closeAddGroup}
-          submit={formParams.submit || this.submitGroup}
-          group={formParams.group}
-          members={formParams.members}
-          zDepth={formParams.zDepth}
-          groupID={formParams.groupID}
-        />
-        <ThreadForm
+          onRequestClose={this.closeAddGroup}
+          bodyStyle={{padding: 0}}
+        >
+          <GroupForm
+            open={this.state.addGroup}
+            close={this.closeAddGroup}
+            submit={formParams.submit || this.submitGroup}
+            group={formParams.group}
+            members={formParams.members}
+            zDepth={0}
+            groupID={formParams.groupID}
+          />
+        </Dialog>
+        <Dialog
           open={this.state.addThread}
-          close={this.closeAddThread}
-          submit={formParams.submit || this.submitThread}
-          group={formParams.group}
-          members={formParams.members}
-          zDepth={formParams.zDepth}
-        />
-        <WatchlistForm
+          onRequestClose={this.closeAddThread}
+          bodyStyle={{padding: 0}}
+        >
+          <ThreadForm
+            submit={formParams.submit || this.submitThread}
+            group={formParams.group}
+            members={formParams.members}
+            zDepth={formParams.zDepth}
+          />
+        </Dialog>
+        <Dialog
           open={this.state.addWatchlist}
-          close={this.closeAddWatchlist}
-          submit={this.submitWatchlist}
-        />
+          onRequestClose={this.closeAddWatchlist}
+          bodyStyle={{padding: 0}}
+        >
+          <WatchlistForm
+            zDepth={0}
+            submit={this.submitWatchlist}
+          />
+        </Dialog>
       </div>
     );
   }

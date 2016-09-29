@@ -31,6 +31,7 @@ class AddGroup extends Component {
   render() {
     return <GroupForm
       submit={this.submit}
+      zDepth={1}
     />;
   }
 }

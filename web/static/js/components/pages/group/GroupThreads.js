@@ -40,7 +40,6 @@ class GroupThreads extends Component {
       group: id,
       members: members,
       submit: this.submit,
-      zDepth: 2,
     }
     return <ResourceList threads={threads} mode='thread' formParams={formParams}/>
   }

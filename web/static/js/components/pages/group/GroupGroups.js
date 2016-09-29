@@ -40,7 +40,6 @@ class GroupGroups extends Component {
       group: id,
       members: members,
       submit: this.submit,
-      zDepth: 2,
       groupID: id,
     }
     return <ResourceList groups={groups} mode='group' formParams={formParams}/>

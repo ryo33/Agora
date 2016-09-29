@@ -2,17 +2,19 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import TextField from 'material-ui/TextField';
-import FlatButton from 'material-ui/FlatButton';
-import Dialog from 'material-ui/Dialog';
+import {
+  Card, CardActions, CardHeader,
+  CardMedia, CardTitle, CardText
+} from 'material-ui/Card';
+import RaisedButton from 'material-ui/RaisedButton';
 
 import UserSelector from './UserSelector';
 
-const mapStateToProps = ({ account, theme }, { open, close }) => {
+const mapStateToProps = ({ account }, { zDepth }) => {
+  zDepth = zDepth || 0
   return {
     currentUser: account.currentUser,
-    theme,
-    open,
-    close,
+    zDepth
   };
 };
 
@@ -53,51 +55,34 @@ class WatchlistForm extends Component {
   }
 
   render() {
-    const { theme } = this.props;
-    const { user, name } = this.state;
+    const { user, name, zDepth } = this.state;
     const disabled = user == null || name.length == 0;
-    const actions = [
-      <FlatButton
-        label="Cansel"
-        labelStyle={theme.form.dialog.button.label}
-        secondary={true}
-        onClick={this.props.close}
-      />,
-      <FlatButton
-        label="Submit"
-        labelStyle={theme.form.dialog.button.label}
-        primary={true}
-        onClick={this.submit}
-        disabled={disabled}
-      />
-    ];
     return (
-      <Dialog
-        title="New Watchlist"
-        titleStyle={theme.form.dialog.title}
-        bodyStyle={theme.form.dialog.body}
-        actions={actions}
-        modal={false}
-        open={this.props.open}
-        onRequestClose={this.props.close}
-      >
-        <div>
+      <Card zDepth={zDepth}>
+        <CardTitle title="New Watchlist" />
+        <CardText>
           <TextField
             hintText="Name"
             floatingLabelText="Name"
             value={name}
             onChange={this.handleNameChange}
           />
-        </div>
-        <UserSelector
-          user={user}
-          changeUser={this.changeUser}
-        />
-      </Dialog>
+        </CardText>
+        <CardActions>
+          <RaisedButton
+            label="Submit"
+            primary
+            onClick={this.submit}
+            disabled={disabled}
+          />
+          <UserSelector
+            user={user}
+            changeUser={this.changeUser}
+          />
+        </CardActions>
+      </Card>
     );
   }
 }
-
-WatchlistForm.defaultProps = {open: true, close: () => {}};
 
 export default connect(mapStateToProps)(WatchlistForm);
