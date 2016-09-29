@@ -208,7 +208,6 @@ class ResourceList extends Component {
           bodyStyle={{padding: 0}}
         >
           <GroupForm
-            open={this.state.addGroup}
             close={this.closeAddGroup}
             submit={formParams.submit || this.submitGroup}
             group={formParams.group}
