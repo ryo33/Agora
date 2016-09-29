@@ -4,7 +4,7 @@ import deepAssign from 'deep-assign';
 const initialState = {
   resource: {
     root: {
-      width: "100px",
+      width: "110px",
       cursor: "pointer",
     },
     title: {
@@ -18,12 +18,12 @@ const initialState = {
       fontSize: "18px",
     },
     text: {
-      fontSize: "8px",
+      fontSize: "10px",
       lineHeight: "1em",
       padding: "0.5em",
     },
     text_icon: {
-        fontSize: "14px",
+        fontSize: "12px",
     },
   },
   form: {

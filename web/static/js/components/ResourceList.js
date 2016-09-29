@@ -19,6 +19,7 @@ import { AddBoxIcon } from 'components/icons/index'
 
 import { submitGroup, submitThread, submitWatchlist } from 'actions/resources';
 
+const COLUMN_WIDTH = 110;
 
 const mapStateToProps =({ theme }, { mode, groups, threads, watchlists, formParams }) => ({
   mode, theme, groups, threads, watchlists, formParams
@@ -128,7 +129,7 @@ class ResourceList extends Component {
       <div>
         <Grid
           className='resource-list'
-          columnWidth={100}
+          columnWidth={COLUMN_WIDTH}
           gutterWidth={4}
           gutterHeight={4}
           layout={layout.pinterest}
