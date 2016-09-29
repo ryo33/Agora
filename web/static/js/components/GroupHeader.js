@@ -9,6 +9,7 @@ import { Card, CardActions, CardMedia, CardTitle, CardText} from 'material-ui/Ca
 import Unimplemented from 'components/Unimplemented';
 import GroupActions from 'components/GroupActions';
 import { GroupIcon, ThreadIcon, UserIcon } from 'components/icons';
+import ParentGroup from 'components/ParentGroup';
 
 import { requireGroup } from 'hocs/resources';
 
@@ -42,6 +43,7 @@ class GroupHeader extends Component {
 
   render() {
     const { id, group } = this.props;
+    const parentID = group.parent_group_id;
     const title = (
       <span
         onClick={this.handleClick}
@@ -57,19 +59,28 @@ class GroupHeader extends Component {
       </span>
     );
     return (
-      <Card
-        initiallyExpanded={false}
-      >
-        <CardTitle
-          actAsExpander={true}
-          showExpandableButton={true}
-          title={title}
-          subtitle="Group description"
-        />
-        <CardActions expandable={true}>
-          <GroupActions id={id} />
-        </CardActions>
-    </Card>
+      <div>
+        {
+          parentID
+          ? <span>
+            <ParentGroup id={parentID} />
+          </span>
+          : null
+        }
+        <Card
+          initiallyExpanded={false}
+        >
+          <CardTitle
+            actAsExpander={true}
+            showExpandableButton={true}
+            title={title}
+            subtitle="Group description"
+          />
+          <CardActions expandable={true}>
+            <GroupActions id={id} />
+          </CardActions>
+        </Card>
+      </div>
     );
   }
 }

@@ -3,17 +3,16 @@ import { connect } from 'react-redux';
 
 import Divider from 'material-ui/Divider';
 
-import PostForm from 'components/PostForm';
-import { SignedIn } from 'components/util';
-import Post from 'components/Post';
-
 import {
   openThreadPage,
   closeThreadPage
 } from 'actions/threadPage';
 import { submitPost } from 'actions/resources';
 
-import ThreadHeader from 'components/ThreadHeader'
+import PostForm from 'components/PostForm';
+import { SignedIn } from 'components/util';
+import Post from 'components/Post';
+import ThreadHeader from 'components/ThreadHeader';
 
 const mapStateToProps = ({ threadPage }, { params }) => {
   return {

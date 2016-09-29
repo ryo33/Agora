@@ -18,6 +18,7 @@ import { Card, CardTitle } from 'material-ui/Card';
 import { AddBoxIcon } from 'components/icons/index'
 
 import { submitGroup, submitThread, submitWatchlist } from 'actions/resources';
+import { signedIn } from 'global';
 
 const COLUMN_WIDTH = 110;
 
@@ -75,7 +76,6 @@ class ResourceList extends Component {
   closeAddThread() { this.setState({addThread: false}); }
   openAddWatchlist() { this.setState({addWatchlist: true}); }
   closeAddWatchlist() { this.setState({addWatchlist: false}); }
-
 
   createGrid() {
     let Grid;
@@ -137,8 +137,8 @@ class ResourceList extends Component {
           easing="ease-out"
         >
           {
-            mode == 'thread'?
-            <Card
+            signedIn && mode == 'thread'
+            ? <Card
               style={theme.form.box.root}
               containerStyle={{padding: 0}}
               onClick={this.openAddThread}
@@ -159,7 +159,7 @@ class ResourceList extends Component {
             /></div>)
           }
           {
-            mode == 'group'?
+            signedIn && mode == 'group'?
             <Card
               style={theme.resource.root}
               containerStyle={{padding: 0}}
@@ -181,7 +181,7 @@ class ResourceList extends Component {
             /></div>)
           }
           {
-            mode == 'watchlist'?
+            signedIn && mode == 'watchlist'?
             <Card
               style={theme.resource.root}
               containerStyle={{padding: 0}}

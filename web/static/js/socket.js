@@ -3,10 +3,10 @@ import { Socket } from 'phoenix';
 import {
   updateAccountUsers, updateCurrentUser, addAccountUser, updateWatchlists
 } from 'actions/accountPage.js';
-
 import {
   prepareUsers, prepareWatchlists
 } from 'actions/resources';
+import { token, accountID } from 'global';
 
 export const socket = new Socket('/socket', {
   reconnectAfterMs: (tries) => {
@@ -15,14 +15,14 @@ export const socket = new Socket('/socket', {
     else if (tries < 30) return 3000;
     else return 5000;
   },
-  params: { token: window.token },
+  params: { token: token },
 });
 socket.connect();
 window.socket = socket;
 
-export const accountChannel = window.socket.channel("account:" + window.accountID, {});
+export const accountChannel = socket.channel("account:" + accountID, {});
 window.accountChannel = accountChannel;
-export const commonChannel = window.socket.channel("common", {});
+export const commonChannel = socket.channel("common", {});
 window.commonChannel = commonChannel;
 
 export const pushMessage2 = (channel, event, action, params=null) => {
@@ -75,10 +75,10 @@ export const joinAccountChannel = (dispatch) => {
 };
 
 export const joinCommonChannel = (dispatch) => {
-  window.commonChannel.on('dispatch', ({ actions }) => {
+  commonChannel.on('dispatch', ({ actions }) => {
     actions.map(action => { dispatch(action); });
   });
-  window.commonChannel.join()
+  commonChannel.join()
     .receive('ok', ({ actions }) => {
       actions.map(action => { dispatch(action); });
     })

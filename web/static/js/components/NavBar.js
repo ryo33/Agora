@@ -7,7 +7,7 @@ import IconButton from 'material-ui/IconButton';
 import { grey50, grey200, grey900 } from 'material-ui/styles/colors';
 import AppBar from 'material-ui/AppBar'
 
-import { SignedIn, NotSignedIn } from './util';
+import { signedIn } from 'global';
 
 const mapStateToProps = ({ routing }) => {
   const path = routing.locationBeforeTransitions.pathname.split('/');
@@ -63,7 +63,7 @@ class NavBar extends Component {
           />
         }
         iconElementRight={
-          !window.signedIn
+          !signedIn
             ? <FlatButton
               backgroundColor={grey50}
               hoverColor={grey200}

@@ -32,6 +32,9 @@ import reducers from 'reducers/index';
 import rootSaga from 'sagas/index';
 import logics from 'logics/index';
 
+import { signedIn } from 'global';
+import { accountChannel } from 'socket';
+
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 
@@ -67,10 +70,10 @@ persistStore(store, persistConfig);
 getStoredState(persistConfig, (err, state) => {
   if (state.account) {
     if (state.account.currentUser) {
-      if (window.signedIn) {
+      if (signedIn) {
         const user = state.account.currentUser;
         store.dispatch(updateCurrentUser(user));
-        window.accountChannel.push('set_current_user', user);
+        accountChannel.push('set_current_user', user);
       }
     }
   }

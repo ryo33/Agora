@@ -1,7 +1,9 @@
 import React from 'react';
 
+import { signedIn } from 'global';
+
 const signed = ({ children }, value) => {
-  if (window.signedIn == value) {
+  if (signedIn == value) {
     return <span>{children}</span>;
   } else {
     return null;
