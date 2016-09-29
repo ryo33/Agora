@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import Divider from 'material-ui/Divider';
-
-import { SignedIn } from 'components/util';
 import ResourceList from 'components/ResourceList';
-import ThreadForm from 'components/ThreadForm';
 
 import { openGroupThreadsTab } from 'actions/groupPage';
 import { submitThread } from 'actions/resources';
@@ -39,22 +35,13 @@ class GroupThreads extends Component {
   }
 
   render() {
-    const { id, members, threads, theme } = this.props;
-    return (
-      <div>
-        <Divider style={{margin: "0.15em 0"}} />
-        <SignedIn><ThreadForm
-            group={id}
-            members={members}
-            submit={this.submit}
-            expandable={true}
-            expand={false}
-            zDepth={2}
-          /></SignedIn>
-        <Divider style={{margin: "1em 0"}} />
-        <ResourceList threads={threads} />
-      </div>
-    );
+    const { id, members, threads } = this.props;
+    const formParams = {
+      group: id,
+      members: members,
+      submit: this.submit,
+    }
+    return <ResourceList threads={threads} mode='thread' formParams={formParams}/>
   }
 }
 

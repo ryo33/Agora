@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
 
-import { SignedIn } from 'components/util';
-import Divider from 'material-ui/Divider';
-import GroupForm from 'components/GroupForm';
 import ResourceList from 'components/ResourceList';
 
 import { openGroupGroupsTab } from 'actions/groupPage';
@@ -40,21 +36,13 @@ class GroupGroups extends Component {
 
   render() {
     const { groups, members, id } = this.props;
-    return <div>
-      <Divider style={{ margin: '0.15em 0' }} />
-      <SignedIn><GroupForm
-          group={id}
-          members={members}
-          title="Add New Groups"
-          submit={this.submit}
-          expandable={true}
-          expand={false}
-          zDepth={2}
-          groupID={id}
-        /></SignedIn>
-      <Divider style={{ margin: '1em 0' }} />
-      <ResourceList groups={groups} />
-    </div>
+    const formParams = {
+      group: id,
+      members: members,
+      submit: this.submit,
+      groupID: id,
+    }
+    return <ResourceList groups={groups} mode='group' formParams={formParams}/>
   }
 }
 

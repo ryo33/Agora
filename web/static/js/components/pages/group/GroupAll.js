@@ -34,7 +34,7 @@ class GroupAll extends Component {
 
   render() {
     const { groups } = this.props;
-    return <ResourceList groups={groups} />
+    return <ResourceList groups={groups} mode='group'/>
   }
 }
 

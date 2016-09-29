@@ -2,41 +2,71 @@ import MaterialColors from 'material-colors';
 import deepAssign from 'deep-assign';
 
 const initialState = {
-  watchlist: {
+  resource: {
     root: {
-      margin: "0.17em 0",
-      width: "250px",
-      height: "100px"
+      width: "110px",
+      cursor: "pointer",
     },
-    header: {
-      backgroundColor: MaterialColors.lime[200]
+    title: {
+      padding: "0.25em 0.5em",
     },
-    body: {
-      backgroundColor: MaterialColors.grey[100]
+    title_text: {
+      fontSize: "18px",
+      lineHeight: "1em",
+    },
+    title_icon: {
+      fontSize: "18px",
+    },
+    text: {
+      fontSize: "10px",
+      lineHeight: "1em",
+      padding: "0.5em",
+    },
+    text_icon: {
+        fontSize: "12px",
     },
   },
-  group: {
-    root: {
-      margin: "0.17em 0",
-      width: "200px",
+  form: {
+    box: {
+      root: {
+        width: "100px",
+        cursor: "pointer",
+      },
+      icon: {
+        fontSize: "72px",
+      },
+      text: {
+        fontSize: "14px",
+        lineHeight: "1em",
+      },
+      title: {
+        padding: "0.25em",
+      },
     },
-    header: {
-      backgroundColor: MaterialColors.purple[200]
-    },
-    body: {
-      backgroundColor: MaterialColors.grey[100]
-    },
-  },
-  thread: {
-    root: {
-      margin: "0.17em 0",
-      width: "200px",
-    },
-    header: {
-      backgroundColor: MaterialColors.brown[200],
-    },
-    body: {
-      backgroundColor: MaterialColors.grey[100],
+    dialog: {
+      title: {
+        padding: "1em",
+        fontSize: "14px",
+      },
+      body: {
+        padding: "1em",
+        fontSize: "14px",
+      },
+      button: {
+        label: {
+          fontSize: "14px",
+        },
+      },
+      textField: {
+      },
+      userSelecter: {
+        root: {
+          width: "10em"
+        },
+        label: {
+          fontSize: "14px",
+        },
+      },
     },
   },
   post: {

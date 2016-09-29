@@ -14,7 +14,7 @@ import Toggle from 'material-ui/Toggle';
 
 import UserSelector from './UserSelector';
 
-const mapStateToProps = ({ account, groups }, { members, group }) => {
+const mapStateToProps = ({ account, groups }, { members, group, zDepth }) => {
   if (group == null) {
     members == null;
   } else if (groups[group] == null) {
@@ -22,9 +22,11 @@ const mapStateToProps = ({ account, groups }, { members, group }) => {
   } else if (groups[group].thread_limited != true) {
     members = null;
   }
+  zDepth = zDepth || 0
   return {
     currentUser: account.currentUser,
-    members
+    members,
+    zDepth
   };
 };
 
@@ -74,11 +76,11 @@ class ThreadForm extends Component {
   }
 
   render() {
-    const { group, members } = this.props;
+    const { group, members, zDepth } = this.props;
     const { title, user, postLimited } = this.state;
     const disabled = user == null || title.length == 0;
     return (
-      <Card>
+      <Card zDepth={zDepth}>
         <CardTitle title="New Thread" />
         <CardText>
           <TextField

@@ -13,7 +13,7 @@ const mapStateToProps = (state, { members }) => {
   }
   return {
     users,
-    currentUser: getCurrentUser(state)
+    currentUser: getCurrentUser(state),
   };
 };
 
@@ -51,21 +51,21 @@ class UserSelector extends Component {
 
     if (Object.keys(users).length > 0) {
       return (
-        <SelectField
-          value={user}
-          onChange={this.handleChange}
-        >
-          <MenuItem
-            value={null}
-            primaryText="Select A User"
-          />
-          {users.map(({ uid, name, id }, key) => <MenuItem
-            key={key}
-            value={id}
-            secondaryText={uid}
-            primaryText={name}
-          />)}
-        </SelectField>
+          <SelectField
+            value={user}
+            onChange={this.handleChange}
+          >
+            <MenuItem
+              value={null}
+              primaryText="Select A User"
+            />
+            {users.map(({ uid, name, id }, key) => <MenuItem
+              key={key}
+              value={id}
+              secondaryText={uid}
+              primaryText={name}
+            />)}
+          </SelectField>
       );
     } else {
       return (

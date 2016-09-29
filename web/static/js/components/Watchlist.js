@@ -3,8 +3,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { push } from 'react-router-redux';
 
-import { grey900 } from 'material-ui/styles/colors';
-import { Card, CardHeader, CardActions, CardTitle, CardText } from 'material-ui/Card';
+import { grey800, grey700 } from 'material-ui/styles/colors';
+import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card';
+import Divider from 'material-ui/Divider';
 
 import Unimplemented from 'components/Unimplemented';
 import WatchlistActions from 'components/WatchlistActions';
@@ -37,16 +38,20 @@ class Watchlist extends Component {
   render() {
     const { id, watchlist, push, zDepth, theme } = this.props;
     const title = <div>
-      <WatchlistIcon />
+      <WatchlistIcon style={theme.resource.title_icon} color={grey800}/>
       {`  ${watchlist.name}  `}
     </div>
     return (
       <Card
         onClick={() => push('/watchlists/' + id)}
-        style={theme.watchlist.root}
+        style={theme.resource.root}
+        containerStyle={{padding: 0}}
         zDepth={zDepth}
       >
-        <CardTitle title={title} subtitle="Watchlist description" />
+        <CardTitle
+          title={title} titleStyle={theme.resource.title_text}
+          style={theme.resource.title} titleColor={grey800}
+        />
         <CardActions expandable={true}>
           <WatchlistActions id={id} />
         </CardActions>

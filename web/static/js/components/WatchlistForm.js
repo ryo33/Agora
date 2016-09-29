@@ -10,9 +10,11 @@ import RaisedButton from 'material-ui/RaisedButton';
 
 import UserSelector from './UserSelector';
 
-const mapStateToProps = ({ account }) => {
+const mapStateToProps = ({ account }, { zDepth }) => {
+  zDepth = zDepth || 0
   return {
     currentUser: account.currentUser,
+    zDepth
   };
 };
 
@@ -53,10 +55,10 @@ class WatchlistForm extends Component {
   }
 
   render() {
-    const { user, name } = this.state;
+    const { user, name, zDepth } = this.state;
     const disabled = user == null || name.length == 0;
     return (
-      <Card>
+      <Card zDepth={zDepth}>
         <CardTitle title="New Watchlist" />
         <CardText>
           <TextField

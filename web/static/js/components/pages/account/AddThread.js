@@ -25,6 +25,7 @@ class AddThread extends Component {
   render() {
     return (<ThreadForm
       submit={this.submit}
+      zDepth={1}
     />);
   }
 }

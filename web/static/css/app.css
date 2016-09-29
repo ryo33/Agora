@@ -46,6 +46,11 @@ html {
     font-feature-settings: 'liga';
 }
 
+.center {
+    text-align: center;
+    margin: 4px 0;
+}
+
 div#body {
     padding:64px 0 0 0;
 }
@@ -59,5 +64,5 @@ div#header-fixed {
 }
 
 .resource-list {
-    margin: 24px auto;
+  margin: 24px auto;
 }

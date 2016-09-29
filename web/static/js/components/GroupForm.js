@@ -12,7 +12,7 @@ import Toggle from 'material-ui/Toggle';
 
 import UserSelector from './UserSelector';
 
-const mapStateToProps = ({ account, groups }, { members, group }) => {
+const mapStateToProps = ({ account, groups }, { members, group, zDepth }) => {
   if (group == null) {
     members == null;
   } else if (groups[group] == null) {
@@ -20,9 +20,11 @@ const mapStateToProps = ({ account, groups }, { members, group }) => {
   } else if (groups[group].group_limited != true) {
     members = null;
   }
+  zDepth = zDepth || 0
   return {
     currentUser: account.currentUser,
-    members
+    members,
+    zDepth
   };
 };
 
@@ -82,51 +84,53 @@ class GroupForm extends Component {
   }
 
   render() {
-    const { group, members } = this.props;
+    const { group, members, zDepth } = this.props;
     const { name, user, groupLimited, threadLimited, joinLimited } = this.state;
     const disabled = user == null || name.length == 0;
-    return <Card>
-      <CardTitle title="New Group" />
-      <CardText>
-        <TextField
-          hintText="Title"
-          floatingLabelText="Title"
-          value={name}
-          onChange={this.handleChangeName}
-        />
-        <Toggle
-          label="Allow only members to create new groups"
-          labelPosition="right"
-          toggled={groupLimited}
-          onToggle={this.handleToggleGroup}
-        />
-        <Toggle
-          label="Allow only members to create new threads"
-          labelPosition="right"
-          toggled={threadLimited}
-          onToggle={this.handleToggleThread}
-        />
-        <Toggle
-          label="Allow only members to add new members"
-          labelPosition="right"
-          toggled={joinLimited}
-          onToggle={this.handleToggleJoin}
-        />
-      </CardText>
-      <CardActions>
-        <RaisedButton
-          label="Submit"
-          primary={true}
-          onClick={this.submit}
-          disabled={disabled}
-        />
-        <UserSelector
-          user={this.state.user}
-          members={members}
-          changeUser={this.changeUser}
-        />
-      </CardActions>
-    </Card>
+    return (
+      <Card zDepth={zDepth}>
+        <CardTitle title="New Group" />
+        <CardText>
+          <TextField
+            hintText="Title"
+            floatingLabelText="Title"
+            value={name}
+            onChange={this.handleChangeName}
+          />
+          <Toggle
+            label="Allow only members to create new groups"
+            labelPosition="right"
+            toggled={groupLimited}
+            onToggle={this.handleToggleGroup}
+          />
+          <Toggle
+            label="Allow only members to create new threads"
+            labelPosition="right"
+            toggled={threadLimited}
+            onToggle={this.handleToggleThread}
+          />
+          <Toggle
+            label="Allow only members to add new members"
+            labelPosition="right"
+            toggled={joinLimited}
+            onToggle={this.handleToggleJoin}
+          />
+        </CardText>
+        <CardActions>
+          <RaisedButton
+            label="Submit"
+            primary={true}
+            onClick={this.submit}
+            disabled={disabled}
+          />
+          <UserSelector
+            user={this.state.user}
+            members={members}
+            changeUser={this.changeUser}
+          />
+        </CardActions>
+      </Card>
+    );
   }
 }
 

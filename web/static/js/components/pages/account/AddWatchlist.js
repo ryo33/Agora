@@ -25,6 +25,7 @@ class AddWatchlist extends Component {
   render() {
     return (<WatchlistForm
       submit={this.submit}
+      zDepth={1}
     />);
   }
 }
