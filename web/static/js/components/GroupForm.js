@@ -85,7 +85,6 @@ class GroupForm extends Component {
 
   render() {
     const { group, members, zDepth } = this.props;
-    console.log(zDepth)
     const { name, user, groupLimited, threadLimited, joinLimited } = this.state;
     const disabled = user == null || name.length == 0;
     return (
