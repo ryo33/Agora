@@ -10,6 +10,7 @@ import createLogger from 'redux-logger';
 import { persistStore, getStoredState } from 'redux-persist';
 
 import { Application } from './components/index';
+import { Home } from './components/pages/home/index';
 import {
   Account, UserList, AccountThreads, AccountGroups, AccountWatchlists,
   AddUser, AddThread, AddGroup, AddWatchlist
@@ -83,6 +84,7 @@ render(
   <Provider store={store}>
     <Router history={history}>
       <Route path="/" component={Application}>
+        <IndexRoute component={Home}/>
         <Route path="account" component={Account}>
           <Route path="users" component={UserList} />
           <Route path="threads" component={AccountThreads} />
