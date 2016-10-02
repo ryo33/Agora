@@ -134,14 +134,16 @@ function* addThreadSaga(action) {
 }
 
 function* addPostSaga(action) {
-  const { thread, user, title, text } = action.payload;
+  const { thread, user, title, text, defaultUser } = action.payload;
   const params = {
     thread_id: thread,
     user_id: user,
     title,
     text
   };
-  yield call(pushMessage, commonChannel, 'posts', 'add', params);
+  yield call(pushMessage, commonChannel, 'posts', 'add', {
+    params, default_user: defaultUser
+  });
 }
 
 function* addWatchlistSaga(action) {

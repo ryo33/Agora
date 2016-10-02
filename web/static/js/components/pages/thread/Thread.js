@@ -18,6 +18,7 @@ const mapStateToProps = ({ threadPage }, { params }) => {
   return {
     posts: threadPage.posts,
     members: threadPage.members,
+    user: threadPage.user,
     id: parseInt(params.id, 10)
   }
 }
@@ -42,14 +43,14 @@ class Thread extends Component {
     closeThreadPage(id);
   }
 
-  post({ user, title, text }) {
+  post(params) {
     const { submitPost, id } = this.props;
-    submitPost({thread: id, user, title, text});
+    submitPost(Object.assign(params, {thread: id}));
   }
 
   render() {
     const {
-      posts, id, members, theme
+      posts, id, members, user, theme
     } = this.props;
     return (
       <div>
@@ -59,6 +60,7 @@ class Thread extends Component {
         <Divider style={{ margin: '0.15em 0' }} />
         <SignedIn><PostForm
             thread={id}
+            user={user}
             members={members}
             submit={this.post}
             expandable

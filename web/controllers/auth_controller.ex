@@ -55,7 +55,7 @@ defmodule Agora.AuthController do
       _  ->
         conn
         |> put_session(:account, account.id)
-        |> redirect(to: "/")
+        |> redirect(to: "/account/users")
     end
   end
 end

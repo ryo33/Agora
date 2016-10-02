@@ -3,10 +3,11 @@ import { createReducer } from 'redux-act';
 
 import {
   updateCurrentThread,
-    updateThreadPosts,
-    updateThreadMembers,
-    openAllThreadsPage,
-    updateThreads
+  updateThreadPosts,
+  updateThreadMembers,
+  openAllThreadsPage,
+  updateThreads,
+  updateThreadUser
 } from 'actions/threadPage'
 
 const currentThread = createReducer({
@@ -23,6 +24,10 @@ const members = createReducer({
   [updateThreadMembers]: (_, ids) => ids
 }, []);
 
+const user = createReducer({
+  [updateThreadUser]: (_, payload) => payload
+}, null);
+
 const threads = createReducer({
   [updateThreads]: (_, ids) => ids
 }, []);
@@ -31,7 +36,8 @@ const threadPage = combineReducers({
   currentThread,
   posts,
   members,
-  threads
+  threads,
+  user
 });
 
 export default threadPage;

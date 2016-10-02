@@ -31,9 +31,11 @@ class PostForm extends Component {
       title: '',
       text: '',
       user: props.currentUser,
+      setDefault: false
     };
     this.changeUser = this.changeUser.bind(this);
     this.toggleTitle = this.toggleTitle.bind(this);
+    this.toggleDefault = this.toggleDefault.bind(this);
     this.submit = this.submit.bind(this);
     this.handleChangeText = this.handleChangeText.bind(this);
     this.handleChangeTitle = this.handleChangeTitle.bind(this);
@@ -47,14 +49,20 @@ class PostForm extends Component {
     this.setState({ titleForm: !this.state.titleForm });
   }
 
+  toggleDefault(event) {
+    this.setState({ setDefault: !this.state.setDefault });
+  }
+
   submit() {
-    const { user, title, text } = this.state;
+    const { user, title, text, setDefault } = this.state;
     this.props.submit({
+      defaultUser: setDefault,
       user: user,
       title: title,
       text: text,
     });
     this.setState({
+      setDefault: false,
       title: '',
       text: '',
     });
@@ -80,11 +88,11 @@ class PostForm extends Component {
 
   render() {
     const {
-      user,
+      user, setDefault,
       title, text,
       titleForm, messageError, titleError
     } = this.state;
-    const { members, zDepth } = this.props;
+    const { members, zDepth, user: defaultUser } = this.props;
     const disabled = user == null || text.length == 0;
     return (
       <Card
@@ -132,9 +140,17 @@ class PostForm extends Component {
             disabled={disabled}
           />
           <UserSelector
+            defaultUser={defaultUser}
             user={user}
             members={members}
             changeUser={this.changeUser}
+          />
+          <Toggle
+            toggled={setDefault}
+            label="Default user"
+            labelPosition="right"
+            onToggle={this.toggleDefault}
+            disabled={user==defaultUser}
           />
         </CardActions>
       </Card>

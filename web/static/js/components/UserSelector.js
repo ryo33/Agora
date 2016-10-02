@@ -12,18 +12,15 @@ const mapStateToProps = (state, { members }) => {
     users = users.filter((user) => members.includes(user.id));
   }
   return {
-    users,
-    currentUser: getCurrentUser(state),
+    users
   };
 };
 
 class UserSelector extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      beforeCurrentUser: props.currentUser
-    };
     this.handleChange = this.handleChange.bind(this);
+    this.user = null;
   }
 
   handleChange(event, index, value) {
@@ -32,12 +29,22 @@ class UserSelector extends Component {
 
   componentWillMount() {
     const { user, users } = this.props;
+    this.ensureDefaultUser();
     this.checkUser(users, user);
   }
 
   componentWillReceiveProps(props) {
     const { user, users } = props;
+    this.ensureDefaultUser();
     this.checkUser(users, user);
+  }
+
+  ensureDefaultUser() {
+    const defaultUser = this.props.defaultUser;
+    if (this.user != defaultUser) {
+      this.user = defaultUser;
+      this.props.changeUser(defaultUser);
+    }
   }
 
   checkUser(users, user) {

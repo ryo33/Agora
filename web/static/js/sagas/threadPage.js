@@ -4,8 +4,9 @@ import { fork, take, call, put, cancel, select } from 'redux-saga/effects';
 import { socket, commonChannel, pushMessage } from 'socket';
 import {
   openThreadPage, closeThreadPage, updateCurrentThread,
-    openAllThreadsPage, updateThreads,
-    updateThreadPosts, updateThreadMembers
+  openAllThreadsPage, updateThreads,
+  updateThreadPosts, updateThreadMembers,
+  updateThreadUser
 } from 'actions/threadPage';
 
 import {
@@ -74,10 +75,11 @@ function* preparePostsSaga(action) {
   yield put(preparePosts(ids));
 }
 
-function joinCallback(emitter, { posts, members }) {
+function joinCallback(emitter, { posts, members, default_user }) {
   emitter(preparePosts(posts));
   emitter(updateThreadMembers(members));
   emitter(updateThreadPosts(posts));
+  emitter(updateThreadUser(default_user));
 }
 
 function listenCallback(emitter, channel) {

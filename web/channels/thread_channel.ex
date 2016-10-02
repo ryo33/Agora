@@ -5,8 +5,10 @@ defmodule Agora.ThreadChannel do
     alias Agora.Thread
     alias Agora.Post
     alias Agora.Member
+    alias Agora.ThreadUser
     alias Agora.Repo
 
+    account = Map.get(socket.assigns, :account)
     id = String.to_integer id
     if Thread.exists?(id) do
       query = from p in Post,
@@ -20,6 +22,16 @@ defmodule Agora.ThreadChannel do
             |> where([thread], thread.id == ^id)
             |> select([thread], {thread.parent_group_id, thread.post_limited})
             |> Repo.one!()
+      default_user = if not is_nil(account) do
+        ThreadUser
+        |> where([thread_user],
+          thread_user.account_id == ^account.id and
+          thread_user.thread_id == ^id)
+        |> select([thread_user], thread_user.user_id)
+        |> Repo.one()
+      else
+        nil
+      end
       members = if post_limited == true and not is_nil(group_id) do
         Member
         |> where([member], member.group_id == ^group_id)
@@ -28,7 +40,7 @@ defmodule Agora.ThreadChannel do
       else
         []
       end
-      {:ok, %{posts: posts, members: members}, socket}
+      {:ok, %{posts: posts, members: members, default_user: default_user}, socket}
     else
       {:error, %{reason: "The ID does not exist"}}
     end

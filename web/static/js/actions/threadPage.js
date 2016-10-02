@@ -9,3 +9,5 @@ export const updateThreadMembers = createAction('Update thread members', ids => 
 
 export const openAllThreadsPage = createAction('Open all threads page');
 export const updateThreads = createAction('Update threads');
+
+export const updateThreadUser = createAction('Update thread user', id => id);

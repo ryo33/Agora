@@ -3,9 +3,37 @@ defmodule Agora.ChannelController.Post do
 
   require Logger
 
-  def handle_action("add", post_params, socket) do
-    changeset = Post.changeset(%Post{}, put_info(post_params, socket))
+  def handle_action("add", %{"params" => params, "default_user" => default_user}, socket) do
+    alias Agora.ThreadUser
+
+    changeset = Post.changeset(%Post{}, put_info(params, socket))
     true = validate_info(changeset, socket)
+
+    if default_user do
+      account_id = socket.assigns.account.id
+      thread_id = params["thread_id"]
+      user_id = params["user_id"]
+      id = ThreadUser
+      |> where([thread_user],
+        thread_user.account_id == ^account_id and
+        thread_user.thread_id == ^thread_id)
+      |> select([thread_user], thread_user.id)
+      |> Repo.one()
+      if is_nil(id) do
+        thread_user = %ThreadUser{
+          account_id: account_id,
+          user_id: user_id,
+          thread_id: thread_id
+        }
+        Repo.insert(thread_user)
+        |> IO.inspect()
+      else
+        thread_user = Repo.get!(ThreadUser, id)
+        thread_user = Ecto.Changeset.change(thread_user, user_id: user_id)
+        Repo.update(thread_user)
+        |> IO.inspect()
+      end
+    end
 
     case Repo.insert(changeset) do
       {:ok, post} ->
