@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import WatchAction from 'components/resourceActions/WatchAction';
 import CopyAction from 'components/resourceActions/CopyAction';
+import EditThreadAction from 'components/resourceActions/EditThreadAction';
 
 import { watchThread } from 'actions/resources';
 
@@ -13,6 +14,15 @@ const actionCreators = {
 class ThreadActions extends Component {
   constructor(props) {
     super(props);
+  }
+
+  renderEditAction() {
+    const { id, isOwned = false } = this.props;
+    if (isOwned) {
+      return <EditThreadAction id={id} />;
+    } else {
+      return null;
+    }
   }
 
   render() {
@@ -27,6 +37,7 @@ class ThreadActions extends Component {
         <CopyAction
           link={`threads/${id}`}
         />
+        {this.renderEditAction()}
       </div>
     );
   }

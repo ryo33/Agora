@@ -12,10 +12,14 @@ import { GroupIcon, ThreadIcon, UserIcon } from 'components/icons';
 import ParentGroup from 'components/ParentGroup';
 
 import { requireGroup } from 'hocs/resources';
+import { getAccountUserIDs } from 'selectors/accountPage';
 
-const mapStateToProps = ({ theme, groups }, { id }) => {
+const mapStateToProps = (state, { id }) => {
+  const group = state.groups[id];
+  const users = getAccountUserIDs(state);
   return {
-    group: groups[id],
+    group,
+    isOwned: group ? users.includes(group.user_id) : false
   }
 };
 
@@ -42,7 +46,7 @@ class GroupHeader extends Component {
   }
 
   render() {
-    const { id, group } = this.props;
+    const { id, group, isOwned } = this.props;
     const parentID = group.parent_group_id;
     const title = (
       <span
@@ -77,7 +81,7 @@ class GroupHeader extends Component {
             subtitle="Group description"
           />
           <CardActions expandable={true}>
-            <GroupActions id={id} />
+            <GroupActions id={id} isOwned={isOwned} />
           </CardActions>
         </Card>
       </div>

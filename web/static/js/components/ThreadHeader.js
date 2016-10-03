@@ -13,10 +13,14 @@ import { ThreadIcon, PostIcon } from 'components/icons';
 import ParentGroup from 'components/ParentGroup';
 
 import { requireThread } from 'hocs/resources';
+import { getAccountUserIDs } from 'selectors/accountPage';
 
-const mapStateToProps = ({ theme, threads }, { id }) => {
+const mapStateToProps = (state, { id }) => {
+  const thread = state.threads[id];
+  const users = getAccountUserIDs(state);
   return {
-    thread: threads[id],
+    thread,
+    isOwned: thread ? users.includes(thread.user_id) : false
   }
 };
 
@@ -43,7 +47,7 @@ class ThreadHeader extends Component {
   }
 
   render() {
-    const { id, thread } = this.props;
+    const { id, thread, isOwned } = this.props;
     const parentID = thread.parent_group_id;
     const title = (
       <span
@@ -74,7 +78,7 @@ class ThreadHeader extends Component {
             subtitle="Thread description"
           />
           <CardActions expandable={true}>
-            <ThreadActions id={id} />
+            <ThreadActions id={id} isOwned={isOwned} />
           </CardActions>
         </Card>
       </div>

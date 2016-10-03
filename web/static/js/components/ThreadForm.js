@@ -33,10 +33,15 @@ const mapStateToProps = ({ account, groups }, { members, group, zDepth }) => {
 class ThreadForm extends Component {
   constructor(props) {
     super(props);
+    const {
+      title = '',
+      user = null,
+      post_limited: postLimited = false,
+    } = this.props;
     this.state = {
-      title: props.title || '',
-      user: this.props.currentUser,
-      postLimited: false
+      title: title,
+      user: user || this.props.currentUser,
+      postLimited
     };
     this.submit = this.submit.bind(this);
     this.changeUser = this.changeUser.bind(this);
@@ -76,7 +81,7 @@ class ThreadForm extends Component {
   }
 
   render() {
-    const { group, members, zDepth } = this.props;
+    const { editMode, group, members, zDepth } = this.props;
     const { title, user, postLimited } = this.state;
     const disabled = user == null || title.length == 0;
     return (
@@ -108,11 +113,15 @@ class ThreadForm extends Component {
             onClick={this.submit}
             disabled={disabled}
           />
-          <UserSelector
-            user={this.state.user}
-            members={members}
-            changeUser={this.changeUser}
-          />
+          {
+            editMode
+            ? null
+            : <UserSelector
+              user={this.state.user}
+              members={members}
+              changeUser={this.changeUser}
+            />
+          }
         </CardActions>
       </Card>
     );

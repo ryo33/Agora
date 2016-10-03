@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import WatchAction from 'components/resourceActions/WatchAction';
 import CopyAction from 'components/resourceActions/CopyAction';
+import EditGroupAction from 'components/resourceActions/EditGroupAction';
 
 import { watchGroup } from 'actions/resources';
 
@@ -13,6 +14,15 @@ const actionCreators = {
 class GroupActions extends Component {
   constructor(props) {
     super(props);
+  }
+
+  renderEditAction() {
+    const { id, isOwned = false } = this.props;
+    if (isOwned) {
+      return <EditGroupAction id={id} />;
+    } else {
+      return null;
+    }
   }
 
   render() {
@@ -27,6 +37,7 @@ class GroupActions extends Component {
         <CopyAction
           link={`groups/${id}`}
         />
+        {this.renderEditAction()}
       </div>
     );
   }

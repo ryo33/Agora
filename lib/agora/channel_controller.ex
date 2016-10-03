@@ -10,7 +10,7 @@ defmodule Agora.ChannelController do
   def validate_info(changeset, socket) do
     account_id = socket.assigns.account.id
     Ecto.Changeset.get_field(changeset, :account_id) == account_id
-    and Agora.Account.has_user?(account_id, Ecto.Changeset.get_change(changeset, :user_id))
+    and Agora.Account.has_user?(account_id, Ecto.Changeset.get_field(changeset, :user_id))
   end
 
   def push(socket, event, message) do

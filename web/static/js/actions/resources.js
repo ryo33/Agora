@@ -12,6 +12,9 @@ function createUpdateFor(resource) {
 function createSubmitFor(resource) {
   return createAction(`Submit a ${resource}`, params => params);
 }
+function createEditFor(resource) {
+  return createAction(`Edit the ${resource}`, (id, params) => ({ id, params }));
+}
 function createWatchFor(resource) {
   return createAction(`Watch the ${resource}`, (watchlist, id) => ({ watchlist, [resource]: id }));
 }
@@ -39,6 +42,9 @@ export const submitThread = createSubmitFor('thread');
 export const submitPost = createSubmitFor('post');
 export const submitWatchlist = createSubmitFor('watchlist');
 export const submitUser = createSubmitFor('user');
+
+export const editGroup = createEditFor('group');
+export const editThread = createEditFor('thread');
 
 export const watchGroup = createWatchFor('group');
 export const watchThread = createWatchFor('thread');

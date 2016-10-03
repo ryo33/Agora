@@ -43,6 +43,32 @@ defmodule Agora.Group do
     |> validate_length(:name, min: 1)
   end
 
+  def preload_param do
+    members_query = Agora.Member |> select([m], m.id)
+    threads_query = fn ids ->
+      Agora.Thread
+      |> select([t], %{group_id: t.parent_group_id})
+      |> where([t], t.parent_group_id in ^ids)
+      |> Repo.all
+    end
+    groups_query = fn ids ->
+      Agora.Group
+      |> select([g], %{group_id: g.parent_group_id})
+      |> where([g], g.parent_group_id in ^ids)
+      |> Repo.all
+    end
+    [members: members_query,
+     threads: threads_query,
+     groups: groups_query]
+  end
+
+  def format(group) do
+    group
+    |> Map.update!(:members, fn ids -> length(ids) end)
+    |> Map.update!(:threads, fn ids -> length(ids) end)
+    |> Map.update!(:groups, fn ids -> length(ids) end)
+  end
+
   def exists?(id) do
     query = from g in Agora.Group,
       where: g.id == ^id,

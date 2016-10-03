@@ -31,12 +31,19 @@ const mapStateToProps = ({ account, groups }, { members, group, zDepth }) => {
 class GroupForm extends Component {
   constructor(props) {
     super(props);
+    const {
+      name = '',
+      user = null,
+      group_limited: groupLimited = true,
+      thread_limited: threadLimited = true,
+      join_limited: joinLimited = true
+    } = this.props;
     this.state = {
-      name: props.name || "",
-      user: this.props.currentUser,
-      groupLimited: true,
-      threadLimited: true,
-      joinLimited: true
+      name: name,
+      user: user || this.props.currentUser,
+      groupLimited,
+      threadLimited,
+      joinLimited
     };
     this.submit = this.submit.bind(this);
     this.changeUser = this.changeUser.bind(this);
@@ -84,7 +91,7 @@ class GroupForm extends Component {
   }
 
   render() {
-    const { group, members, zDepth } = this.props;
+    const { group, members, zDepth, editMode = false } = this.props;
     const { name, user, groupLimited, threadLimited, joinLimited } = this.state;
     const disabled = user == null || name.length == 0;
     return (
@@ -123,11 +130,15 @@ class GroupForm extends Component {
             onClick={this.submit}
             disabled={disabled}
           />
-          <UserSelector
-            user={this.state.user}
-            members={members}
-            changeUser={this.changeUser}
-          />
+          {
+            editMode
+            ? null
+            : <UserSelector
+              user={this.state.user}
+              members={members}
+              changeUser={this.changeUser}
+            />
+          }
         </CardActions>
       </Card>
     );

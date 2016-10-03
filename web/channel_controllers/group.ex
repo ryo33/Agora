@@ -32,36 +32,24 @@ defmodule Agora.ChannelController.Group do
     end
   end
 
+  def handle_action("edit", %{"id" => id, "params" => params}, socket) do
+    group = Repo.get!(Group, id)
+    changeset = Group.changeset(group, params)
+    true = validate_info(changeset, socket)
+
+    group = Repo.update!(changeset)
+            |> Repo.preload(Group.preload_param)
+            |> Group.format
+    {:ok, %{"group" => group}, socket}
+  end
+
   def handle_action("fetch", ids, socket) do
-    members_query = Agora.Member
-                    |> select([m], m.id)
-    threads_query = fn ids ->
-      Agora.Thread
-      |> select([t], %{group_id: t.parent_group_id})
-      |> where([t], t.parent_group_id in ^ids)
-      |> Repo.all
-    end
-    groups_query = fn ids ->
-      Agora.Group
-      |> select([g], %{group_id: g.parent_group_id})
-      |> where([g], g.parent_group_id in ^ids)
-      |> Repo.all
-    end
-    query = Agora.Group
-            |> where([g], g.id in ^ids)
-            |> select([g], g)
-            |> preload([members: ^members_query])
-            |> preload([threads: ^threads_query])
-            |> preload([groups: ^groups_query])
-    func = fn g ->
-      g
-      |> Map.update!(:members, fn ids -> length(ids) end)
-      |> Map.update!(:threads, fn ids -> length(ids) end)
-      |> Map.update!(:groups, fn ids -> length(ids) end)
-      |> (fn g -> {Integer.to_string(g.id), g} end).()
-    end
-    groups = Repo.all(query)
-             |> Enum.map(func)
+    groups = Group
+             |> where([g], g.id in ^ids)
+             |> select([g], g)
+             |> preload(^Group.preload_param)
+             |> Repo.all
+             |> Enum.map(fn g -> {Integer.to_string(g.id), Group.format(g)} end)
              |> Enum.into(%{})
     {:ok, %{groups: groups}, socket}
   end

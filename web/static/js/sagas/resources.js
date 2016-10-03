@@ -105,34 +105,6 @@ const watchPosts      = createWatcherFor('posts', preparePosts, addPosts);
 const watchUsers      = createWatcherFor('users', prepareUsers, addUsers);
 const watchWatchlists = createWatcherFor('watchlists', prepareWatchlists, addWatchlists);
 
-function* addGroupSaga(action) {
-  const {
-    group, user, name, groupLimited, threadLimited, joinLimited
-  } = action.payload;
-  const params = {
-    parent_group_id: group,
-    user_id: user,
-    name: name,
-    group_limited: groupLimited,
-    thread_limited: threadLimited,
-    join_limited: joinLimited
-  };
-  const { id } = yield call(pushMessage, commonChannel, 'groups', 'add', params);
-  yield put(push('/groups/' + id))
-}
-
-function* addThreadSaga(action) {
-  const { group, user, title, postLimited } = action.payload;
-  const params = {
-    parent_group_id: group,
-    user_id: user,
-    title: title,
-    post_limited: postLimited
-  };
-  const { id } = yield call(pushMessage, commonChannel, 'threads', 'add', params);
-  yield put(push('/threads/' + id))
-}
-
 function* addPostSaga(action) {
   const { thread, user, title, text, defaultUser } = action.payload;
   const params = {
@@ -198,8 +170,6 @@ export default function*() {
   yield fork(watchUsers);
   yield fork(watchWatchlists);
 
-  yield fork(takeEvery, submitGroup.getType(), addGroupSaga);
-  yield fork(takeEvery, submitThread.getType(), addThreadSaga);
   yield fork(takeEvery, submitPost.getType(), addPostSaga);
   yield fork(takeEvery, submitWatchlist.getType(), addWatchlistSaga);
   yield fork(takeEvery, submitUser.getType(), addUserSaga);

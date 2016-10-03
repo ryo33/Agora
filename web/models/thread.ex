@@ -35,6 +35,16 @@ defmodule Agora.Thread do
     |> validate_length(:title, min: 1)
   end
 
+  def preload_param do
+    posts_query = Agora.Post |> select([p], p.id)
+    [posts: posts_query]
+  end
+
+  def format(thread) do
+    thread
+    |> Map.update!(:posts, fn ids -> length(ids) end)
+  end
+
   def exists?(id) do
     query = from t in Agora.Thread,
       where: t.id == ^id,

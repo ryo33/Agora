@@ -26,20 +26,24 @@ defmodule Agora.ChannelController.Thread do
     end
   end
 
+  def handle_action("edit", %{"id" => id, "params" => params}, socket) do
+    thread = Repo.get!(Thread, id)
+    changeset = Thread.changeset(thread, params)
+    true = validate_info(changeset, socket)
+
+    thread = Repo.update!(changeset)
+             |> Repo.preload(Thread.preload_param)
+             |> Thread.format
+    {:ok, %{"thread" => thread}, socket}
+  end
+
   def handle_action("fetch", ids, socket) do
-    posts_query = Post
-                  |> select([p], p.id)
-    func = fn t ->
-      t = t
-          |> Map.update!(:posts, fn ids -> length(ids) end)
-          |> (fn t -> {Integer.to_string(t.id), t} end).()
-    end
     threads = Thread
               |> where([t], t.id in ^ids)
               |> select([t], t)
-              |> preload([posts: ^posts_query])
-              |> Repo.all()
-              |> Enum.map(func)
+              |> preload(^Thread.preload_param)
+              |> Repo.all
+              |> Enum.map(fn g -> {Integer.to_string(g.id), Thread.format(g)} end)
               |> Enum.into(%{})
     {:ok, %{threads: threads}, socket}
   end
