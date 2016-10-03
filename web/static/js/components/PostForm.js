@@ -42,7 +42,7 @@ class PostForm extends Component {
   }
 
   changeUser(user) {
-    this.setState({ user });
+    this.setState({ user, setDefault: false });
   }
 
   toggleTitle(event) {
