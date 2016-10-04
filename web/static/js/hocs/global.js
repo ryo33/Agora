@@ -8,3 +8,7 @@ import NotSignedIn from 'components/NotSignedIn';
 export function onlySignedIn(component) {
   return signedIn ? component : NotSignedIn;
 }
+
+export function onlyNotSignedIn(component) {
+  return !signedIn ? component : NotSignedIn;
+}
