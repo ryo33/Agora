@@ -41,7 +41,7 @@ class NavBar extends Component {
     }
     return (
       <span>
-        <span style={{cursor: 'pointer'}} onClick={this.transitionTo('/')}>Agora</span>
+        <span style={{cursor: 'pointer'}} onClick={this.transitionTo('/')}>Agoraful</span>
         {title}
       </span>
     );
