@@ -13,6 +13,7 @@ import Groups from './Groups';
 import Threads from './Threads';
 import Watchlists from './Watchlists';
 import SignoutDialog from './SignoutDialog';
+import { signedIn } from 'global';
 
 class LeftNav extends Component {
   constructor(props) {
@@ -24,10 +25,14 @@ class LeftNav extends Component {
     this.handleOpen = this.handleOpen.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
   }
-  transitionTo(path) {
+  transitionTo(path, onlySignedIn) {
     return (event) => {
       this.props.toggleLeftNav();
-      this.props.dispatch(push(path));
+      if (onlySignedIn && !signedIn) {
+        this.props.dispatch(push('signin'));
+      } else {
+        this.props.dispatch(push(path));
+      }
     };
   }
   handleOpen() {
@@ -42,22 +47,22 @@ class LeftNav extends Component {
       docked={false}
       onRequestChange={this.props.setLeftNav}
     >
-            <Groups click={this.transitionTo} />
-            <Threads click={this.transitionTo} />
-            <Watchlists click={this.transitionTo} />
-            <SignedIn children={<Users transitionTo={this.transitionTo} />} />
-            <SignedIn>
-                <Divider />
-                <MenuItem
-                  children="Sign out"
-                  onClick={this.handleOpen}
-                />
-            </SignedIn>
-            <SignoutDialog
-              isSignoutDialogOpen={this.state.isSignoutDialogOpen}
-              handleSignoutCancel={this.handleCancel}
-            />
-        </Drawer>);
+      <Groups click={this.transitionTo} />
+      <Threads click={this.transitionTo} />
+      <Watchlists click={this.transitionTo} />
+      <Users transitionTo={this.transitionTo} />
+      <SignedIn>
+        <Divider />
+        <MenuItem
+          children="Sign out"
+          onClick={this.handleOpen}
+        />
+      </SignedIn>
+      <SignoutDialog
+        isSignoutDialogOpen={this.state.isSignoutDialogOpen}
+        handleSignoutCancel={this.handleCancel}
+      />
+    </Drawer>);
   }
 }
 

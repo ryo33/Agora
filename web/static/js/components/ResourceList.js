@@ -113,7 +113,7 @@ class ResourceList extends Component {
     return () => {
       this.props.dispatch(push(path));
     };
-    }
+  }
 
   render() {
     const {

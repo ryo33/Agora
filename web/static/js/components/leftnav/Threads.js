@@ -31,15 +31,16 @@ let menuItems = [
 
 const Threads = (props) => <MenuItem
   children="Threads"
-  menuItems={menuItems.map(({ children, leftIcon, path, signedIn: only }) =>
-      !only || signedIn
-    ? <MenuItem
-      children={children}
-      leftIcon={leftIcon}
-      onClick={props.click(path)}
-    />
-    : null
-  ).filter(mi => mi != null)}
+  menuItems={
+    menuItems.map(({ children, leftIcon, path, signedIn: only }) => (
+      <MenuItem
+        children={children}
+        leftIcon={leftIcon}
+        onClick={props.click(path, only)}
+        disabled={only && !signedIn}
+      />
+    )).filter(mi => mi != null)
+  }
   rightIcon={<ArrowDropRight />}
   leftIcon={<ThreadIcon />}
 />;
