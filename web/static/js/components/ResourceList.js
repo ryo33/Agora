@@ -24,7 +24,7 @@ const COLUMN_WIDTH = 110;
 
 const mapStateToProps =({ theme }, { mode, groups, threads, watchlists, formParams }) => ({
   mode, theme, groups, threads, watchlists, formParams
-})
+});
 
 const actionCreators = {
   submitGroup,
