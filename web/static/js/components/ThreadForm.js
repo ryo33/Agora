@@ -86,7 +86,7 @@ class ThreadForm extends Component {
     const disabled = user == null || title.length == 0;
     return (
       <Card zDepth={zDepth}>
-        <CardTitle title="New Thread" />
+        <CardTitle title="Create a New Thread" />
         <CardText>
           <TextField
             hintText="Title"

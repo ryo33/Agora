@@ -88,7 +88,7 @@ class AddUser extends Component {
     }
     const isDisabled = !(isValidID && isValidName);
     return (<Card>
-      <CardTitle title="Add New User" />
+      <CardTitle title="Create a New User" />
       <CardText>
         <TextField
           hintText="ID"

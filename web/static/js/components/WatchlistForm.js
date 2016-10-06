@@ -59,7 +59,7 @@ class WatchlistForm extends Component {
     const disabled = user == null || name.length == 0;
     return (
       <Card zDepth={zDepth}>
-        <CardTitle title="New Watchlist" />
+        <CardTitle title="Create a New Watchlist" />
         <CardText>
           <TextField
             hintText="Name"

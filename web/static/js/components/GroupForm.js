@@ -96,7 +96,7 @@ class GroupForm extends Component {
     const disabled = user == null || name.length == 0;
     return (
       <Card zDepth={zDepth}>
-        <CardTitle title="New Group" />
+        <CardTitle title="Create a New Group" />
         <CardText>
           <TextField
             hintText="Title"

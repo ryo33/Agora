@@ -100,7 +100,7 @@ class PostForm extends Component {
       >
         {this.props.expandable
           ? <CardHeader
-            title="New Post"
+            title="Create a New Post"
             actAsExpander={true}
             showExpandableButton={true}
           />
