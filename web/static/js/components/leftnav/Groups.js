@@ -22,7 +22,7 @@ let menuItems = [
   },
   {
     signedIn: true,
-    children: "Create New Group",
+    children: "Create a New Group",
     leftIcon: <AddBoxIcon />,
     path: '/account/add-group'
   },

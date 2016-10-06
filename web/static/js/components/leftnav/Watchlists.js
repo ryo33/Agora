@@ -17,7 +17,7 @@ let menuItems = [
   },
   {
     signedIn: true,
-    children: 'Create New Watchlist',
+    children: 'Create a New Watchlist',
     leftIcon: <AddBoxIcon />,
     path: '/account/add-watchlist',
   },

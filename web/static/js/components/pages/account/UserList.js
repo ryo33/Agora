@@ -70,7 +70,7 @@ class UserList extends Component {
       </List>
       <Divider />
       <List>
-        <ListItem primaryText="Add New User"
+        <ListItem primaryText="Create a New User"
           leftIcon={<FontIcon
             children="add_box"
             className="material-icons"

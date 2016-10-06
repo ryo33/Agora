@@ -144,7 +144,7 @@ class ResourceList extends Component {
               onClick={this.openAddThread}
             >
               <CardTitle
-                title={this.getTitle("Add Thread")}
+                title={this.getTitle("Create")}
                 titleStyle={theme.form.box.text}
                 titleColor={grey800}
                 style={theme.form.box.title}
@@ -166,7 +166,7 @@ class ResourceList extends Component {
               onClick={this.openAddGroup}
             >
               <CardTitle
-                title={this.getTitle("Add Group")}
+                title={this.getTitle("Create")}
                 titleStyle={theme.form.box.text}
                 titleColor={grey800}
                 style={theme.form.box.title}
@@ -188,7 +188,7 @@ class ResourceList extends Component {
               onClick={this.openAddWatchlist}
             >
               <CardTitle
-                title={this.getTitle("Add Watchlist")}
+                title={this.getTitle("Create")}
                 titleStyle={theme.form.box.text}
                 titleColor={grey800}
                 style={theme.form.box.title}

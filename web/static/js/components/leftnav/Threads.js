@@ -22,7 +22,7 @@ let menuItems = [
   },
   {
     signedIn: true,
-    children: 'Create New Thread',
+    children: 'Create a New Thread',
     leftIcon: <AddBoxIcon />,
     path: '/account/add-thread',
   },
