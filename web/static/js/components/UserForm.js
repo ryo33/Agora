@@ -15,13 +15,13 @@ import User from 'components/User';
 import UserSelector from 'components/UserSelector';
 
 import { addUserForm, unmountUserForm,
-  updateUserFormQuery, updateUserFormSelected
+  updateUserFormQuery, updateUserFormSelected, resetUserForm
 } from 'actions/userForm';
 
 const SelectedUser = ({ id }) => <User id={id} />;
 
 const SuggestForm = ({
-  query, onChange, suggestedUsers, dispatch, group,
+  query, onChange, suggestedUsers, dispatch, uniqueKey,
   updateUserFormSelected
 }) => (
   <div>
@@ -31,20 +31,25 @@ const SuggestForm = ({
       value={query}
       onChange={onChange}
     />
-    { suggestedUsers.map(id => <User
-      key={id}
-      id={id}
-      onClick={() => updateUserFormSelected(group, id)}
-    />)}
+    {
+      suggestedUsers.map(id => <User
+        key={id}
+        id={id}
+        onClick={() => updateUserFormSelected(uniqueKey, id)}
+      />)
+    }
   </div>
 )
 
-const mapStateToProps = ({ account, userForm, groups }, { members, group }) => {
-  const { query="", suggestedUsers=[], selectedUser=null } = userForm[group] || {};
-  if (groups[group] == null) {
-    members = [];
-  } else if (groups[group].join_limited != true) {
-    members = null;
+const mapStateToProps = ({ account, userForm, groups }, { members, uniqueKey, groupID }) => {
+  const { query="", suggestedUsers=[], selectedUser=null } = userForm[uniqueKey] || {};
+  if (groupID) {
+    const group = groups[groupID];
+    if (group == null) {
+      members = [];
+    } else if (group.join_limited != true) {
+      members = null;
+    }
   }
   return {
     currentUser: account.currentUser,
@@ -54,8 +59,8 @@ const mapStateToProps = ({ account, userForm, groups }, { members, group }) => {
 };
 
 const actionCreators = {
-  addUserForm, unmountUserForm,
-  updateUserFormQuery, updateUserFormSelected 
+  addUserForm, unmountUserForm, updateUserFormQuery,
+  updateUserFormSelected, resetUserForm
 };
 
 class UserForm extends Component {
@@ -72,40 +77,41 @@ class UserForm extends Component {
   }
 
   componentWillMount() {
-    const { addUserForm, group } = this.props;
-    addUserForm(group);
+    const { addUserForm, uniqueKey } = this.props;
+    addUserForm(uniqueKey);
   }
 
   componentWillUnmount() {
-    const { unmountUserForm, group } = this.props;
-    unmountUserForm(group);
+    const { unmountUserForm, uniqueKey } = this.props;
+    unmountUserForm(uniqueKey);
   }
 
   handleQueryChange(event) {
     const value = event.target.value;
-    const { updateUserFormQuery, group } = this.props;
-    updateUserFormQuery(group, value, group);
+    const { updateUserFormQuery, onChange, uniqueKey } = this.props;
+    updateUserFormQuery(uniqueKey, value);
+    onChange(value);
   }
 
   handleSelectedChange(event) {
     const value = event.target.value;
-    const { updateUserFormSelected, group } = this.props;
-    updateUserFormSelected(group, user);
+    const { updateUserFormSelected, uniqueKey } = this.props;
+    updateUserFormSelected(uniqueKey, user);
   }
 
   submit() {
-    const { updateUserFormQuery, updateUserFormSelected,
-      group, submit, selectedUser } = this.props;
+    const { resetUserForm, uniqueKey, submit, selectedUser } = this.props;
+    const { user } = this.state;
     submit({
       user: selectedUser,
+      selector: user
     });
-    updateUserFormSelected(group, null);
-    updateUserFormQuery(group, '');
+    resetUserForm(uniqueKey);
   }
 
   cancel() {
-    const { updateUserFormSelected, group } = this.props;
-    updateUserFormSelected(group, null);
+    const { updateUserFormSelected, uniqueKey } = this.props;
+    updateUserFormSelected(uniqueKey, null);
   }
 
   changeUser(user) {
@@ -114,7 +120,7 @@ class UserForm extends Component {
 
   render() {
     const {
-      members, query, suggestedUsers, selectedUser, updateUserFormSelected, group
+      members, query, suggestedUsers, selectedUser, updateUserFormSelected, uniqueKey
     } = this.props;
     const { user } = this.state;
     const notSelected = !selectedUser
@@ -131,7 +137,7 @@ class UserForm extends Component {
                 onChange={this.handleQueryChange}
                 suggestedUsers={suggestedUsers}
                 updateUserFormSelected={updateUserFormSelected}
-                group={group}
+                uniqueKey={uniqueKey}
               />
           }
         </CardText>

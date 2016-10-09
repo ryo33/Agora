@@ -24,3 +24,7 @@ export const UserIcon = (props) => <FontIcon children="person"
 
 export const EditIcon = (props) => <FontIcon children="edit"
   className="material-icons" {...props} />;
+
+export const DeleteIcon = (props) => <FontIcon children="delete_forever"
+  className="material-icons" {...props} />;
+;

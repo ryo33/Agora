@@ -7,6 +7,7 @@ import { SignedIn } from 'components/util';
 import User from 'components/User';
 import UserForm from 'components/UserForm';
 
+import { requestNewMemberSuggestions } from 'actions/userForm';
 import { addMember } from 'actions/groupPage'
 
 const mapStateToProps = ({ groupPage }, { params }) => {
@@ -17,13 +18,20 @@ const mapStateToProps = ({ groupPage }, { params }) => {
 };
 
 const actionCreators = {
-  addMember
+  addMember, requestNewMemberSuggestions
 };
 
 class GroupMembers extends Component {
   constructor(props) {
     super(props);
     this.submit = this.submit.bind(this);
+    this.requestUserSuggestions = this.requestUserSuggestions.bind(this);
+    this.uniqueKey = 'group@@' + props.id;
+  }
+
+  requestUserSuggestions(value) {
+    const { requestNewMemberSuggestions, id } = this.props;
+    requestNewMemberSuggestions(this.uniqueKey, value, id);
   }
 
   submit({ user }) {
@@ -37,14 +45,15 @@ class GroupMembers extends Component {
       <div>
         <Divider style={{ margin: '0.15em 0' }} />
         <SignedIn><UserForm
-            group={id}
+            groupID={id}
+            onChange={this.requestUserSuggestions}
+            uniqueKey={this.uniqueKey}
             members={members}
             title="Add New Members"
             submit={this.submit}
             expandable
             expand={false}
             zDepth={2}
-            group={id}
           /></SignedIn>
         <Divider style={{ margin: '1em 0' }} />
         {

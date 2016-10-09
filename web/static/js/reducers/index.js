@@ -2,7 +2,9 @@ import { globalInfo } from './global';
 
 import account from './account/index';
 
-import { threads, posts, users, groups, watchlists, userIDs } from './resources';
+import {
+  threads, posts, users, groups, watchlists, webhooks, userIDs
+} from './resources';
 
 import threadPage from './threadPage';
 import groupPage from './groupPage';
@@ -24,6 +26,7 @@ const reducers = {
   users,
   userIDs,
   watchlists,
+  webhooks,
   threadPage,
   groupPage,
   accountPage,

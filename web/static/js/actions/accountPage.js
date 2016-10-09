@@ -12,3 +12,6 @@ export const updateGroups = createAction('Update account groups');
 
 export const openAccountWatchlistsPage = createAction('Open account watchlists page');
 export const updateWatchlists = createAction('Update account watchlists');
+
+export const openAccountWebhooksPage = createAction('Open account webhooks page');
+export const updateWebhooks = createAction('Update account webhooks');

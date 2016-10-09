@@ -50,4 +50,8 @@ defmodule Agora.AccountChannel do
   def handle_in("users", %{"action" => action, "params" => params}, socket) do
     ChannelController.action(ChannelController.User, socket, action, params)
   end
+
+  def handle_in("webhooks", %{"action" => action, "params" => params}, socket) do
+    ChannelController.action(ChannelController.ThreadWebhook, socket, action, params)
+  end
 end

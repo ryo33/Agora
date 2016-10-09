@@ -54,25 +54,31 @@ class UserSelector extends Component {
   }
 
   render() {
-    const { user, users } = this.props;
+    const { user, users, floatingLabelText } = this.props;
+    const items = users.map(({ uid, name, id }) => <MenuItem
+      key={id}
+      value={id}
+      secondaryText={uid}
+      primaryText={name}
+    />)
+    const nullItem = [];
+    if (!floatingLabelText) {
+      nullItem.push(<MenuItem
+        key="select a user"
+        value={null}
+        primaryText="Select A User"
+      />)
+    }
 
     if (Object.keys(users).length > 0) {
       return (
-          <SelectField
-            value={user}
-            onChange={this.handleChange}
-          >
-            <MenuItem
-              value={null}
-              primaryText="Select A User"
-            />
-            {users.map(({ uid, name, id }, key) => <MenuItem
-              key={key}
-              value={id}
-              secondaryText={uid}
-              primaryText={name}
-            />)}
-          </SelectField>
+        <SelectField
+          value={user}
+          onChange={this.handleChange}
+          floatingLabelText={floatingLabelText}
+        >
+          {nullItem.concat(items)}
+        </SelectField>
       );
     } else {
       return (

@@ -3,7 +3,8 @@ import { createReducer } from 'redux-act';
 
 import {
   openAccountThreadsPage, updateThreads,
-    openAccountGroupsPage, updateGroups,
+  openAccountGroupsPage, updateGroups,
+  openAccountWebhooksPage, updateWebhooks
 } from 'actions/accountPage'
 
 const threads = createReducer({
@@ -14,9 +15,14 @@ const groups = createReducer({
   [updateGroups]: (_, ids) => ids
 }, []);
 
+const webhooks = createReducer({
+  [updateWebhooks]: (_, ids) => ids
+}, []);
+
 const accountPage = combineReducers({
   threads,
-  groups
+  groups,
+  webhooks
 });
 
 export default accountPage;

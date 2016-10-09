@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { push } from 'react-router-redux';
 
 import RaisedButton from 'material-ui/RaisedButton';
 import { Card, CardText } from 'material-ui/Card';
@@ -12,7 +14,7 @@ const styles = {
   }
 };
 
-export const Home = () => (
+const HomeComponent = ({ push }) => (
   <div>
     <Card style={styles.card}>
       <CardText>
@@ -27,14 +29,14 @@ export const Home = () => (
       <CardText>
         <p>
           <RaisedButton
-            href="/threads"
+            onClick={() => push("/threads")}
             label="All Threads"
             icon={<ThreadIcon />}
           />
         </p>
         <p>
           <RaisedButton
-            href="/groups"
+            onClick={() => push("/groups")}
             label="All Groups"
             icon={<GroupIcon />}
           />
@@ -42,4 +44,6 @@ export const Home = () => (
       </CardText>
     </Card>
   </div>
-)
+);
+
+export const Home = connect(null, { push })(HomeComponent);

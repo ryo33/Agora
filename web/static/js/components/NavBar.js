@@ -25,24 +25,9 @@ class NavBar extends Component {
   }
 
   getTitle(path) {
-    let title = " | "
-    switch(path[0]) {
-      case 'groups':     title += "Groups"; break;
-      case 'threads':    title += "Threads"; break;
-      case 'watchlists': title += "Watchlist"; break;
-      case 'account':    switch(path[1]) {
-        case 'groups':     title += "Your Groups"; break;
-        case 'threads':    title += "Your Threads"; break;
-        case 'watchlists': title += "Watchlists"; break;
-        case 'users':      title += "Users"; break;
-        default:           title += "Add"; break;
-      } break;
-      default: title = ""; break;
-    }
     return (
       <span>
         <span style={{cursor: 'pointer'}} onClick={this.transitionTo('/')}>Agoraful</span>
-        {title}
       </span>
     );
   }

@@ -12,6 +12,7 @@ import Users from './Users';
 import Groups from './Groups';
 import Threads from './Threads';
 import Watchlists from './Watchlists';
+import Account from './Account';
 import SignoutDialog from './SignoutDialog';
 import { signedIn } from 'global';
 
@@ -51,6 +52,7 @@ class LeftNav extends Component {
       <Threads click={this.transitionTo} />
       <Watchlists click={this.transitionTo} />
       <Users transitionTo={this.transitionTo} />
+      <Account click={this.transitionTo} />
       <SignedIn>
         <Divider />
         <MenuItem

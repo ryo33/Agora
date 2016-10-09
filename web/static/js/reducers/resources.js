@@ -6,6 +6,7 @@ import {
   addPosts, updatePost,
   addUsers, updateUser,
   addWatchlists, updateWatchlist,
+  addWebhooks, updateWebhook,
   addUserIDs
 } from 'actions/resources'
 
@@ -27,6 +28,7 @@ export const threads    = createResourceReducer(addThreads, updateThread);
 export const posts      = createResourceReducer(addPosts, updatePost);
 export const users      = createResourceReducer(addUsers, updateUser);
 export const watchlists = createResourceReducer(addWatchlists, updateWatchlist);
+export const webhooks   = createResourceReducer(addWebhooks, updateWebhook);
 
 export const userIDs = createReducer({
   [addUserIDs]: (state, ids) => Object.assign({}, state, ids),

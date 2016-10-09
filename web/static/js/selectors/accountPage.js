@@ -10,4 +10,8 @@ export const getAccountWatchlists = ({ account }) => {
   return account.watchlists;
 };
 
+export const getAccountWebhooks = ({ accountPage }) => {
+  return accountPage.webhooks;
+};
+
 export const getCurrentUser = (state) => state.account.currentUser;

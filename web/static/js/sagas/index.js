@@ -7,8 +7,6 @@ import groupPageSaga from 'sagas/groupPage';
 import watchlistPageSaga from 'sagas/watchlistPage';
 import accountPageSaga from 'sagas/accountPage';
 
-import userFormSaga from 'sagas/userForm';
-
 import newUserFormSaga from 'sagas/accountPage/newUserForm';
 
 export default function*() {
@@ -18,8 +16,6 @@ export default function*() {
   yield fork(groupPageSaga);
   yield fork(watchlistPageSaga);
   yield fork(accountPageSaga);
-
-  yield fork(userFormSaga);
 
   yield fork(newUserFormSaga);
 };

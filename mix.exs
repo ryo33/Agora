@@ -19,7 +19,7 @@ defmodule Agora.Mixfile do
   def application do
     [mod: {Agora, []},
      applications: [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex, :ueberauth_google]]
+                    :phoenix_ecto, :postgrex, :ueberauth_google, :httpoison]]
   end
 
   # Specifies which paths to compile per environment.
@@ -39,7 +39,8 @@ defmodule Agora.Mixfile do
      {:gettext, "~> 0.9"},
      {:cowboy, "~> 1.0"},
      {:uuid, "~> 1.1"},
-     {:ueberauth_google, "~> 0.2.0"}]
+     {:ueberauth_google, "~> 0.2.0"},
+     {:httpoison, "~> 0.9.2"}]
   end
 
   # Aliases are shortcut or tasks specific to the current project.

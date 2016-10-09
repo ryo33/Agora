@@ -45,6 +45,7 @@ defmodule Agora.ChannelController.Post do
         broadcast_to_thread(post.thread_id, "add posts", %{
           posts: posts
         })
+        socket = Agora.Webhook.handle_post(post, socket)
         {:ok, socket}
       {:error, _changeset} ->
         {:error, socket} # TODO return error message

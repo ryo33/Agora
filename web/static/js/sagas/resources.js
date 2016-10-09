@@ -5,9 +5,11 @@ import { push } from 'react-router-redux';
 import { accountChannel, commonChannel, pushMessage, pushMessage2 } from 'socket';
 
 import {
-  addGroups, addThreads, addPosts, addUsers, addWatchlists,
-  prepareGroups, prepareThreads, preparePosts, prepareUsers, prepareWatchlists,
-  submitGroup, submitThread, submitPost, submitWatchlist, submitUser,
+  addGroups, addThreads, addPosts,
+  addUsers, addWatchlists, addWebhooks,
+  prepareGroups, prepareThreads, preparePosts,
+  prepareUsers, prepareWatchlists, prepareWebhooks,
+  submitPost, submitWatchlist, submitUser,
   watchThread, watchGroup, addWatchGroup, addWatchThread,
   updateWatchlist
 } from 'actions/resources';
@@ -104,6 +106,7 @@ const watchThreads    = createWatcherFor('threads', prepareThreads, addThreads);
 const watchPosts      = createWatcherFor('posts', preparePosts, addPosts);
 const watchUsers      = createWatcherFor('users', prepareUsers, addUsers);
 const watchWatchlists = createWatcherFor('watchlists', prepareWatchlists, addWatchlists);
+const watchWebhooks   = createWatcherFor('webhooks', prepareWebhooks, addWebhooks);
 
 function* addPostSaga(action) {
   const { thread, user, title, text, defaultUser } = action.payload;
@@ -169,6 +172,7 @@ export default function*() {
   yield fork(watchPosts);
   yield fork(watchUsers);
   yield fork(watchWatchlists);
+  yield fork(watchWebhooks);
 
   yield fork(takeEvery, submitPost.getType(), addPostSaga);
   yield fork(takeEvery, submitWatchlist.getType(), addWatchlistSaga);

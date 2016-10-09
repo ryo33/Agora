@@ -6,8 +6,10 @@ import {
   updateThreadPosts,
   updateThreadMembers,
   openAllThreadsPage,
+  openThreadWebhooksPage,
   updateThreads,
-  updateThreadUser
+  updateThreadUser,
+  updateWebhooks
 } from 'actions/threadPage'
 
 const currentThread = createReducer({
@@ -32,12 +34,17 @@ const threads = createReducer({
   [updateThreads]: (_, ids) => ids
 }, []);
 
+const webhooks = createReducer({
+  [updateWebhooks]: (_, ids) => ids
+}, []);
+
 const threadPage = combineReducers({
   currentThread,
   posts,
   members,
   threads,
-  user
+  user,
+  webhooks
 });
 
 export default threadPage;

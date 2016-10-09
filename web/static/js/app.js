@@ -9,29 +9,31 @@ import { routerMiddleware, syncHistoryWithStore, routerReducer } from 'react-rou
 import createLogger from 'redux-logger';
 import { persistStore, getStoredState } from 'redux-persist';
 
-import { Application } from './components/index';
-import { Home } from './components/pages/home/index';
+import { Application } from './components';
+import { Home } from './components/pages/home';
 import {
-  Account, UserList, AccountThreads, AccountGroups, AccountWatchlists,
-  AddUser, AddThread, AddGroup, AddWatchlist
+  Account, UserList, WebhookList,
+  AccountThreads, AccountGroups, AccountWatchlists,
+  AddUser, AddThread, AddGroup, AddWatchlist, AddWebhook,
 } from 'components/pages/account/index';
-import { ThreadPage, ThreadAll, Thread } from 'components/pages/thread/index';
-import { PostPage, Post } from 'components/pages/post/index';
-import { UserPage, User } from 'components/pages/user/index';
-import { WatchlistPage, Watchlist } from 'components/pages/watchlist/index';
+import { ThreadPage, ThreadAll, Thread, ThreadWebhooks } from 'components/pages/thread';
+import { PostPage, Post } from 'components/pages/post';
+import { UserPage, User } from 'components/pages/user';
+import { WatchlistPage, Watchlist } from 'components/pages/watchlist';
 import {
   GroupPage, GroupAll, Group,
   GroupGroups, GroupThreads, GroupMembers
-} from 'components/pages/group/index';
+} from 'components/pages/group';
+import { WebhookPage, WebhookAll, Webhook } from 'components/pages/webhook';
 import SignIn from './components/SignIn';
 import Unimplemented from 'components/Unimplemented';
 
 import { joinAccountChannel, joinCommonChannel } from 'socket';
 import { switchGroupPageTabs } from 'actions/groupPage';
 import { updateCurrentUser } from 'actions/accountPage';
-import reducers from 'reducers/index';
-import rootSaga from 'sagas/index';
-import logics from 'logics/index';
+import reducers from 'reducers';
+import rootSaga from 'sagas';
+import logics from 'logics';
 
 import { signedIn } from 'global';
 import { accountChannel } from 'socket';
@@ -90,18 +92,25 @@ render(
           <Route path="threads" component={AccountThreads} />
           <Route path="groups" component={AccountGroups} />
           <Route path="watchlists" component={AccountWatchlists} />
+          <Route path="thread-webhooks" component={WebhookList} />
           <Route path="add-user" component={AddUser} />
           <Route path="add-thread" component={AddThread} />
           <Route path="add-group" component={AddGroup} />
           <Route path="add-watchlist" component={AddWatchlist} />
+          <Route path="add-webhook" component={AddWebhook} />
           <Route path="notifications" component={Unimplemented} />
         </Route>
         <Route path="threads" component={ThreadPage}>
           <IndexRoute component={ThreadAll}/>
+          <Route path=":id/webhooks" component={ThreadWebhooks} />
           <Route path=":id" component={Thread} />
         </Route>
         <Route path="watchlists" component={WatchlistPage}>
           <Route path=":id" component={Watchlist} />
+        </Route>
+        <Route path="thread-webhooks" component={WebhookPage}>
+          <IndexRoute component={WebhookAll}/>
+          <Route path=":id" component={Webhook} />
         </Route>
         <Route path="groups" component={GroupPage}>
           <IndexRoute component={GroupAll}/>

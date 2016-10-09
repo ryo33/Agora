@@ -1,8 +1,10 @@
 import { createLogic } from 'redux-logic';
 
+import accountPageLogics from 'logics/accountPage';
 import threadPageLogics from 'logics/threadPage';
 import groupPageLogics from 'logics/groupPage';
 import resourcesLogics from 'logics/resources';
+import userFormLogics from 'logics/userForm';
 
 import { addUsers, addUserIDs } from 'actions/resources';
 
@@ -20,7 +22,9 @@ const addUserIDsLogic = createLogic({
 });
 
 export default [addUserIDsLogic].concat(
+  accountPageLogics,
   threadPageLogics,
   groupPageLogics,
-  resourcesLogics
+  resourcesLogics,
+  userFormLogics
 );

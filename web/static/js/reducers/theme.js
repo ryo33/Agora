@@ -90,6 +90,17 @@ const initialState = {
     body: {
       backgroundColor: MaterialColors.grey[100]
     },
+  },
+  webhook: {
+    root: {
+      margin: "0.17em 0"
+    },
+    header: {
+      backgroundColor: MaterialColors.blueGrey[200]
+    },
+    body: {
+      backgroundColor: MaterialColors.grey[100]
+    },
   }
 };
 

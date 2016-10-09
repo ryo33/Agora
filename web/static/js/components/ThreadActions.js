@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import WatchAction from 'components/resourceActions/WatchAction';
 import CopyAction from 'components/resourceActions/CopyAction';
 import EditThreadAction from 'components/resourceActions/EditThreadAction';
+import LinkAction from 'components/resourceActions/LinkAction';
 
 import { watchThread } from 'actions/resources';
 
@@ -38,6 +39,10 @@ class ThreadActions extends Component {
           link={`threads/${id}`}
         />
         {this.renderEditAction()}
+        <LinkAction
+          label="Webhooks"
+          href={`/threads/${id}/webhooks`}
+        />
       </div>
     );
   }

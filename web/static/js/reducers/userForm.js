@@ -4,7 +4,7 @@ import { associate, DELETE } from 'associative-reducer';
 
 import {
   addUserForm, updateUserFormSelected, updateUserFormQuery,
-  receiveSuggestedUsers, unmountUserForm
+  receiveSuggestedUsers, resetUserForm, unmountUserForm
 } from 'actions/userForm'
 
 const userForm = associate(createReducer({
@@ -14,7 +14,12 @@ const userForm = associate(createReducer({
       query, suggestedUsers, selectedUser
     };
   },
-  [updateUserFormQuery]: (state, { value }) => {
+  [resetUserForm]: () => {
+    return {
+      query: '', suggestedUsers: [], selectedUser: null
+    };
+  },
+  [updateUserFormQuery]: (state, value) => {
     return Object.assign({}, state, {
       query: value
     });

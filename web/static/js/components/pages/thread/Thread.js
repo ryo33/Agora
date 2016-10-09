@@ -15,11 +15,12 @@ import Post from 'components/Post';
 import ThreadHeader from 'components/ThreadHeader';
 
 const mapStateToProps = ({ threadPage }, { params }) => {
+  const id = parseInt(params.id, 10);
   return {
     posts: threadPage.posts,
     members: threadPage.members,
     user: threadPage.user,
-    id: parseInt(params.id, 10)
+    id
   }
 }
 

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { push } from 'react-router-redux';
+import { compose } from 'recompose';
 
 import { grey900 } from 'material-ui/styles/colors';
 import Divider from 'material-ui/Divider';
@@ -11,18 +12,8 @@ import Unimplemented from 'components/Unimplemented';
 import ThreadActions from 'components/ThreadActions';
 import { ThreadIcon, PostIcon } from 'components/icons';
 import ParentGroup from 'components/ParentGroup';
-
-import { requireThread } from 'hocs/resources';
+import { checkThreadOwned, requireThread } from 'hocs/resources';
 import { getAccountUserIDs } from 'selectors/accountPage';
-
-const mapStateToProps = (state, { id }) => {
-  const thread = state.threads[id];
-  const users = getAccountUserIDs(state);
-  return {
-    thread,
-    isOwned: thread ? users.includes(thread.user_id) : false
-  }
-};
 
 const actionCreators = {
   push
@@ -86,4 +77,4 @@ class ThreadHeader extends Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(requireThread(ThreadHeader));
+export default compose(connect(null, mapDispatchToProps), requireThread)(ThreadHeader);
