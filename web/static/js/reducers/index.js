@@ -1,4 +1,4 @@
-import { globalInfo } from './global';
+import { globalInfo, isLoading } from './global';
 
 import account from './account/index';
 
@@ -19,6 +19,7 @@ import theme from './theme';
 
 const reducers = {
   globalInfo,
+  isLoading,
   account,
   threads,
   groups,

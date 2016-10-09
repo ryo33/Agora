@@ -5,6 +5,7 @@ import threadPageLogics from 'logics/threadPage';
 import groupPageLogics from 'logics/groupPage';
 import resourcesLogics from 'logics/resources';
 import userFormLogics from 'logics/userForm';
+import globalLogics from 'logics/global';
 
 import { addUsers, addUserIDs } from 'actions/resources';
 
@@ -26,5 +27,6 @@ export default [addUserIDsLogic].concat(
   threadPageLogics,
   groupPageLogics,
   resourcesLogics,
-  userFormLogics
+  userFormLogics,
+  globalLogics
 );

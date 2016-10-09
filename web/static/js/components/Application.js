@@ -11,8 +11,8 @@ import { closeInfo } from 'actions/global';
 
 let muiTheme = getMuiTheme();
 
-const mapStateToProps = ({ globalInfo }) => {
-  return { globalInfo };
+const mapStateToProps = ({ globalInfo, isLoading }) => {
+  return { globalInfo, isLoading };
 }
 
 const actionCreators = {
@@ -41,7 +41,7 @@ class Application extends Component {
   }
 
   render() {
-    const { globalInfo } = this.props;
+    const { globalInfo, isLoading } = this.props;
     return (
         <MuiThemeProvider muiTheme={muiTheme}>
         <div>
@@ -63,6 +63,10 @@ class Application extends Component {
             message={globalInfo || ''}
             autoHideDuration={2000}
             onRequestClose={this.handleInfoClose}
+          />
+          <Snackbar
+            open={isLoading > 0}
+            message={'Now Loading'}
           />
         </div>
       </MuiThemeProvider>

@@ -75,7 +75,8 @@ defmodule Agora.ChannelController.ThreadWebhook do
   def handle_action("get by thread", %{"thread_id" => thread_id}, socket) do
     links = ThreadWebhookLink
             |> where([link], link.thread_id == ^thread_id)
-            |> select([link], link.thread_webhook_id)
+            |> join(:left, [link], webhook in ThreadWebhook, link.thread_webhook_id == webhook.id)
+            |> select([link, webhook], webhook.user_id)
             |> Repo.all
     {:ok, %{links: links}, socket}
   end

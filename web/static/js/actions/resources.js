@@ -6,6 +6,9 @@ function createAddFor(resource) {
 function createPrepareFor(resource) {
   return createAction(`Prepare ${resource}`, ids => ids);
 }
+function createFetchFor(resource) {
+  return createAction(`Fetch ${resource}`, ids => ids);
+}
 function createUpdateFor(resource) {
   return createAction(`Update ${resource}`, (id, resource) => ({ id, resource }));
 }
