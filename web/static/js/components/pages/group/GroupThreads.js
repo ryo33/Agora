@@ -24,6 +24,12 @@ class GroupThreads extends Component {
     this.submit = this.submit.bind(this);
   }
 
+  componentWillReceiveProps(newProps) {
+    if (this.props.id != newProps.id) {
+      this.props.openGroupThreadsTab(newProps.id);
+    }
+  }
+
   componentDidMount() {
     const { openGroupThreadsTab, id } = this.props;
     openGroupThreadsTab(id);

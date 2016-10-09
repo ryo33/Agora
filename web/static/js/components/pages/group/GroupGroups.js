@@ -24,6 +24,12 @@ class GroupGroups extends Component {
     this.submit = this.submit.bind(this);
   }
 
+  componentWillReceiveProps(newProps) {
+    if (this.props.id != newProps.id) {
+      this.props.openGroupGroupsTab(newProps.id);
+    }
+  }
+
   componentDidMount() {
     const { openGroupGroupsTab, id } = this.props;
     openGroupGroupsTab(id);

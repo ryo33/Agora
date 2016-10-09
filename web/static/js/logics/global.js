@@ -8,6 +8,7 @@ import {
   openAccountWebhooksPage, updateWebhooks as updateAccountWebhooks,
 } from 'actions/accountPage';
 import {
+  openAllGroupsPage, updateGroups,
   openGroupThreadsTab, updateGroupThreads,
   openGroupGroupsTab, updateGroupGroups,
 } from 'actions/groupPage';
@@ -28,6 +29,7 @@ const pairs = [
   [openAccountThreadsPage, updateAccountThreads],
   [openAccountWatchlistsPage, updateAccountWatchlists],
   [openAccountWebhooksPage, updateAccountWebhooks],
+  [openAllGroupsPage, updateGroups],
   [openGroupThreadsTab, updateGroupThreads],
   [openGroupGroupsTab, updateGroupGroups],
   [openThreadPage, updateThreadPosts],
