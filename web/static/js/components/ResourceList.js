@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
+import debounce from 'lodash.debounce';
 
 import { CSSGrid, layout, measureItems, makeResponsive } from 'react-stonecutter';
 import Avatar from 'material-ui/Avatar';
@@ -21,6 +22,7 @@ import { submitGroup, submitThread, submitWatchlist } from 'actions/resources';
 import { signedIn } from 'global';
 
 const COLUMN_WIDTH = 110;
+const DEBOUNCE_COUNT = 30;
 
 const mapStateToProps =({ theme }, { mode, groups, threads, watchlists, formParams }) => ({
   mode, theme, groups, threads, watchlists, formParams
@@ -35,7 +37,7 @@ const actionCreators = {
 class ResourceList extends Component {
   constructor() {
     super()
-    this.onChildNodeDidMount = this.onChildNodeDidMount.bind(this);
+    this.onChildNodeDidMount = debounce(this.onChildNodeDidMount.bind(this), DEBOUNCE_COUNT);
     this.submitGroup = this.submitGroup.bind(this);
     this.submitThread = this.submitThread.bind(this);
     this.submitWatchlist = this.submitWatchlist.bind(this);
@@ -47,7 +49,6 @@ class ResourceList extends Component {
     this.closeAddWatchlist = this.closeAddWatchlist.bind(this);
     this.state = {
       Grid: this.createGrid(),
-      remeasured: false,
       loadedCount: 1,
       addGroup: false,
       addThread: false,
@@ -90,11 +91,11 @@ class ResourceList extends Component {
     let all = this.props.groups.length
       + this.props.threads.length
       + this.props.watchlists.length;
-    this.setState({loadedCount: this.state.loadedCount + 1});
-    if(!this.state.remeasured && all <= this.state.loadedCount) {
-      let Grid = measureItems(this.state.Grid)
-      this.setState({Grid: Grid, remeasured: true});
-    }
+    let Grid = measureItems(this.state.Grid)
+    this.setState({
+      loadedCount: this.state.loadedCount + 1,
+      Grid
+    });
   }
 
   getTitle(message) {
