@@ -14,7 +14,7 @@ import { editWebhook } from 'actions/resources';
 import WebhookForm from 'components/WebhookForm';
 import { SignedIn } from 'components/util';
 import WebhookComponent from 'components/Webhook';
-import { checkThreadOwned } from 'hocs/resources';
+import { checkWebhookOwned } from 'hocs/resources';
 
 const mapStateToProps = ({ webhooks }, { params }) => {
   const id = parseInt(params.id, 10);
@@ -97,4 +97,4 @@ class Webhook extends Component {
   }
 }
 
-export default compose(connect(mapStateToProps, actionCreaters), checkThreadOwned)(Webhook);
+export default compose(connect(mapStateToProps, actionCreaters), checkWebhookOwned)(Webhook);

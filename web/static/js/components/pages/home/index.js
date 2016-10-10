@@ -19,28 +19,31 @@ const HomeComponent = ({ push }) => (
     <Card style={styles.card}>
       <CardText>
         <h2>README</h2>
-        <p><UserIcon />Users:<br />You can create multiple users and choose a user for each posts.</p>
-        <p><ThreadIcon />Threads:<br />Threads is the place to post.</p>
-        <p><GroupIcon />Groups:<br />Groups can have many threads, members, and groups.</p>
+        <div><UserIcon />Users:<br />You can create multiple users and choose a user for each posts.</div>
+        <br />
+        <div><ThreadIcon />Threads:<br />Threads is the place to post.</div>
+        <br />
+        <div><GroupIcon />Groups:<br />Groups can have many threads, members, and groups.</div>
         <SignIn />
       </CardText>
     </Card>
     <Card style={styles.card}>
       <CardText>
-        <p>
+        <div>
           <RaisedButton
             onClick={() => push("/threads")}
             label="All Threads"
             icon={<ThreadIcon />}
           />
-        </p>
-        <p>
+        </div>
+        <br />
+        <div>
           <RaisedButton
             onClick={() => push("/groups")}
             label="All Groups"
             icon={<GroupIcon />}
           />
-        </p>
+        </div>
       </CardText>
     </Card>
   </div>
