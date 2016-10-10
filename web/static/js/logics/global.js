@@ -8,7 +8,6 @@ import {
   updateAccountUsers,
   openAccountGroupsPage, updateGroups as updateAccountGroups,
   openAccountThreadsPage, updateThreads as updateAccountThreads,
-  openAccountWatchlistsPage, updateWatchlists as updateAccountWatchlists,
   openAccountWebhooksPage, updateWebhooks as updateAccountWebhooks,
 } from 'actions/accountPage';
 import {
@@ -32,7 +31,6 @@ const pairs = [
   [startApp, updateAccountUsers],
   [openAccountGroupsPage, updateAccountGroups],
   [openAccountThreadsPage, updateAccountThreads],
-  [openAccountWatchlistsPage, updateAccountWatchlists],
   [openAccountWebhooksPage, updateAccountWebhooks],
   [openAllGroupsPage, updateGroups],
   [openGroupThreadsTab, updateGroupThreads],
