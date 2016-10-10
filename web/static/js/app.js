@@ -61,9 +61,9 @@ const store = createStore(
 const history = syncHistoryWithStore(browserHistory, store);
 sagaMiddleware.run(rootSaga, store.getState);
 
-store.dispatch(startApp());
 joinCommonChannel(store.dispatch);
 if (signedIn) {
+  store.dispatch(startApp());
   joinAccountChannel(store.dispatch);
 }
 
