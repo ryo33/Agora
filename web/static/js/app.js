@@ -29,6 +29,7 @@ import SignIn from './components/SignIn';
 import Unimplemented from 'components/Unimplemented';
 
 import { joinAccountChannel, joinCommonChannel } from 'socket';
+import { startApp } from 'actions/global';
 import { switchGroupPageTabs } from 'actions/groupPage';
 import { updateCurrentUser } from 'actions/accountPage';
 import reducers from 'reducers';
@@ -60,8 +61,9 @@ const store = createStore(
 const history = syncHistoryWithStore(browserHistory, store);
 sagaMiddleware.run(rootSaga, store.getState);
 
+store.dispatch(startApp());
 joinCommonChannel(store.dispatch);
-if (window.signedIn) {
+if (signedIn) {
   joinAccountChannel(store.dispatch);
 }
 

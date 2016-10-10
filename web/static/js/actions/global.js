@@ -7,3 +7,5 @@ export const closeInfo = createAction('Close info');
 
 export const startLoading = createAction('Start loading');
 export const finishLoading = createAction('Finish loading');
+
+export const startApp = createAction('Start the App');

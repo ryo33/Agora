@@ -1,7 +1,11 @@
 import { createLogic } from 'redux-logic';
 
-import { startLoading, finishLoading } from 'actions/global';
 import {
+  startLoading, finishLoading,
+  startApp
+} from 'actions/global';
+import {
+  updateAccountUsers,
   openAccountGroupsPage, updateGroups as updateAccountGroups,
   openAccountThreadsPage, updateThreads as updateAccountThreads,
   openAccountWatchlistsPage, updateWatchlists as updateAccountWatchlists,
@@ -25,6 +29,7 @@ import {
 } from 'actions/webhookPage';
 
 const pairs = [
+  [startApp, updateAccountUsers],
   [openAccountGroupsPage, updateAccountGroups],
   [openAccountThreadsPage, updateAccountThreads],
   [openAccountWatchlistsPage, updateAccountWatchlists],
