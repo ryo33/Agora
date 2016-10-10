@@ -142,7 +142,7 @@ class ResourceList extends Component {
             ? <Card
               style={theme.form.box.root}
               containerStyle={{padding: 0}}
-              onClick={this.openAddThread}
+              onTouchTap={this.openAddThread}
             >
               <CardTitle
                 title={this.getTitle("Create")}
@@ -164,7 +164,7 @@ class ResourceList extends Component {
             <Card
               style={theme.resource.root}
               containerStyle={{padding: 0}}
-              onClick={this.openAddGroup}
+              onTouchTap={this.openAddGroup}
             >
               <CardTitle
                 title={this.getTitle("Create")}
@@ -186,7 +186,7 @@ class ResourceList extends Component {
             <Card
               style={theme.resource.root}
               containerStyle={{padding: 0}}
-              onClick={this.openAddWatchlist}
+              onTouchTap={this.openAddWatchlist}
             >
               <CardTitle
                 title={this.getTitle("Create")}

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { compose } from 'recompose';
 
 import Divider from 'material-ui/Divider';
 import Dialog from 'material-ui/Dialog';
@@ -13,6 +14,7 @@ import { editWebhook } from 'actions/resources';
 import WebhookForm from 'components/WebhookForm';
 import { SignedIn } from 'components/util';
 import WebhookComponent from 'components/Webhook';
+import { checkThreadOwned } from 'hocs/resources';
 
 const mapStateToProps = ({ webhooks }, { params }) => {
   const id = parseInt(params.id, 10);
@@ -58,35 +60,41 @@ class Webhook extends Component {
 
   render() {
     const {
-      webhook, id, theme
+      webhook, id, theme, isOwned
     } = this.props;
     return (
       <div>
-        <WebhookComponent id={id} />
-        <Divider style={{ margin: '1em 0' }} />
-        <RaisedButton
-          label="Edit"
-          onClick={this.open}
-        />
-        <Dialog
-          open={this.state.dialog}
-          onRequestClose={this.close}
-          bodyStyle={{padding: 0}}
-        >
-          {
-            webhook
-            ? <WebhookForm
-              editMode={true}
-              close={this.close}
-              submit={this.submit}
-              {...webhook}
+        {
+          isOwned
+          ? <div>
+            <WebhookComponent id={id} />
+            <Divider style={{ margin: '1em 0' }} />
+            <RaisedButton
+              label="Edit"
+              onClick={this.open}
             />
-            : null
-          }
-        </Dialog>
+            <Dialog
+              open={this.state.dialog}
+              onRequestClose={this.close}
+              bodyStyle={{padding: 0}}
+            >
+              {
+                webhook
+                ? <WebhookForm
+                  editMode={true}
+                  close={this.close}
+                  submit={this.submit}
+                  {...webhook}
+                />
+                : null
+              }
+            </Dialog>
+          </div>
+          : null
+        }
       </div>
     );
   }
 }
 
-export default connect(mapStateToProps, actionCreaters)(Webhook);
+export default compose(connect(mapStateToProps, actionCreaters), checkThreadOwned)(Webhook);
