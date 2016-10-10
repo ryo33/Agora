@@ -43,7 +43,7 @@ class Watchlist extends Component {
     </div>
     return (
       <Card
-        onClick={() => push('/watchlists/' + id)}
+        onTouchTap={() => push('/watchlists/' + id)}
         style={theme.resource.root}
         containerStyle={{padding: 0}}
         zDepth={zDepth}

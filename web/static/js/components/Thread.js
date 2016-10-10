@@ -47,7 +47,7 @@ class Thread extends Component {
     </div>
     return (
       <Card
-        onClick={() => push('/threads/' + id)}
+        onTouchTap={() => push('/threads/' + id)}
         style={theme.resource.root}
         containerStyle={{padding: 0}}
         zDepth={zDepth}
