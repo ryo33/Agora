@@ -77,4 +77,4 @@ class ThreadHeader extends Component {
   }
 }
 
-export default compose(connect(null, mapDispatchToProps), requireThread)(ThreadHeader);
+export default compose(connect(null, mapDispatchToProps), checkThreadOwned, requireThread)(ThreadHeader);

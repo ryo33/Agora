@@ -11,9 +11,13 @@ import {
 } from 'actions/resources'
 
 function updateItem(resources, id, newInfo) {
-  return Object.assign({}, resources, {
-    [id]: Object.assign({}, resources[id], newInfo)
-  });
+  if (resources[id] != null) {
+    return Object.assign({}, resources, {
+      [id]: Object.assign({}, resources[id], newInfo)
+    });
+  } else {
+    return resources;
+  }
 }
 
 function createResourceReducer(add, update) {
