@@ -35,8 +35,8 @@ const actionCreators = {
 };
 
 class ResourceList extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props);
     this.onChildNodeDidMount = debounce(this.onChildNodeDidMount.bind(this), DEBOUNCE_COUNT);
     this.submitGroup = this.submitGroup.bind(this);
     this.submitThread = this.submitThread.bind(this);
@@ -83,18 +83,17 @@ class ResourceList extends Component {
     Grid = makeResponsive(measureItems(CSSGrid), {
       maxWidth: 1980,
       minPadding: 8,
-  });
-  return Grid;
+    });
+    return Grid;
   }
 
   onChildNodeDidMount () {
     let all = this.props.groups.length
       + this.props.threads.length
       + this.props.watchlists.length;
-    let Grid = measureItems(this.state.Grid)
     this.setState({
       loadedCount: this.state.loadedCount + 1,
-      Grid
+      Grid: this.createGrid()
     });
   }
 
