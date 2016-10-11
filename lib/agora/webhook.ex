@@ -22,49 +22,43 @@ defmodule Agora.Webhook do
   alias Agora.ThreadWebhookLink
 
   def handle_post(post) do
-    count = ThreadWebhook
-            |> where([webhook], webhook.user_id == ^post.user_id)
-            |> select([webhook], count(webhook.id))
-            |> Repo.one!
-    if count == 0 do
-      thread_id = post.thread_id
-      hooks = ThreadWebhookLink
-              |> join(:left, [link], webhook in ThreadWebhook, link.thread_webhook_id == webhook.id)
-              |> where([link, webhook], link.thread_id == ^thread_id)
-              |> select([link, webhook], webhook)
-              |> Repo.all
-      if length(hooks) != 0 do
-        user_id = post.user_id
-        thread = Repo.get!(Thread, thread_id) |> Repo.preload(Thread.preload_param)
-        user = Repo.get!(User, user_id)
-        params = %{
-          "event" => "post",
-          "payload" => %{
-            "user" => user,
-            "thread" => thread,
-            "post" => post
-          }
-        } |> Poison.encode!
-        headers = %{'content-type' => 'application/json'}
+    thread_id = post.thread_id
+    hooks = ThreadWebhookLink
+            |> join(:left, [link], webhook in ThreadWebhook, link.thread_webhook_id == webhook.id)
+            |> where([link, webhook], link.thread_id == ^thread_id)
+            |> select([link, webhook], webhook)
+            |> Repo.all
+    if length(hooks) != 0 do
+      user_id = post.user_id
+      thread = Repo.get!(Thread, thread_id) |> Repo.preload(Thread.preload_param)
+      user = Repo.get!(User, user_id)
+      params = %{
+        "event" => "post",
+        "payload" => %{
+          "user" => user,
+          "thread" => thread,
+          "post" => post
+        }
+      } |> Poison.encode!
+      headers = %{'content-type' => 'application/json'}
 
-        hooks
-        |> Enum.map(fn hook ->
-          url = hook.url
-          task = Task.start(fn ->
-            result = __MODULE__.post(url, params, headers)
-            case result do
-              {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-                %{"actions" => actions} = body
-                if length(actions) <= 10 do
-                  Enum.map(actions, fn action ->
-                    Task.start(fn -> action(action, thread_id, hook) end)
-                  end)
-                end
-                _ -> nil
-            end
-          end)
+      hooks
+      |> Enum.map(fn hook ->
+        url = hook.url
+        task = Task.start(fn ->
+          result = __MODULE__.post(url, params, headers)
+          case result do
+            {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
+              %{"actions" => actions} = body
+              if length(actions) <= 10 do
+                Enum.map(actions, fn action ->
+                  Task.start(fn -> action(action, thread_id, hook) end)
+                end)
+              end
+              _ -> nil
+          end
         end)
-      end
+      end)
     end
   end
 

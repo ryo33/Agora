@@ -48,7 +48,10 @@ defmodule Agora.ChannelController.Post do
         broadcast_to_thread(post.thread_id, "add posts", %{
           posts: posts
         })
-        Task.start(fn -> Agora.Webhook.handle_post(post) end)
+        if not is_nil(socket) do
+          IO.inspect("hook")
+          Task.start(fn -> Agora.Webhook.handle_post(post) end)
+        end
         {:ok, socket}
       {:error, _changeset} ->
         {:error, socket} # TODO return error message
