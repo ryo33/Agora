@@ -26,12 +26,11 @@ function* watchChannel(channel) {
   }
 }
 
-function* joinPageSaga(resource, closePage, prepare, updateCurrent, join, listen, action) {
+function* joinPageSaga(resource, closePage, updateCurrent, join, listen, action) {
   let channel = null;
   let watchChannelTask = null;
   try {
     const id = action.payload;
-    yield put(prepare([id]));
     yield put(updateCurrent(id));
     channel = yield call(joinChannel, resource, id, join, listen);
     watchChannelTask = yield fork(watchChannel, channel);
@@ -47,7 +46,7 @@ function* joinPageSaga(resource, closePage, prepare, updateCurrent, join, listen
   }
 }
 
-export function* pageSaga(resource, openPage, closePage, prepare, updateCurrent, join, listen) {
+export function* pageSaga(resource, openPage, closePage, updateCurrent, join, listen) {
   yield fork(takeEvery, openPage.getType(), joinPageSaga,
-    resource, closePage, prepare, updateCurrent, join, listen);
+    resource, closePage, updateCurrent, join, listen);
 }

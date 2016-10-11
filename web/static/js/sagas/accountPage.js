@@ -8,19 +8,13 @@ import {
     updateCurrentUser
 } from 'actions/accountPage';
 
-import {
-  prepareThreads, prepareGroups, prepareWatchlists
-} from 'actions/resources';
-
 function* fetchThreadsSaga() {
   const { threads } = yield call(pushMessage, commonChannel, 'threads', 'get by account');
-  yield put(prepareThreads(threads));
   yield put(updateThreads(threads));
 }
 
 function* fetchGroupsSaga() {
   const { groups } = yield call(pushMessage, commonChannel, 'groups', 'get by account');
-  yield put(prepareGroups(groups));
   yield put(updateGroups(groups));
 }
 

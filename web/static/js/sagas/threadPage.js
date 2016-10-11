@@ -9,10 +9,6 @@ import {
   updateThreadUser
 } from 'actions/threadPage';
 
-import {
-  prepareThreads, preparePosts
-} from 'actions/resources';
-
 function joinChannel(resource, id, join, listen) {
   const channel = socket.channel(resource + ':' + id, {});
 
@@ -38,12 +34,11 @@ function* watchChannel(channel) {
   }
 }
 
-function* joinPageSaga(resource, closePage, prepare, updateCurrent, join, listen, action) {
+function* joinPageSaga(resource, closePage, updateCurrent, join, listen, action) {
   let channel = null;
   let watchChannelTask = null;
   try {
     const id = action.payload;
-    yield put(prepare([id]));
     yield put(updateCurrent(id));
     channel = yield call(joinChannel, resource, id, join, listen);
     watchChannelTask = yield fork(watchChannel, channel);
@@ -59,24 +54,17 @@ function* joinPageSaga(resource, closePage, prepare, updateCurrent, join, listen
   }
 }
 
-export function* pageSaga(resource, openPage, closePage, prepare, updateCurrent, join, listen) {
+export function* pageSaga(resource, openPage, closePage, updateCurrent, join, listen) {
   yield fork(takeEvery, openPage.getType(), joinPageSaga,
-    resource, closePage, prepare, updateCurrent, join, listen);
+    resource, closePage, updateCurrent, join, listen);
 }
 
 function* fetchThreadsSaga() {
   const { threads } = yield call(pushMessage, commonChannel, 'threads', 'fetch all threads');
-  yield put(prepareThreads(threads));
   yield put(updateThreads(threads));
 }
 
-function* preparePostsSaga(action) {
-  const ids = action.payload;
-  yield put(preparePosts(ids));
-}
-
 function joinCallback(emitter, { posts, members, default_user }) {
-  emitter(preparePosts(posts));
   emitter(updateThreadMembers(members));
   emitter(updateThreadPosts(posts));
   emitter(updateThreadUser(default_user));
@@ -89,7 +77,6 @@ function listenCallback(emitter, channel) {
 }
 
 export default function*() {
-  yield fork(pageSaga, 'thread', openThreadPage, closeThreadPage, prepareThreads, updateCurrentThread, joinCallback, listenCallback);
+  yield fork(pageSaga, 'thread', openThreadPage, closeThreadPage, updateCurrentThread, joinCallback, listenCallback);
   yield fork(takeLatest, openAllThreadsPage.getType(), fetchThreadsSaga);
-  yield fork(takeEvery, updateThreadPosts.getType(), preparePostsSaga);
 }
