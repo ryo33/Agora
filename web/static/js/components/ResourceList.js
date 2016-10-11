@@ -22,7 +22,7 @@ import { submitGroup, submitThread, submitWatchlist } from 'actions/resources';
 import { signedIn } from 'global';
 
 const COLUMN_WIDTH = 110;
-const DEBOUNCE_COUNT = 30;
+const DEBOUNCE_COUNT = 100;
 
 const mapStateToProps =({ theme }, { mode, groups, threads, watchlists, formParams }) => ({
   mode, theme, groups, threads, watchlists, formParams
@@ -139,7 +139,7 @@ class ResourceList extends Component {
           {
             signedIn && mode == 'thread'
             ? <Card
-              style={theme.form.box.root}
+              style={theme.resource.root}
               containerStyle={{padding: 0}}
               onTouchTap={this.openAddThread}
             >

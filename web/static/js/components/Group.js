@@ -33,7 +33,7 @@ const mapDispatchToProps = dispatch => {
 };
 
 class Group extends Component {
-  componentDidMount () {
+  componentWillMount () {
     this.props.onRender();
   }
 

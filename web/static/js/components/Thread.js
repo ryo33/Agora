@@ -35,7 +35,7 @@ const mapDispatchToProps = dispatch => {
 };
 
 class Thread extends Component {
-  componentDidMount () {
+  componentWillMount () {
     this.props.onRender();
   }
 

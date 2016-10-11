@@ -31,7 +31,7 @@ const mapDispatchToProps = dispatch => {
 };
 
 class Watchlist extends Component {
-  componentDidMount () {
+  componentWillMount () {
     this.props.onRender();
   }
 
