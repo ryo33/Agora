@@ -19,8 +19,8 @@ defmodule Agora.Post do
     timestamps
   end
 
-  @required_fields ~w(text thread_id user_id account_id)
-  @optional_fields ~w(title post_id)
+  @required_fields ~w(text thread_id user_id)
+  @optional_fields ~w(title post_id account_id)
 
   @doc """
   Creates a changeset based on the `model` and `params`.

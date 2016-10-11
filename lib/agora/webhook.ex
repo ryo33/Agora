@@ -21,7 +21,7 @@ defmodule Agora.Webhook do
   alias Agora.ThreadWebhook
   alias Agora.ThreadWebhookLink
 
-  def handle_post(post, socket) do
+  def handle_post(post) do
     count = ThreadWebhook
             |> where([webhook], webhook.user_id == ^post.user_id)
             |> select([webhook], count(webhook.id))
@@ -57,7 +57,7 @@ defmodule Agora.Webhook do
                 %{"actions" => actions} = body
                 if length(actions) <= 10 do
                   Enum.map(actions, fn action ->
-                    Task.start(fn -> action(action, thread_id, hook, socket) end)
+                    Task.start(fn -> action(action, thread_id, hook) end)
                   end)
                 end
                 _ -> nil
@@ -68,7 +68,7 @@ defmodule Agora.Webhook do
     end
   end
 
-  defp action(action, thread_id, hook, socket) do
+  defp action(action, thread_id, hook) do
     case action do
       %{"action" => "post", "payload" => %{
         "title" => title,
@@ -81,7 +81,7 @@ defmodule Agora.Webhook do
           "text" => text
         }
         params = %{"params" => params, "default_user" => nil}
-        Agora.ChannelController.Post.handle_action "add", params, socket
+        Agora.ChannelController.Post.handle_action "add", params, nil
       _ -> nil
     end
   end

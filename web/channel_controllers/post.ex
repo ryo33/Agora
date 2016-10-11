@@ -6,10 +6,15 @@ defmodule Agora.ChannelController.Post do
   def handle_action("add", %{"params" => params, "default_user" => default_user}, socket) do
     alias Agora.ThreadUser
 
-    changeset = Post.changeset(%Post{}, put_info(params, socket))
-    true = validate_info(changeset, socket)
+    changeset = if is_nil(socket) do
+      Post.changeset(%Post{}, params)
+    else
+      changeset = Post.changeset(%Post{}, put_info(params, socket))
+      true = validate_info(changeset, socket)
+      changeset
+    end
 
-    if default_user do
+    if not is_nil(default_user) do
       account_id = socket.assigns.account.id
       thread_id = params["thread_id"]
       user_id = params["user_id"]
@@ -43,7 +48,7 @@ defmodule Agora.ChannelController.Post do
         broadcast_to_thread(post.thread_id, "add posts", %{
           posts: posts
         })
-        Task.start(fn -> Agora.Webhook.handle_post(post, socket) end)
+        Task.start(fn -> Agora.Webhook.handle_post(post) end)
         {:ok, socket}
       {:error, _changeset} ->
         {:error, socket} # TODO return error message
