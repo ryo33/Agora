@@ -27,7 +27,6 @@ defmodule Agora.Webhook do
             |> select([webhook], count(webhook.id))
             |> Repo.one!
     if count == 0 do
-      IO.puts('hook')
       thread_id = post.thread_id
       hooks = ThreadWebhookLink
               |> join(:left, [link], webhook in ThreadWebhook, link.thread_webhook_id == webhook.id)
@@ -51,30 +50,21 @@ defmodule Agora.Webhook do
         hooks
         |> Enum.map(fn hook ->
           url = hook.url
-          task = Task.async(fn ->
-            __MODULE__.post(url, params, headers)
+          task = Task.start(fn ->
+            result = __MODULE__.post(url, params, headers)
+            case result do
+              {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
+                %{"actions" => actions} = body
+                if length(actions) <= 10 do
+                  Enum.map(actions, fn action ->
+                    Task.start(fn -> action(action, thread_id, hook, socket) end)
+                  end)
+                end
+                _ -> nil
+            end
           end)
-          {hook, task}
         end)
-        |> Enum.reduce(socket, fn {hook, task}, socket ->
-          case Task.await(task) do
-            {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-              %{"actions" => actions} = body
-              if length(actions) <= 10 do
-                Enum.reduce(actions, socket, fn action, socket ->
-                  action(action, thread_id, hook, socket)
-                end)
-              else
-                socket
-              end
-            _ -> socket
-          end
-        end)
-      else
-        socket
       end
-    else
-      socket
     end
   end
 
@@ -90,9 +80,9 @@ defmodule Agora.Webhook do
           "title" => title,
           "text" => text
         }
-        {:ok, socket} = Agora.ChannelController.Post.handle_action("add", %{"params" => params, "default_user" => nil}, socket)
-        socket
-      _ -> socket
+        params = %{"params" => params, "default_user" => nil}
+        Agora.ChannelController.Post.handle_action "add", params, socket
+      _ -> nil
     end
   end
 end

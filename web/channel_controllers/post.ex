@@ -26,12 +26,10 @@ defmodule Agora.ChannelController.Post do
           thread_id: thread_id
         }
         Repo.insert(thread_user)
-        |> IO.inspect()
       else
         thread_user = Repo.get!(ThreadUser, id)
         thread_user = Ecto.Changeset.change(thread_user, user_id: user_id)
         Repo.update(thread_user)
-        |> IO.inspect()
       end
     end
 
@@ -39,13 +37,13 @@ defmodule Agora.ChannelController.Post do
       {:ok, post} ->
         query = from p in Agora.Post,
           where: p.thread_id == ^post.thread_id,
-          order_by: [desc: p.inserted_at],
+          order_by: [desc: p.id],
           select: p.id
         posts = Repo.all(query)
         broadcast_to_thread(post.thread_id, "add posts", %{
           posts: posts
         })
-        socket = Agora.Webhook.handle_post(post, socket)
+        Task.start(fn -> Agora.Webhook.handle_post(post, socket) end)
         {:ok, socket}
       {:error, _changeset} ->
         {:error, socket} # TODO return error message
@@ -53,11 +51,11 @@ defmodule Agora.ChannelController.Post do
   end
 
   def handle_action("fetch", ids, socket) do
-    query = Agora.Post
+    posts = Agora.Post
             |> where([p], p.id in ^ids)
             |> select([p], {p.id, p})
-            |> order_by([p], desc: p.inserted_at)
-    posts = Repo.all(query) |> Enum.map(fn {k, v} -> {Integer.to_string(k), v} end) |> Enum.into(%{})
+            |> Repo.all
+            |> Enum.map(fn {k, v} -> {Integer.to_string(k), v} end) |> Enum.into(%{})
     {:ok, %{posts: posts}, socket}
   end
 end

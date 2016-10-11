@@ -14,7 +14,7 @@ defmodule Agora.ThreadChannel do
       query = from p in Post,
         where: p.thread_id == ^id,
         select: p.id,
-        order_by: [desc: p.inserted_at]
+        order_by: [desc: p.id]
       posts = Repo.all(query)
       {
         group_id, post_limited
