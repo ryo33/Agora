@@ -27,36 +27,35 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-const ResourceTitle = ({ push, user, title, path, onClick, linkedTitle, insertedAt }) => <span>
-  <span
-    style={{cursor: 'pointer'}}
-    onClick={onClick || (() => push('/users/' + user.uid))}
-  >
-    {user.name}
-    <small
-      style={{
-        marginLeft: '0.2em',
-        marginRight: '1.2em',
-      }}
-      children={'@' + user.uid}
-    />
+const ResourceTitle = ({ push, user, title, path, onClick, linkedTitle, insertedAt }) => (
+  <span>
+    <span
+      style={{cursor: 'pointer'}}
+      onClick={onClick || (() => push('/users/' + user.uid))}
+    >
+      {user.name}
+      <small
+        style={{
+          marginLeft: '0.2em',
+          marginRight: '1.2em',
+        }}
+        children={'@' + user.uid}
+      />
+    </span>
+    <span
+      style={{ cursor: 'pointer' }}
+      onClick={() => push(path)}
+    >
+      <strong>{title}</strong>
+      <span
+        style={{
+          marginLeft: '1.0em',
+        }}
+      >
+        <TimeAgo date={insertedAt} />
+      </span>
+    </span>
   </span>
-  <span
-    style={{ cursor: 'pointer' }}
-    onClick={path
-      ? () => push(path)
-      : () => null
-    }
-  >
-    <strong>{title}</strong>
-  </span>
-  <span
-    style={{
-      marginLeft: '1.0em',
-    }}
-  >
-    <TimeAgo date={insertedAt} />
-  </span>
-</span>;
+);
 
-export default connect(mapStateToProps, mapDispatchToProps)(requireUser(ResourceTitle));
+  export default connect(mapStateToProps, mapDispatchToProps)(requireUser(ResourceTitle));

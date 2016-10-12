@@ -70,12 +70,8 @@ const initialState = {
     },
   },
   post: {
-    root: {
-      margin: '10px 0px'
-    },
-    header: {
-    },
     body: {
+      margin: '10px 0px',
       backgroundColor: MaterialColors.blueGrey[100],
       padding: '5px'
     },

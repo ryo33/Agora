@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { push } from 'react-router-redux';
 
-import { Card, CardHeader, CardActions, CardTitle, CardText } from 'material-ui/Card';
+import Paper from 'material-ui/Paper';
 import FlatButton from 'material-ui/FlatButton';
 import Divider from 'material-ui/Divider';
 import Linkify from 'react-linkify';
@@ -36,32 +36,22 @@ class Post extends Component {
   render() {
     const { id, post, push, zDepth, theme } = this.props;
     return (
-      <Card
-        style={theme.post.root}
-        zDepth={zDepth}
+      <Paper
+        style={theme.post.body}
       >
-        <CardText
-          style={theme.post.body}
-          actAsExpander={true}
-        >
-          <ResourceTitle
-            user={post.user_id}
-            title={post.title}
-            path={'/posts/' + id}
-            insertedAt={post.inserted_at}
-          />
-          <Divider style={{margin: "5px 0px"}} />
-          <pre>
-            <Linkify properties={{target: '_blank'}}>
-              {post.text}
-            </Linkify>
-          </pre>
-        </CardText>
-        <Divider />
-        <CardActions expandable={true}>
-          <PostActions id={id} />
-        </CardActions>
-        </Card>
+        <ResourceTitle
+          user={post.user_id}
+          title={post.title}
+          path={'/posts/' + id}
+          insertedAt={post.inserted_at}
+        />
+        <Divider style={{margin: "5px 0px"}} />
+        <pre>
+          <Linkify properties={{target: '_blank'}}>
+            {post.text}
+          </Linkify>
+        </pre>
+      </Paper>
     );
   }
 }
