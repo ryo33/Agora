@@ -39,25 +39,24 @@ class Post extends Component {
         style={theme.post.root}
         zDepth={zDepth}
       >
-        <CardHeader
-          style={theme.post.header}
-          title={<ResourceTitle
+        <CardText
+          style={theme.post.body}
+          showExpandableButton={true}
+          actAsExpander={true}
+        >
+          <ResourceTitle
             user={post.user_id}
             title={post.title}
             path={'/posts/' + id}
             insertedAt={post.inserted_at}
-          />}
-          showExpandableButton
-        />
-        <Divider />
-        <CardText
-          style={theme.post.body}
-          actAsExpander
-        >
-          {post.text}
+          />
+          <Divider style={{margin: "5px 0px"}} />
+          <pre>
+            {post.text}
+          </pre>
         </CardText>
         <Divider />
-        <CardActions expandable>
+        <CardActions expandable={true}>
           <PostActions id={id} />
         </CardActions>
         </Card>

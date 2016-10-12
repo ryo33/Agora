@@ -71,13 +71,13 @@ const initialState = {
   },
   post: {
     root: {
-      margin: '0.17em 0',
+      margin: '0.17em 0'
     },
     header: {
-      backgroundColor: MaterialColors.blueGrey[200],
     },
     body: {
-      backgroundColor: MaterialColors.grey[100],
+      backgroundColor: MaterialColors.grey[200],
+      padding: '8px'
     },
   },
   user: {
