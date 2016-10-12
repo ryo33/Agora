@@ -6,6 +6,7 @@ import { push } from 'react-router-redux';
 import { Card, CardHeader, CardActions, CardTitle, CardText } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import Divider from 'material-ui/Divider';
+import Linkify from 'react-linkify';
 
 import Unimplemented from 'components/Unimplemented';
 import ResourceTitle from 'components/ResourceTitle';
@@ -41,7 +42,6 @@ class Post extends Component {
       >
         <CardText
           style={theme.post.body}
-          showExpandableButton={true}
           actAsExpander={true}
         >
           <ResourceTitle
@@ -52,7 +52,9 @@ class Post extends Component {
           />
           <Divider style={{margin: "5px 0px"}} />
           <pre>
-            {post.text}
+            <Linkify properties={{target: '_blank'}}>
+              {post.text}
+            </Linkify>
           </pre>
         </CardText>
         <Divider />
