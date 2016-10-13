@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { push } from 'react-router-redux';
+import MaterialColors from 'material-colors';
 
 import Paper from 'material-ui/Paper';
 import FlatButton from 'material-ui/FlatButton';
@@ -14,10 +15,9 @@ import PostActions from 'components/PostActions';
 
 import { requirePost } from 'hocs/resources';
 
-const mapStateToProps = ({ posts, theme }, { id }) => {
+const mapStateToProps = ({ posts }, { id }) => {
   return {
     post: posts[id],
-    theme,
   };
 };
 
@@ -34,10 +34,13 @@ const mapDispatchToProps = dispatch => {
 
 class Post extends Component {
   render() {
-    const { id, post, push, zDepth, theme } = this.props;
+    const { id, post, push } = this.props;
     return (
       <Paper
-        style={theme.post.body}
+        style={{
+          padding: '5px',
+          zDepth: 0
+        }}
       >
         <ResourceTitle
           user={post.user_id}
@@ -46,7 +49,14 @@ class Post extends Component {
           insertedAt={post.inserted_at}
         />
         <Divider style={{margin: "5px 0px"}} />
-        <pre>
+        <pre
+          style={{
+            whiteSpace: "pre-wrap",
+            margin: "0px",
+            padding: "12px 1px",
+            backgroundColor: MaterialColors.grey[100]
+          }}
+        >
           <Linkify properties={{target: '_blank'}}>
             {post.text}
           </Linkify>

@@ -69,13 +69,6 @@ const initialState = {
       },
     },
   },
-  post: {
-    body: {
-      margin: '10px 0px',
-      backgroundColor: MaterialColors.blueGrey[100],
-      padding: '5px'
-    },
-  },
   user: {
     root: {
       margin: "0.17em 0"
