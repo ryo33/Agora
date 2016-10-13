@@ -38,8 +38,9 @@ class Post extends Component {
     return (
       <Paper
         style={{
-          padding: '5px',
-          zDepth: 0
+          padding: '5px 2px',
+          zDepth: 0,
+          backgroundColor: MaterialColors.blueGrey[100]
         }}
       >
         <ResourceTitle
@@ -48,13 +49,12 @@ class Post extends Component {
           path={'/posts/' + id}
           insertedAt={post.inserted_at}
         />
-        <Divider style={{margin: "5px 0px"}} />
         <pre
           style={{
             whiteSpace: "pre-wrap",
             margin: "0px",
-            padding: "12px 1px",
-            backgroundColor: MaterialColors.grey[100]
+            padding: "10px 6px",
+            backgroundColor: MaterialColors.grey[50]
           }}
         >
           <Linkify properties={{target: '_blank'}}>
