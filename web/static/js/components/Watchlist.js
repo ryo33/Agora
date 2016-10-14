@@ -31,10 +31,6 @@ const mapDispatchToProps = dispatch => {
 };
 
 class Watchlist extends Component {
-  componentWillMount () {
-    this.props.onRender();
-  }
-
   render() {
     const { id, watchlist, push, zDepth, theme } = this.props;
     const title = <div>

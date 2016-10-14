@@ -27,6 +27,15 @@ function createRequireResource(resources, resource, prepareResource) {
         if (required == null) {
           dispatch(prepareResource([id]))
         }
+      },
+      componentWillReceiveProps(newProps) {
+        const { [resource]: required } = this.props;
+        const { [resource]: newRequired } = newProps;
+        if (required == null && newRequired != null) {
+          if (newProps.onLoad) {
+            newProps.onLoad();
+          }
+        }
       }
     });
     return compose(connect(mapStateToProps), prepare, onlyLoaded)(component)

@@ -155,7 +155,7 @@ class ResourceList extends Component {
             threads.map(id => <div key={id}><Thread
               key={id}
               id={id}
-              onRender={this.onChildNodeDidMount}
+              onLoad={this.onChildNodeDidMount}
             /></div>)
           }
           {
@@ -177,7 +177,7 @@ class ResourceList extends Component {
             groups.map(id => <div key={id}><Group
               key={id}
               id={id}
-              onRender={this.onChildNodeDidMount}
+              onLoad={this.onChildNodeDidMount}
             /></div>)
           }
           {
@@ -199,7 +199,7 @@ class ResourceList extends Component {
             watchlists.map(id => <div key={id}><Watchlist
               key={id}
               id={id}
-              onRender={this.onChildNodeDidMount}
+              onLoad={this.onChildNodeDidMount}
             /></div>)
           }
         </Grid>

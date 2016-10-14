@@ -33,10 +33,6 @@ const mapDispatchToProps = dispatch => {
 };
 
 class Group extends Component {
-  componentWillMount () {
-    this.props.onRender();
-  }
-
   render() {
     const { id, group, push, zDepth, theme } = this.props;
     const title = <div>
