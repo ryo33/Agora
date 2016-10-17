@@ -1,4 +1,4 @@
-import MaterialColors from 'material-colors';
+import { blueGrey200, grey100 } from 'material-ui/styles/colors';
 import deepAssign from 'deep-assign';
 
 const initialState = {
@@ -74,26 +74,20 @@ const initialState = {
       margin: "0.17em 0"
     },
     header: {
-      backgroundColor: MaterialColors.blueGrey[200]
+      backgroundColor: blueGrey200
     },
     body: {
-      backgroundColor: MaterialColors.grey[100]
+      backgroundColor: grey100
     },
   },
   webhook: {
     root: {
       margin: "0.17em 0"
-    },
-    header: {
-      backgroundColor: MaterialColors.blueGrey[200]
-    },
-    body: {
-      backgroundColor: MaterialColors.grey[100]
-    },
+    }
   }
 };
 
-const colors = (state = initialState, action) => {
+const theme = (state = initialState, action) => {
   switch (action.type) {
     case 'UPDATE_THEME':
       return deepAssign(state, action.theme);
@@ -102,4 +96,4 @@ const colors = (state = initialState, action) => {
   }
 };
 
-export default colors;
+export default theme;

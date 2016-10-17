@@ -62,6 +62,7 @@ export const checkOwned = resource => {
   }
 };
 export const checkThreadOwned = checkOwned('threads');
+export const checkPostOwned = checkOwned('posts');
 export const checkWebhookOwned = checkOwned('webhooks');
 
 export const onlyOwned = branch(

@@ -30,14 +30,20 @@ const mapDispatchToProps = dispatch => {
 const ResourceTitle = ({ push, user, title, path, onClick, linkedTitle, insertedAt }) => (
   <span
     style={{
-      fontSize: '0.8em'
+      fontSize: '0.9em'
     }}
   >
     <span
-      style={{cursor: 'pointer'}}
+      style={{
+        fontWeight: 'bold'
+      }}
       onClick={onClick || (() => push('/users/' + user.uid))}
     >
-      {user.name}
+      <span style={{
+        cursor: 'pointer'
+      }}>
+        {user.name}
+      </span>
       <small
         style={{
           marginLeft: '0.2em',

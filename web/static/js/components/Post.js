@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { push } from 'react-router-redux';
-import MaterialColors from 'material-colors';
+import { compose } from 'recompose';
+import { grey200 } from 'material-ui/styles/colors';
 
 import Paper from 'material-ui/Paper';
 import FlatButton from 'material-ui/FlatButton';
@@ -13,7 +14,7 @@ import Unimplemented from 'components/Unimplemented';
 import ResourceTitle from 'components/ResourceTitle';
 import PostActions from 'components/PostActions';
 
-import { requirePost } from 'hocs/resources';
+import { requirePost, checkPostOwned } from 'hocs/resources';
 
 const mapStateToProps = ({ posts }, { id }) => {
   return {
@@ -34,13 +35,14 @@ const mapDispatchToProps = dispatch => {
 
 class Post extends Component {
   render() {
-    const { id, post, push } = this.props;
+    const { isOwned, id, post, push } = this.props;
+    console.log(isOwned)
     return (
-      <Paper
+      <div
         style={{
           padding: '5px 2px',
+          backgroundColor: isOwned ? grey200 : null,
           zDepth: 0,
-          backgroundColor: MaterialColors.blueGrey[100]
         }}
       >
         <ResourceTitle
@@ -51,19 +53,19 @@ class Post extends Component {
         />
         <pre
           style={{
+            fontSize: '1.0em',
             whiteSpace: "pre-wrap",
             margin: "0px",
-            padding: "10px 6px",
-            backgroundColor: MaterialColors.grey[50]
+            padding: "8px 8px",
           }}
         >
           <Linkify properties={{target: '_blank'}}>
             {post.text}
           </Linkify>
         </pre>
-      </Paper>
+      </div>
     );
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(requirePost(Post));
+export default compose(connect(mapStateToProps, mapDispatchToProps), requirePost, checkPostOwned)(Post);

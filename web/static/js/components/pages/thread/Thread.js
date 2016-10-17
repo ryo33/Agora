@@ -71,10 +71,12 @@ class Thread extends Component {
         <Divider style={{ margin: '1em 0' }} />
         {
           posts.map(id => (
-            <Post
-              key={id}
-              id={id}
-            />
+            <div key={id}>
+              <Divider />
+              <Post
+                id={id}
+              />
+            </div>
           ))
         }
       </div>
