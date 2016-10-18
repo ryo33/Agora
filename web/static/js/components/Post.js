@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { push } from 'react-router-redux';
 import { compose } from 'recompose';
-import { grey200 } from 'material-ui/styles/colors';
+import { grey300 } from 'material-ui/styles/colors';
 
 import Paper from 'material-ui/Paper';
 import FlatButton from 'material-ui/FlatButton';
@@ -36,12 +36,11 @@ const mapDispatchToProps = dispatch => {
 class Post extends Component {
   render() {
     const { isOwned, id, post, push } = this.props;
-    console.log(isOwned)
     return (
       <div
         style={{
           padding: '5px 2px',
-          backgroundColor: isOwned ? grey200 : null,
+          backgroundColor: isOwned ? grey300 : null,
           zDepth: 0,
         }}
       >
