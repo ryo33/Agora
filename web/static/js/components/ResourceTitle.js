@@ -35,12 +35,12 @@ const ResourceTitle = ({ push, user, title, path, onClick, linkedTitle, inserted
   >
     <span
       style={{
-        fontWeight: 'bold'
+        cursor: 'pointer',
       }}
       onClick={onClick || (() => push('/users/' + user.uid))}
     >
       <span style={{
-        cursor: 'pointer'
+        fontWeight: 'bold'
       }}>
         {user.name}
       </span>
