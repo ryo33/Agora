@@ -12,9 +12,12 @@ import accountPage from './accountPage';
 import watchlistPage from './watchlistPage';
 
 import userForm from './userForm';
-
 import newUserForm from './accountPage/newUserForm'
 
+import {
+  threadHistory,
+  groupHistory,
+} from './history'
 import theme from './theme';
 
 const reducers = {
@@ -34,6 +37,8 @@ const reducers = {
   watchlistPage,
   userForm,
   newUserForm,
+  threadHistory,
+  groupHistory,
   theme,
 };
 
