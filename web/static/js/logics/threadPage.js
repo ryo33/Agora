@@ -5,7 +5,7 @@ import { updateThread } from 'actions/resources';
 import {
   updateThreadPosts,
   updateWebhooks,
-  openThreadWebhooksPage
+  openThreadWebhooksPage,
 } from 'actions/threadPage';
 
 const postIDsLogic = createLogic({
