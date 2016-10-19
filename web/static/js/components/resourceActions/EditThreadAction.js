@@ -54,6 +54,7 @@ class EditThreadAction extends Component {
           bodyStyle={{padding: 0}}
         >
           <ThreadForm
+            titleText={"Edit this Thread"}
             close={this.close}
             submit={this.submit}
             editMode={true}

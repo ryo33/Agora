@@ -35,7 +35,7 @@ class ThreadForm extends Component {
     super(props);
     const {
       title = '',
-      user = null,
+      user_id: user = null,
       post_limited: postLimited = false,
     } = this.props;
     this.state = {
@@ -81,12 +81,15 @@ class ThreadForm extends Component {
   }
 
   render() {
-    const { editMode, group, members, zDepth } = this.props;
+    const {
+      editMode = false, group, members, zDepth,
+      titleText = "Create a New Thread"
+    } = this.props;
     const { title, user, postLimited } = this.state;
     const disabled = user == null || title.length == 0;
     return (
       <Card zDepth={zDepth}>
-        <CardTitle title="Create a New Thread" />
+        <CardTitle title={titleText} />
         <CardText>
           <TextField
             hintText="Title"

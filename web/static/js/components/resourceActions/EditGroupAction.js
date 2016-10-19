@@ -54,6 +54,7 @@ class EditGroupAction extends Component {
           bodyStyle={{padding: 0}}
         >
           <GroupForm
+            titleText={"Edit this Group"}
             close={this.close}
             submit={this.submit}
             editMode={true}

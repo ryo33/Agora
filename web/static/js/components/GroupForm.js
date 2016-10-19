@@ -33,7 +33,7 @@ class GroupForm extends Component {
     super(props);
     const {
       name = '',
-      user = null,
+      user_id: user = null,
       group_limited: groupLimited = true,
       thread_limited: threadLimited = true,
       join_limited: joinLimited = true
@@ -91,12 +91,15 @@ class GroupForm extends Component {
   }
 
   render() {
-    const { group, members, zDepth, editMode = false } = this.props;
+    const {
+      group, members, zDepth, editMode = false,
+      titleText = "Create a New Group"
+    } = this.props;
     const { name, user, groupLimited, threadLimited, joinLimited } = this.state;
     const disabled = user == null || name.length == 0;
     return (
       <Card zDepth={zDepth}>
-        <CardTitle title="Create a New Group" />
+        <CardTitle title={titleText} />
         <CardText>
           <TextField
             hintText="Title"
