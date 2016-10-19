@@ -49,12 +49,12 @@ const Groups = (props) => {
     children="Groups"
     menuItems={
       menuItems.map(({ children, leftIcon, path, signedIn: only }) =>
-          <MenuItem
-            children={children}
-            leftIcon={leftIcon}
-            onClick={props.click(path, only)}
-            disabled={only && !signedIn}
-          />
+        <MenuItem
+          children={children}
+          leftIcon={leftIcon}
+          onClick={props.click(path, only)}
+          disabled={only && !signedIn}
+        />
       ).filter(mi => mi != null).concat(history)
     }
     rightIcon={<ArrowDropRight />}
