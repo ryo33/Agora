@@ -52,14 +52,12 @@ class Post extends Component {
     return (
       <div>
         <Divider
-          style={{
-            backgroundColor: isOwned ? grey50 : null,
-          }}
+          style={isOwned ? { backgroundColor: grey50 } : null}
         />
         <div
           style={{
             padding: '5px 12px',
-            backgroundColor: isOwned ? grey300 : null,
+            backgroundColor: isOwned ? grey300 : undefined,
             zDepth: 0,
           }}
           onClick={this.click}
