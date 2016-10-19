@@ -130,6 +130,7 @@ class PostForm extends Component {
             errorText={messageError}
             multiLine
             rows={3}
+            fullWidth={true}
           />
         </CardText>
         <CardActions expandable>
