@@ -47,14 +47,14 @@ defmodule Agora.AuthController do
     end
 
     account = account |> Repo.preload(:users)
+    conn = conn
+           |> put_session(:account, account.id)
     case account.users do
       [] ->
         conn
-        |> put_session(:account, account.id)
         |> redirect(to: "/account/add-user")
       _  ->
         conn
-        |> put_session(:account, account.id)
         |> redirect(to: "/account/users")
     end
   end

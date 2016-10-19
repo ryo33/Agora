@@ -31,6 +31,7 @@ defmodule Agora.Endpoint do
   plug Plug.Head
 
   plug Plug.Session,
+    max_age: 2592000,
     store: :cookie,
     key: "_agora_key",
     signing_salt: "FUOX2r7M"
