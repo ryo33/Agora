@@ -45,20 +45,23 @@ const Groups = (props) => {
   if (groupHistory.length != 0) {
     history.unshift(<Divider />);
   }
-  return (<MenuItem
-    children="Groups"
-    menuItems={
-      menuItems.map(({ children, leftIcon, path, signedIn: only }) =>
-        <MenuItem
-          children={children}
-          leftIcon={leftIcon}
-          onClick={props.click(path, only)}
-          disabled={only && !signedIn}
-        />
-      ).filter(mi => mi != null).concat(history)
-    }
-    rightIcon={<ArrowDropRight />}
-    leftIcon={<GroupIcon />}
-/>)};
+  return (
+    <MenuItem
+      children="Groups"
+      menuItems={
+        menuItems.map(({ children, leftIcon, path, signedIn: only }) =>
+            <MenuItem
+              children={children}
+              leftIcon={leftIcon}
+              onClick={props.click(path, only)}
+              disabled={only && !signedIn}
+            />
+        ).filter(mi => mi != null).concat(history)
+      }
+      rightIcon={<ArrowDropRight />}
+      leftIcon={<GroupIcon />}
+    />
+  )
+};
 
 export default connect(mapStateToProps)(Groups);

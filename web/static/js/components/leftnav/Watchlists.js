@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import Divider from 'material-ui/Divider';
 import MenuItem from 'material-ui/MenuItem';
 import FontIcon from 'material-ui/FontIcon';
 import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right';
 
+import WatchlistTitle from 'components/WatchlistTitle';
 import { AddBoxIcon, WatchlistIcon } from 'components/icons/index';
 import { signedIn } from 'global';
 
@@ -23,20 +25,39 @@ let menuItems = [
   },
 ];
 
+const mapStateToProps = ({ watchlistHistory }) => {
+  return {
+    watchlistHistory,
+  };
+};
 
-const Watchlists = (props) => <MenuItem
-  children="Watchlists"
-  disabled={!signedIn}
-  menuItems={menuItems.map(({ children, leftIcon, path, signedIn: only }) =>
-      <MenuItem
-        children={children}
-        leftIcon={leftIcon}
-        onClick={props.click(path, only)}
-        disabled={only && !signedIn}
-      />
-  ).filter(mi => mi != null)}
-  rightIcon={<ArrowDropRight />}
-  leftIcon={<WatchlistIcon />}
-/>;
+const Watchlists = (props) => {
+  const { watchlistHistory, click } = props;
+  const history = watchlistHistory.map((id) => <MenuItem
+    children={<WatchlistTitle id={id} />}
+    onClick={click('/watchlists/' + id)}
+  />)
+  if (watchlistHistory.length != 0) {
+    history.unshift(<Divider />);
+  }
+  return (
+    <MenuItem
+      children="Watchlists"
+      disabled={!signedIn}
+      menuItems={
+        menuItems.map(({ children, leftIcon, path, signedIn: only }) =>
+            <MenuItem
+              children={children}
+              leftIcon={leftIcon}
+              onClick={props.click(path, only)}
+              disabled={only && !signedIn}
+            />
+        ).filter(mi => mi != null).concat(history)
+      }
+      rightIcon={<ArrowDropRight />}
+      leftIcon={<WatchlistIcon />}
+    />
+  )
+};
 
-export default Watchlists;
+export default connect(mapStateToProps)(Watchlists);

@@ -17,6 +17,7 @@ import newUserForm from './accountPage/newUserForm'
 import {
   threadHistory,
   groupHistory,
+  watchlistHistory
 } from './history'
 import theme from './theme';
 
@@ -39,6 +40,7 @@ const reducers = {
   newUserForm,
   threadHistory,
   groupHistory,
+  watchlistHistory,
   theme,
 };
 

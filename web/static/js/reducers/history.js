@@ -2,6 +2,7 @@ import { createReducer } from 'redux-act';
 
 import { openThreadPage } from 'actions/threadPage';
 import { openGroupPage } from 'actions/groupPage';
+import { openWatchlistPage } from 'actions/watchlistPage';
 
 const MAX_HISTORY_COUNT = 5;
 
@@ -14,10 +15,11 @@ function createHistoryReducer(open) {
         newState.splice(index, 1);
       }
       newState.unshift(id);
-      return newState.slice(0, MAX_HISTORY_COUNT - 1);
+      return newState.slice(0, MAX_HISTORY_COUNT);
     },
   }, []);
 }
 
 export const threadHistory = createHistoryReducer(openThreadPage);
 export const groupHistory  = createHistoryReducer(openGroupPage);
+export const watchlistHistory  = createHistoryReducer(openWatchlistPage);

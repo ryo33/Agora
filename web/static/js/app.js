@@ -7,7 +7,7 @@ import createSagaMiddleware from 'redux-saga';
 import { IndexRoute, Route, Router, browserHistory } from 'react-router';
 import { routerMiddleware, syncHistoryWithStore, routerReducer } from 'react-router-redux';
 import createLogger from 'redux-logger';
-import { persistStore, getStoredState } from 'redux-persist';
+import { persistStore, autoRehydrate, getStoredState } from 'redux-persist';
 
 import { Application } from './components';
 import { Home } from './components/pages/home';
@@ -56,20 +56,16 @@ const store = createStore(
     ...reducers,
     routing: routerReducer
   }),
-  applyMiddleware(...middlewares)
+  applyMiddleware(...middlewares),
+  autoRehydrate()
 );
-const history = syncHistoryWithStore(browserHistory, store);
-sagaMiddleware.run(rootSaga, store.getState);
-
-joinCommonChannel(store.dispatch);
-if (signedIn) {
-  store.dispatch(startApp());
-  joinAccountChannel(store.dispatch);
-}
 
 // Persist
 const persistConfig = {
-  whitelist: ['account'],
+  whitelist: [
+    'account',
+    'threadHistory', 'groupHistory', 'watchlistHistory'
+  ],
 }
 persistStore(store, persistConfig);
 getStoredState(persistConfig, (err, state) => {
@@ -83,6 +79,15 @@ getStoredState(persistConfig, (err, state) => {
     }
   }
 });
+
+const history = syncHistoryWithStore(browserHistory, store);
+sagaMiddleware.run(rootSaga, store.getState);
+
+joinCommonChannel(store.dispatch);
+if (signedIn) {
+  store.dispatch(startApp());
+  joinAccountChannel(store.dispatch);
+}
 
 render(
   <Provider store={store}>
