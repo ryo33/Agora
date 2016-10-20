@@ -4,4 +4,4 @@ export const updateCurrentWatchlist = createAction('Update current watchlist', i
 export const openWatchlistPage = createAction('Open watchlist page', id => id);
 export const closeWatchlistPage = createAction('Close watchlist page');
 
-export const updateWatchlistItems = createAction('Update watchlist items', (groups, threads) => ({ groups, threads }));
+export const updateWatchlistItems = createAction('Update watchlist items', items => items);

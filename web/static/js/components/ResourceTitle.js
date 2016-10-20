@@ -8,23 +8,15 @@ import TimeAgo from 'react-timeago';
 
 import { requireUser } from 'hocs/resources';
 
-const mapStateToProps = ({ users }, { user, insertedAt }) => {
+const mapStateToProps = (state, { user, insertedAt }) => {
   return {
     id: user,
-    user: users[user],
     insertedAt: moment.utc(insertedAt).format()
   };
 };
 
 const actionCreators = {
   push
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    ...bindActionCreators(actionCreators, dispatch),
-    dispatch
-  };
 };
 
 const ResourceTitle = ({ push, user, title, path, onClick, linkedTitle, insertedAt }) => (
@@ -68,4 +60,4 @@ const ResourceTitle = ({ push, user, title, path, onClick, linkedTitle, inserted
   </span>
 );
 
-  export default connect(mapStateToProps, mapDispatchToProps)(requireUser(ResourceTitle));
+  export default requireUser(mapStateToProps, actionCreators, 'user')(ResourceTitle);

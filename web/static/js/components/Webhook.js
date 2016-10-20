@@ -14,22 +14,14 @@ import ResourceTitle from 'components/ResourceTitle';
 
 import { requireWebhook } from 'hocs/resources';
 
-const mapStateToProps = ({ webhooks, theme }, { id }) => {
+const mapStateToProps = ({ theme }, { id }) => {
   return {
-    webhook: webhooks[id],
     theme
   }
 }
 
 const actionCreators = {
   push
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    ...bindActionCreators(actionCreators, dispatch),
-    dispatch
-  };
 };
 
 class Webhook extends Component {
@@ -64,4 +56,4 @@ class Webhook extends Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(requireWebhook(Webhook));
+export default requireWebhook(mapStateToProps, actionCreators)(Webhook);

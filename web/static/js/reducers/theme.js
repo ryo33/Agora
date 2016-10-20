@@ -23,7 +23,7 @@ const initialState = {
       padding: "0.5em",
     },
     text_icon: {
-        fontSize: "12px",
+      fontSize: "12px",
     },
   },
   form: {

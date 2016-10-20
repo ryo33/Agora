@@ -19,13 +19,6 @@ const actionCreators = {
   push
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    ...bindActionCreators(actionCreators, dispatch),
-    dispatch
-  };
-};
-
 class ThreadHeader extends Component {
   constructor(props) {
     super(props);
@@ -77,4 +70,4 @@ class ThreadHeader extends Component {
   }
 }
 
-export default compose(connect(null, mapDispatchToProps), checkThreadOwned, requireThread)(ThreadHeader);
+export default compose(requireThread(null, actionCreators), checkThreadOwned)(ThreadHeader);

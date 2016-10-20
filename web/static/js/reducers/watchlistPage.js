@@ -10,18 +10,13 @@ const currentWatchlist = createReducer({
   [updateCurrentWatchlist]: (_, id) => id
 }, null);
 
-const groups = createReducer({
-  [updateWatchlistItems]: (_, { groups }) => groups
-}, []);
-
-const threads = createReducer({
-  [updateWatchlistItems]: (_, { threads }) => threads
+const items = createReducer({
+  [updateWatchlistItems]: (_, items) => items.sort((a, b) => b.inserted_at - a.inserted_at) // desc
 }, []);
 
 const watchlistPage = combineReducers({
   currentWatchlist,
-  groups,
-  threads
+  items
 });
 
 export default watchlistPage;

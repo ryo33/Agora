@@ -14,20 +14,12 @@ import { requireWatchlist } from 'hocs/resources';
 
 const mapStateToProps = ({ theme, watchlists }, { id }) => {
   return {
-    watchlist: watchlists[id],
     theme
   }
 };
 
 const actionCreators = {
   push
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    ...bindActionCreators(actionCreators, dispatch),
-    dispatch
-  };
 };
 
 class Watchlist extends Component {
@@ -56,4 +48,4 @@ class Watchlist extends Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(requireWatchlist(Watchlist));
+export default requireWatchlist(mapStateToProps, actionCreators)(Watchlist);

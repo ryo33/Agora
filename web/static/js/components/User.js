@@ -15,20 +15,9 @@ import { requireUser } from 'hocs/resources';
 
 const mapStateToProps = ({ users, theme }, { id }) => {
   return {
-    user: users[id],
     theme
   }
 }
-
-const actionCreators = {
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    ...bindActionCreators(actionCreators, dispatch),
-    dispatch
-  };
-};
 
 class User extends Component {
   render() {
@@ -57,4 +46,4 @@ class User extends Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(requireUser(User));
+export default requireUser(mapStateToProps)(User);

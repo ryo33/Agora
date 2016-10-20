@@ -1,3 +1,4 @@
+import { bindActionCreators } from 'redux';
 import {
   branch, compose, lifecycle, renderNothing, renderComponent
 } from 'recompose';
@@ -11,34 +12,51 @@ import {
 import { getAccountUserIDs } from 'selectors/accountPage';
 
 function createRequireResource(resources, resource, prepareResource) {
-  return function(component, loadingComponent = Loading) {
-    const mapStateToProps = (state, { id }) => {
-      const a = state[resources][id] || null;
-      return { [resource]: a };
-    };
-    const onlyLoaded = branch(
-      ({ [resource]: required }) => required != null,
-      c => c,
-      renderComponent(loadingComponent)
-    );
-    const prepare = lifecycle({
-      componentDidMount() {
-        const { id, dispatch, [resource]: required } = this.props;
-        if (required == null) {
-          dispatch(prepareResource([id]))
+  return function(stateToProps=null, actionCreators=null, keyForID='id') {
+    return function(component) {
+      const mapStateToProps = (state, ownProps) => {
+        const { [keyForID]:id } = ownProps;
+        const a = state[resources][id] || null;
+        const props = { [resource]: a };
+        if (stateToProps != null) {
+          return Object.assign(props, stateToProps(state, ownProps));
+        } else {
+          return props;
         }
-      },
-      componentWillReceiveProps(newProps) {
-        const { [resource]: required } = this.props;
-        const { [resource]: newRequired } = newProps;
-        if (required == null && newRequired != null) {
-          if (newProps.onLoad) {
-            newProps.onLoad();
+      };
+      const mapDispatchToProps = dispatch => {
+        const props = { dispatch };
+        if (actionCreators != null) {
+          return Object.assign(props, bindActionCreators(actionCreators, dispatch));
+        } else {
+          return props;
+        }
+      };
+      const connecter = connect(mapStateToProps, mapDispatchToProps);
+      const onlyLoaded = branch(
+        ({ [resource]: required }) => required != null,
+        c => c,
+        renderComponent(Loading)
+      );
+      const prepare = lifecycle({
+        componentDidMount() {
+          const { id, dispatch, [resource]: required } = this.props;
+          if (required == null) {
+            dispatch(prepareResource([id]))
+          }
+        },
+        componentWillReceiveProps(newProps) {
+          const { [resource]: required } = this.props;
+          const { [resource]: newRequired } = newProps;
+          if (required == null && newRequired != null) {
+            if (newProps.onLoad) {
+              newProps.onLoad();
+            }
           }
         }
-      }
-    });
-    return compose(connect(mapStateToProps), prepare, onlyLoaded)(component)
+      });
+      return compose(connecter, prepare, onlyLoaded)(component)
+    }
   }
 }
 
@@ -62,8 +80,16 @@ export const checkOwned = resource => {
   }
 };
 export const checkThreadOwned = checkOwned('threads');
+export const checkGroupOwned = checkOwned('groups');
 export const checkPostOwned = checkOwned('posts');
 export const checkWebhookOwned = checkOwned('webhooks');
+export const checkUserOwned = component => {
+  const mapStateToProps = (state, { id }) => {
+    const users = getAccountUserIDs(state);
+    return { isOwned: users.includes(id) };
+  };
+  return connect(mapStateToProps)(component);
+};
 
 export const onlyOwned = branch(
   ({ isOwned }) => isOwned,

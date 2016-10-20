@@ -16,22 +16,14 @@ import { ThreadIcon, PostIcon } from 'components/icons/index'
 
 import { requireThread } from 'hocs/resources';
 
-const mapStateToProps = ({ threads, theme }, { id }) => {
+const mapStateToProps = ({ theme }) => {
   return {
-    thread: threads[id],
     theme
   };
 };
 
 const actionCreators = {
   push
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    ...bindActionCreators(actionCreators, dispatch),
-    dispatch
-  };
 };
 
 class Thread extends Component {
@@ -65,4 +57,4 @@ class Thread extends Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(requireThread(Thread));
+export default requireThread(mapStateToProps, actionCreators)(Thread);

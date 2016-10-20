@@ -8,8 +8,8 @@ import {
 } from 'actions/watchlistPage';
 import { pageSaga } from 'sagas/pages';
 
-function joinCallback(emitter, { groups, threads }) {
-  emitter(updateWatchlistItems(groups, threads));
+function joinCallback(emitter, { items }) {
+  emitter(updateWatchlistItems(items));
 }
 
 function listenCallback(emitter, channel) {

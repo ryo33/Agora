@@ -14,22 +14,14 @@ import { GroupIcon, ThreadIcon, UserIcon } from 'components/icons/index'
 
 import { requireGroup } from 'hocs/resources';
 
-const mapStateToProps = ({ theme, groups }, { id }) => {
+const mapStateToProps = ({ theme }) => {
   return {
-    group: groups[id],
     theme
   }
 };
 
 const actionCreators = {
   push
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    ...bindActionCreators(actionCreators, dispatch),
-    dispatch
-  };
 };
 
 class Group extends Component {
@@ -67,4 +59,4 @@ class Group extends Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(requireGroup(Group));
+export default requireGroup(mapStateToProps, actionCreators)(Group);
