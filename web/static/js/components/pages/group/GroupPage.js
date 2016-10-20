@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 
 class GroupPage extends Component {
   render() {
-    return this.props.children;
+    return this.props.children
   }
 }
 

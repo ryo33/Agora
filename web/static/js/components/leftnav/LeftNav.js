@@ -1,46 +1,46 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { push } from 'react-router-redux'
 
-import Drawer from 'material-ui/Drawer';
-import MenuItem from 'material-ui/MenuItem';
-import FontIcon from 'material-ui/FontIcon';
-import Divider from 'material-ui/Divider';
+import Drawer from 'material-ui/Drawer'
+import MenuItem from 'material-ui/MenuItem'
+import FontIcon from 'material-ui/FontIcon'
+import Divider from 'material-ui/Divider'
 
-import { SignedIn, NotSignedIn } from './../util';
-import Users from './Users';
-import Groups from './Groups';
-import Threads from './Threads';
-import Watchlists from './Watchlists';
-import Account from './Account';
-import SignoutDialog from './SignoutDialog';
-import { signedIn } from 'global';
+import { SignedIn, NotSignedIn } from './../util'
+import Users from './Users'
+import Groups from './Groups'
+import Threads from './Threads'
+import Watchlists from './Watchlists'
+import Account from './Account'
+import SignoutDialog from './SignoutDialog'
+import { signedIn } from 'global'
 
 class LeftNav extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       isSignoutDialogOpen: false,
-    };
-    this.transitionTo = this.transitionTo.bind(this);
-    this.handleOpen = this.handleOpen.bind(this);
-    this.handleCancel = this.handleCancel.bind(this);
+    }
+    this.transitionTo = this.transitionTo.bind(this)
+    this.handleOpen = this.handleOpen.bind(this)
+    this.handleCancel = this.handleCancel.bind(this)
   }
   transitionTo(path, onlySignedIn) {
     return (event) => {
-      this.props.toggleLeftNav();
+      this.props.toggleLeftNav()
       if (onlySignedIn && !signedIn) {
-        this.props.dispatch(push('signin'));
+        this.props.dispatch(push('signin'))
       } else {
-        this.props.dispatch(push(path));
+        this.props.dispatch(push(path))
       }
-    };
+    }
   }
   handleOpen() {
-    this.setState(Object.assign({}, this.state, { isSignoutDialogOpen: true }));
+    this.setState(Object.assign({}, this.state, { isSignoutDialogOpen: true }))
   }
   handleCancel() {
-    this.setState(Object.assign({}, this.state, { isSignoutDialogOpen: false }));
+    this.setState(Object.assign({}, this.state, { isSignoutDialogOpen: false }))
   }
   render() {
     return (<Drawer
@@ -64,12 +64,12 @@ class LeftNav extends Component {
         isSignoutDialogOpen={this.state.isSignoutDialogOpen}
         handleSignoutCancel={this.handleCancel}
       />
-    </Drawer>);
+    </Drawer>)
   }
 }
 
 LeftNav.contextTypes = {
   router: React.PropTypes.object.isRequired,
-};
+}
 
-export default connect()(LeftNav);
+export default connect()(LeftNav)

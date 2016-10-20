@@ -1,43 +1,43 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { push } from 'react-router-redux'
 
-import Avatar from 'material-ui/Avatar';
-import { List, ListItem } from 'material-ui/List';
-import Subheader from 'material-ui/Subheader';
-import Divider from 'material-ui/Divider';
-import Paper from 'material-ui/Paper';
-import FontIcon from 'material-ui/FontIcon';
+import Avatar from 'material-ui/Avatar'
+import { List, ListItem } from 'material-ui/List'
+import Subheader from 'material-ui/Subheader'
+import Divider from 'material-ui/Divider'
+import Paper from 'material-ui/Paper'
+import FontIcon from 'material-ui/FontIcon'
 
-import { updateCurrentUser } from 'actions/accountPage';
-import { getAccountUsers, getCurrentUser } from 'selectors/accountPage';
+import { updateCurrentUser } from 'actions/accountPage'
+import { getAccountUsers, getCurrentUser } from 'selectors/accountPage'
 
 const mapStateToProps = (state) => {
   return {
     users: getAccountUsers(state),
-    currentUser: getCurrentUser(state)
-  };
-};
+    currentUser: getCurrentUser(state),
+  }
+}
 
 const actionCreators = {
-  updateCurrentUser, push
-};
+  updateCurrentUser, push,
+}
 
 class UserList extends Component {
   setCurrentUser(id) {
     return () => {
-      const { updateCurrentUser } = this.props;
-      updateCurrentUser(id);
-    };
+      const { updateCurrentUser } = this.props
+      updateCurrentUser(id)
+    }
   }
 
   render() {
-    let users = [];
+    const users = []
     let currentUser = (<ListItem
       primaryText="No Current User"
       disabled
-    />);
-    const { push } = this.props;
+    />)
+    const { push } = this.props
     if (this.props.users) {
       this.props.users.forEach(({ uid, name, id }, key) => {
         if (id == this.props.currentUser) {
@@ -46,7 +46,7 @@ class UserList extends Component {
             secondaryText={uid}
             primaryText={name}
             leftAvatar={<Avatar src="/images/phoenix.png" />}
-          />);
+          />)
         } else {
           users.push(<ListItem
             key={key}
@@ -54,9 +54,9 @@ class UserList extends Component {
             primaryText={name}
             leftAvatar={<Avatar src="/images/phoenix.png" />}
             onClick={this.setCurrentUser(id)}
-          />);
+          />)
         }
-      });
+      })
     }
     return (<div>
       <List>
@@ -78,8 +78,8 @@ class UserList extends Component {
           onClick={() => push('/account/add-user')}
         />
       </List>
-    </div>);
+    </div>)
   }
 }
 
-export default connect(mapStateToProps, actionCreators)(UserList);
+export default connect(mapStateToProps, actionCreators)(UserList)

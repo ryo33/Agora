@@ -1,21 +1,21 @@
-import { combineReducers } from 'redux';
-import { createReducer } from 'redux-act';
+import { combineReducers } from 'redux'
+import { createReducer } from 'redux-act'
 
-import addUser from './add_user';
-import { updateAccountUsers, addAccountUser, updateCurrentUser, updateWatchlists } from 'actions/accountPage';
+import addUser from './add_user'
+import { updateAccountUsers, addAccountUser, updateCurrentUser, updateWatchlists } from 'actions/accountPage'
 
 const users = createReducer({
   [updateAccountUsers]: (state, ids) => ids,
-  [addAccountUser]: (state, id) => state.concat(id)
-}, []);
+  [addAccountUser]: (state, id) => state.concat(id),
+}, [])
 
 const watchlists = createReducer({
-  [updateWatchlists]: (_, ids) => ids
-}, []);
+  [updateWatchlists]: (_, ids) => ids,
+}, [])
 
 const currentUser = createReducer({
-  [updateCurrentUser]: (state, id) => id
-}, null);
+  [updateCurrentUser]: (state, id) => id,
+}, null)
 
 const account = combineReducers({
   forms: combineReducers({
@@ -23,7 +23,7 @@ const account = combineReducers({
   }),
   users,
   watchlists,
-  currentUser
-});
+  currentUser,
+})
 
-export default account;
+export default account

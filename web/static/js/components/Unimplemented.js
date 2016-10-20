@@ -1,7 +1,7 @@
-import React from 'react';
+import React from 'react'
 
-const Unimplemented = (props) => <div>
+const Unimplemented = props => <div>
     COMING SOON!
-</div>;
+</div>
 
-export default Unimplemented;
+export default Unimplemented

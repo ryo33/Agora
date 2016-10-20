@@ -1,22 +1,22 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
-import CopyAction from 'components/resourceActions/CopyAction';
+import CopyAction from 'components/resourceActions/CopyAction'
 
 const mapStateToProps = ({ users }, { id }) => {
-  const uid = users[id] ? users[id].uid : null;
+  const uid = users[id] ? users[id].uid : null
   return {
-    id: uid
-  };
+    id: uid,
+  }
 }
 
 class UserActions extends Component {
   constructor(props) {
-    super(props);
+    super(props)
   }
 
   render() {
-    const { id } = this.props;
+    const { id } = this.props
     return (
       <div>
         {
@@ -27,8 +27,8 @@ class UserActions extends Component {
           : null
         }
       </div>
-    );
+    )
   }
 }
 
-export default connect(mapStateToProps)(UserActions);
+export default connect(mapStateToProps)(UserActions)

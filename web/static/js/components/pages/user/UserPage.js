@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
 class UserPage extends Component {
   render() {
-    return this.props.children;
+    return this.props.children
   }
 }
 
-export default connect()(UserPage);
+export default connect()(UserPage)

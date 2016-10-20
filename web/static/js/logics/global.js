@@ -1,31 +1,31 @@
-import { createLogic } from 'redux-logic';
+import { createLogic } from 'redux-logic'
 
 import {
   startLoading, finishLoading,
-  startApp
-} from 'actions/global';
+  startApp,
+} from 'actions/global'
 import {
   updateAccountUsers,
   openAccountGroupsPage, updateGroups as updateAccountGroups,
   openAccountThreadsPage, updateThreads as updateAccountThreads,
   openAccountWebhooksPage, updateWebhooks as updateAccountWebhooks,
-} from 'actions/accountPage';
+} from 'actions/accountPage'
 import {
   openAllGroupsPage, updateGroups,
   openGroupThreadsTab, updateGroupThreads,
   openGroupGroupsTab, updateGroupGroups,
-} from 'actions/groupPage';
+} from 'actions/groupPage'
 import {
   openThreadPage, updateThreadPosts,
   openAllThreadsPage, updateThreads,
   openThreadWebhooksPage, updateWebhooks as updateThreadWebhooks,
-} from 'actions/threadPage';
+} from 'actions/threadPage'
 import {
-  openWatchlistPage, updateWatchlistItems
-} from 'actions/watchlistPage';
+  openWatchlistPage, updateWatchlistItems,
+} from 'actions/watchlistPage'
 import {
-  openAllWebhooksPage, updateWebhooks
-} from 'actions/webhookPage';
+  openAllWebhooksPage, updateWebhooks,
+} from 'actions/webhookPage'
 
 const pairs = [
   [startApp, updateAccountUsers],
@@ -40,26 +40,26 @@ const pairs = [
   [openThreadWebhooksPage, updateThreadWebhooks],
   [openWatchlistPage, updateWatchlistItems],
   [openAllWebhooksPage, updateWebhooks],
-];
+]
 
 function createLoading(pairs) {
-  const logics = [];
+  const logics = []
   pairs.forEach(([start, finish]) => {
     const startLogic = createLogic({
       type: start.getType(),
       process({ action }, dispatch) {
-        dispatch(startLoading());
-      }
-    });
+        dispatch(startLoading())
+      },
+    })
     const finishLogic = createLogic({
       type: finish.getType(),
       process({ action }, dispatch) {
-        dispatch(finishLoading());
-      }
-    });
-    logics.push(startLogic, finishLogic);
-  });
-  return logics;
+        dispatch(finishLoading())
+      },
+    })
+    logics.push(startLogic, finishLogic)
+  })
+  return logics
 }
 
-export default createLoading(pairs);
+export default createLoading(pairs)

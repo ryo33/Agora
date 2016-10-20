@@ -1,20 +1,20 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { push } from 'react-router-redux'
 
-import { openAllGroupsPage } from 'actions/groupPage';
+import { openAllGroupsPage } from 'actions/groupPage'
 
-import ResourceList from 'components/ResourceList';
+import ResourceList from 'components/ResourceList'
 
 const mapStateToProps = ({ groupPage }) => {
   return {
-    groups: groupPage.groups
+    groups: groupPage.groups,
   }
-};
+}
 
 const actionCreators = {
-  openAllGroupsPage
-};
+  openAllGroupsPage,
+}
 
 class GroupAll extends Component {
   constructor(props) {
@@ -22,19 +22,19 @@ class GroupAll extends Component {
   }
 
   componentDidMount() {
-    const { openAllGroupsPage } = this.props;
-    openAllGroupsPage();
+    const { openAllGroupsPage } = this.props
+    openAllGroupsPage()
   }
 
   transitionTo(path) {
     return () => {
-      this.props.dispatch(push(path));
+      this.props.dispatch(push(path))
     }
   }
 
   render() {
-    const { groups } = this.props;
-    return <ResourceList groups={groups} mode='group'/>
+    const { groups } = this.props
+    return <ResourceList groups={groups} mode="group" />
   }
 }
 

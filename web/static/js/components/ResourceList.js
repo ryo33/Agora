@@ -1,118 +1,119 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
-import debounce from 'lodash.debounce';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { push } from 'react-router-redux'
+import debounce from 'lodash.debounce'
 
-import { CSSGrid, layout, measureItems, makeResponsive } from 'react-stonecutter';
-import Avatar from 'material-ui/Avatar';
-import { List, ListItem } from 'material-ui/List';
-import Dialog from 'material-ui/Dialog';
-import Thread from 'components/Thread';
-import Group from 'components/Group';
-import Watchlist from 'components/Watchlist';
-import GroupForm from 'components/GroupForm';
-import ThreadForm from 'components/ThreadForm';
-import WatchlistForm from 'components/WatchlistForm';
+import { CSSGrid, layout, measureItems, makeResponsive } from 'react-stonecutter'
+import Avatar from 'material-ui/Avatar'
+import { List, ListItem } from 'material-ui/List'
+import Dialog from 'material-ui/Dialog'
+import Thread from 'components/Thread'
+import Group from 'components/Group'
+import Watchlist from 'components/Watchlist'
+import GroupForm from 'components/GroupForm'
+import ThreadForm from 'components/ThreadForm'
+import WatchlistForm from 'components/WatchlistForm'
 
-import { grey800, grey700 } from 'material-ui/styles/colors';
-import { Card, CardTitle } from 'material-ui/Card';
+import { grey800, grey700 } from 'material-ui/styles/colors'
+import { Card, CardTitle } from 'material-ui/Card'
 import { AddBoxIcon } from 'components/icons/index'
 
-import { submitGroup, submitThread, submitWatchlist } from 'actions/resources';
-import { signedIn } from 'global';
+import { submitGroup, submitThread, submitWatchlist } from 'actions/resources'
+import { signedIn } from 'global'
 
-const COLUMN_WIDTH = 110;
-const DEBOUNCE_COUNT = 100;
+const COLUMN_WIDTH = 110
+const DEBOUNCE_COUNT = 100
 
-const mapStateToProps =({ theme }, { mode, groups, threads, watchlists, formParams }) => ({
-  mode, theme, groups, threads, watchlists, formParams
-});
+const mapStateToProps = ({ theme }, { mode, groups, threads, watchlists, formParams }) => ({
+  mode, theme, groups, threads, watchlists, formParams,
+})
 
 const actionCreators = {
   submitGroup,
   submitThread,
-  submitWatchlist
-};
+  submitWatchlist,
+}
 
 class ResourceList extends Component {
   constructor(props) {
-    super(props);
-    this.onChildNodeDidMount = debounce(this.onChildNodeDidMount.bind(this), DEBOUNCE_COUNT);
-    this.submitGroup = this.submitGroup.bind(this);
-    this.submitThread = this.submitThread.bind(this);
-    this.submitWatchlist = this.submitWatchlist.bind(this);
-    this.openAddGroup  = this.openAddGroup.bind(this);
-    this.closeAddGroup = this.closeAddGroup.bind(this);
-    this.openAddThread  = this.openAddThread.bind(this);
-    this.closeAddThread = this.closeAddThread.bind(this);
-    this.openAddWatchlist  = this.openAddWatchlist.bind(this);
-    this.closeAddWatchlist = this.closeAddWatchlist.bind(this);
+    super(props)
+    this.onChildNodeDidMount = debounce(this.onChildNodeDidMount.bind(this), DEBOUNCE_COUNT)
+    this.submitGroup = this.submitGroup.bind(this)
+    this.submitThread = this.submitThread.bind(this)
+    this.submitWatchlist = this.submitWatchlist.bind(this)
+    this.openAddGroup = this.openAddGroup.bind(this)
+    this.closeAddGroup = this.closeAddGroup.bind(this)
+    this.openAddThread = this.openAddThread.bind(this)
+    this.closeAddThread = this.closeAddThread.bind(this)
+    this.openAddWatchlist = this.openAddWatchlist.bind(this)
+    this.closeAddWatchlist = this.closeAddWatchlist.bind(this)
     this.state = {
       Grid: this.createGrid(),
       loadedCount: 1,
       addGroup: false,
       addThread: false,
-      addWatchlist: false
-    };
+      addWatchlist: false,
+    }
   }
 
   submitGroup(params) {
-    const { submitGroup } = this.props;
-    submitGroup(params);
+    const { submitGroup } = this.props
+    submitGroup(params)
   }
 
   submitThread(params) {
-    const { submitThread } = this.props;
-    submitThread(params);
+    const { submitThread } = this.props
+    submitThread(params)
   }
 
   submitWatchlist(params) {
-    const { submitWatchlist } = this.props;
-    submitWatchlist(params);
+    const { submitWatchlist } = this.props
+    submitWatchlist(params)
   }
 
-  openAddGroup() { this.setState({addGroup: true}); }
-  closeAddGroup() { this.setState({addGroup: false}); }
-  openAddThread() { this.setState({addThread: true}); }
-  closeAddThread() { this.setState({addThread: false}); }
-  openAddWatchlist() { this.setState({addWatchlist: true}); }
-  closeAddWatchlist() { this.setState({addWatchlist: false}); }
+  openAddGroup() { this.setState({ addGroup: true }) }
+  closeAddGroup() { this.setState({ addGroup: false }) }
+  openAddThread() { this.setState({ addThread: true }) }
+  closeAddThread() { this.setState({ addThread: false }) }
+  openAddWatchlist() { this.setState({ addWatchlist: true }) }
+  closeAddWatchlist() { this.setState({ addWatchlist: false }) }
 
   createGrid() {
-    let Grid;
+    let Grid
     Grid = makeResponsive(measureItems(CSSGrid), {
       maxWidth: 1980,
       minPadding: 8,
-    });
-    return Grid;
+    })
+    return Grid
   }
 
-  onChildNodeDidMount () {
-    let all = this.props.groups.length
+  onChildNodeDidMount() {
+    const all = this.props.groups.length
       + this.props.threads.length
-      + this.props.watchlists.length;
+      + this.props.watchlists.length
     this.setState({
       loadedCount: this.state.loadedCount + 1,
-      Grid: this.createGrid()
-    });
+      Grid: this.createGrid(),
+    })
   }
 
   getTitle(message) {
     return (
       <div>
-        <p className='center'><AddBoxIcon
+        <p className="center"><AddBoxIcon
           style={this.props.theme.form.box.icon}
-          color={grey700}/>
+          color={grey700}
+        />
         </p>
-        <p className='center'>{message}</p>
+        <p className="center">{message}</p>
       </div>
-    );
+    )
   }
 
   transitionTo(path) {
     return () => {
-      this.props.dispatch(push(path));
-    };
+      this.props.dispatch(push(path))
+    }
   }
 
   render() {
@@ -123,12 +124,12 @@ class ResourceList extends Component {
       threads,
       watchlists,
       formParams,
-    } = this.props;
+    } = this.props
     const { Grid } = this.state
     return (
       <div>
         <Grid
-          className='resource-list'
+          className="resource-list"
           columnWidth={COLUMN_WIDTH}
           gutterWidth={4}
           gutterHeight={4}
@@ -140,11 +141,11 @@ class ResourceList extends Component {
             signedIn && mode == 'thread'
             ? <Card
               style={theme.resource.root}
-              containerStyle={{padding: 0}}
+              containerStyle={{ padding: 0 }}
               onTouchTap={this.openAddThread}
             >
               <CardTitle
-                title={this.getTitle("Create")}
+                title={this.getTitle('Create')}
                 titleStyle={theme.form.box.text}
                 titleColor={grey800}
                 style={theme.form.box.title}
@@ -159,19 +160,19 @@ class ResourceList extends Component {
             /></div>)
           }
           {
-            signedIn && mode == 'group'?
-            <Card
-              style={theme.resource.root}
-              containerStyle={{padding: 0}}
-              onTouchTap={this.openAddGroup}
-            >
-              <CardTitle
-                title={this.getTitle("Create")}
-                titleStyle={theme.form.box.text}
-                titleColor={grey800}
-                style={theme.form.box.title}
-              />
-            </Card> : null
+            signedIn && mode == 'group' ?
+              <Card
+                style={theme.resource.root}
+                containerStyle={{ padding: 0 }}
+                onTouchTap={this.openAddGroup}
+              >
+                <CardTitle
+                  title={this.getTitle('Create')}
+                  titleStyle={theme.form.box.text}
+                  titleColor={grey800}
+                  style={theme.form.box.title}
+                />
+              </Card> : null
           }
           {
             groups.map(id => <div key={id}><Group
@@ -181,19 +182,19 @@ class ResourceList extends Component {
             /></div>)
           }
           {
-            signedIn && mode == 'watchlist'?
-            <Card
-              style={theme.resource.root}
-              containerStyle={{padding: 0}}
-              onTouchTap={this.openAddWatchlist}
-            >
-              <CardTitle
-                title={this.getTitle("Create")}
-                titleStyle={theme.form.box.text}
-                titleColor={grey800}
-                style={theme.form.box.title}
-              />
-            </Card> : null
+            signedIn && mode == 'watchlist' ?
+              <Card
+                style={theme.resource.root}
+                containerStyle={{ padding: 0 }}
+                onTouchTap={this.openAddWatchlist}
+              >
+                <CardTitle
+                  title={this.getTitle('Create')}
+                  titleStyle={theme.form.box.text}
+                  titleColor={grey800}
+                  style={theme.form.box.title}
+                />
+              </Card> : null
           }
           {
             watchlists.map(id => <div key={id}><Watchlist
@@ -206,7 +207,7 @@ class ResourceList extends Component {
         <Dialog
           open={this.state.addGroup}
           onRequestClose={this.closeAddGroup}
-          bodyStyle={{padding: 0}}
+          bodyStyle={{ padding: 0 }}
         >
           <GroupForm
             close={this.closeAddGroup}
@@ -220,7 +221,7 @@ class ResourceList extends Component {
         <Dialog
           open={this.state.addThread}
           onRequestClose={this.closeAddThread}
-          bodyStyle={{padding: 0}}
+          bodyStyle={{ padding: 0 }}
         >
           <ThreadForm
             submit={formParams.submit || this.submitThread}
@@ -232,7 +233,7 @@ class ResourceList extends Component {
         <Dialog
           open={this.state.addWatchlist}
           onRequestClose={this.closeAddWatchlist}
-          bodyStyle={{padding: 0}}
+          bodyStyle={{ padding: 0 }}
         >
           <WatchlistForm
             zDepth={0}
@@ -240,12 +241,12 @@ class ResourceList extends Component {
           />
         </Dialog>
       </div>
-    );
+    )
   }
 }
 
 ResourceList.defaultProps = {
-  mode: 'default', formParams: {}, groups: [], threads: [], watchlists: []
-};
+  mode: 'default', formParams: {}, groups: [], threads: [], watchlists: [],
+}
 
-export default connect(mapStateToProps, actionCreators)(ResourceList);
+export default connect(mapStateToProps, actionCreators)(ResourceList)

@@ -1,6 +1,9 @@
 {
-    "extends": "airbnb",
-    "plugins": [
-        "react"
-    ]
+  "extends": "airbnb",
+  "plugins": [
+    "react"
+    ],
+    "rules": {
+      "semi": [1, "never"]
+    }
 }

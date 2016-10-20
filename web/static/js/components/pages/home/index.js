@@ -1,18 +1,18 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
+import React from 'react'
+import { connect } from 'react-redux'
+import { push } from 'react-router-redux'
 
-import RaisedButton from 'material-ui/RaisedButton';
-import { Card, CardText } from 'material-ui/Card';
+import RaisedButton from 'material-ui/RaisedButton'
+import { Card, CardText } from 'material-ui/Card'
 
-import { UserIcon, ThreadIcon, GroupIcon } from 'components/icons';
-import SignIn from 'components/SignIn';
+import { UserIcon, ThreadIcon, GroupIcon } from 'components/icons'
+import SignIn from 'components/SignIn'
 
 const styles = {
   card: {
-    margin: "14px"
-  }
-};
+    margin: '14px',
+  },
+}
 
 const HomeComponent = ({ push }) => (
   <div>
@@ -31,7 +31,7 @@ const HomeComponent = ({ push }) => (
       <CardText>
         <div>
           <RaisedButton
-            onClick={() => push("/threads")}
+            onClick={() => push('/threads')}
             label="All Threads"
             icon={<ThreadIcon />}
           />
@@ -39,7 +39,7 @@ const HomeComponent = ({ push }) => (
         <br />
         <div>
           <RaisedButton
-            onClick={() => push("/groups")}
+            onClick={() => push('/groups')}
             label="All Groups"
             icon={<GroupIcon />}
           />
@@ -47,6 +47,6 @@ const HomeComponent = ({ push }) => (
       </CardText>
     </Card>
   </div>
-);
+)
 
-export const Home = connect(null, { push })(HomeComponent);
+export const Home = connect(null, { push })(HomeComponent)

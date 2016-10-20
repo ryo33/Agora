@@ -1,22 +1,22 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
-import MenuItem from 'material-ui/MenuItem';
-import FontIcon from 'material-ui/FontIcon';
-import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right';
+import MenuItem from 'material-ui/MenuItem'
+import FontIcon from 'material-ui/FontIcon'
+import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right'
 
-import { AddBoxIcon } from 'components/icons/index';
-import { signedIn } from 'global';
+import { AddBoxIcon } from 'components/icons/index'
+import { signedIn } from 'global'
 
-let menuItems = [
+const menuItems = [
   {
     signedIn: true,
-    children: "Thread Webhooks",
-    path: '/account/thread-webhooks'
+    children: 'Thread Webhooks',
+    path: '/account/thread-webhooks',
   },
-];
+]
 
-const Account = (props) => (
+const Account = props => (
   <MenuItem
     children="Account"
     disabled={!signedIn}
@@ -32,6 +32,6 @@ const Account = (props) => (
     }
     rightIcon={<ArrowDropRight />}
   />
-);
+)
 
-export default Account;
+export default Account

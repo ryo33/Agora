@@ -1,16 +1,16 @@
-import { createAction } from 'redux-act';
+import { createAction } from 'redux-act'
 
-export const updateCurrentThread = createAction('Update current thread', id => id);
-export const openThreadPage = createAction('Open thread page', id => id);
-export const closeThreadPage = createAction('Close thread page');
+export const updateCurrentThread = createAction('Update current thread', id => id)
+export const openThreadPage = createAction('Open thread page', id => id)
+export const closeThreadPage = createAction('Close thread page')
 
-export const updateThreadPosts = createAction('Update thread posts', ids => ids);
-export const updateThreadMembers = createAction('Update thread members', ids => ids);
+export const updateThreadPosts = createAction('Update thread posts', ids => ids)
+export const updateThreadMembers = createAction('Update thread members', ids => ids)
 
-export const openAllThreadsPage = createAction('Open all threads page');
-export const updateThreads = createAction('Update threads');
+export const openAllThreadsPage = createAction('Open all threads page')
+export const updateThreads = createAction('Update threads')
 
-export const openThreadWebhooksPage = createAction('Open thread webhooks page');
-export const updateWebhooks = createAction('Update webhooks');
+export const openThreadWebhooksPage = createAction('Open thread webhooks page')
+export const updateWebhooks = createAction('Update webhooks')
 
-export const updateThreadUser = createAction('Update thread user', id => id);
+export const updateThreadUser = createAction('Update thread user', id => id)

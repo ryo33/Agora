@@ -1,99 +1,99 @@
-import React, { Component } from 'react';
-import { render } from 'react-dom';
-import { createStore, combineReducers, applyMiddleware } from 'redux';
-import { Provider } from 'react-redux';
-import { createLogicMiddleware } from 'redux-logic';
-import createSagaMiddleware from 'redux-saga';
-import { IndexRoute, Route, Router, browserHistory } from 'react-router';
-import { routerMiddleware, syncHistoryWithStore, routerReducer } from 'react-router-redux';
-import createLogger from 'redux-logger';
-import { persistStore, autoRehydrate, getStoredState } from 'redux-persist';
+import React, { Component } from 'react'
+import { render } from 'react-dom'
+import { createStore, combineReducers, applyMiddleware } from 'redux'
+import { Provider } from 'react-redux'
+import { createLogicMiddleware } from 'redux-logic'
+import createSagaMiddleware from 'redux-saga'
+import { IndexRoute, Route, Router, browserHistory } from 'react-router'
+import { routerMiddleware, syncHistoryWithStore, routerReducer } from 'react-router-redux'
+import createLogger from 'redux-logger'
+import { persistStore, autoRehydrate, getStoredState } from 'redux-persist'
 
-import { Application } from './components';
-import { Home } from './components/pages/home';
+import { Application } from './components'
+import { Home } from './components/pages/home'
 import {
   Account, UserList, WebhookList,
   AccountThreads, AccountGroups, AccountWatchlists,
   AddUser, AddThread, AddGroup, AddWatchlist, AddWebhook,
-} from 'components/pages/account/index';
-import { ThreadPage, ThreadAll, Thread, ThreadWebhooks } from 'components/pages/thread';
-import { PostPage, Post } from 'components/pages/post';
-import { UserPage, User } from 'components/pages/user';
-import { WatchlistPage, Watchlist } from 'components/pages/watchlist';
+} from 'components/pages/account/index'
+import { ThreadPage, ThreadAll, Thread, ThreadWebhooks } from 'components/pages/thread'
+import { PostPage, Post } from 'components/pages/post'
+import { UserPage, User } from 'components/pages/user'
+import { WatchlistPage, Watchlist } from 'components/pages/watchlist'
 import {
   GroupPage, GroupAll, Group,
-  GroupGroups, GroupThreads, GroupMembers
-} from 'components/pages/group';
-import { WebhookPage, WebhookAll, Webhook } from 'components/pages/webhook';
-import SignIn from './components/SignIn';
-import Unimplemented from 'components/Unimplemented';
+  GroupGroups, GroupThreads, GroupMembers,
+} from 'components/pages/group'
+import { WebhookPage, WebhookAll, Webhook } from 'components/pages/webhook'
+import SignIn from './components/SignIn'
+import Unimplemented from 'components/Unimplemented'
 
-import { joinAccountChannel, joinCommonChannel } from 'socket';
-import { startApp } from 'actions/global';
-import { switchGroupPageTabs } from 'actions/groupPage';
-import { updateCurrentUser } from 'actions/accountPage';
-import reducers from 'reducers';
-import rootSaga from 'sagas';
-import logics from 'logics';
+import { joinAccountChannel, joinCommonChannel } from 'socket'
+import { startApp } from 'actions/global'
+import { switchGroupPageTabs } from 'actions/groupPage'
+import { updateCurrentUser } from 'actions/accountPage'
+import reducers from 'reducers'
+import rootSaga from 'sagas'
+import logics from 'logics'
 
-import { signedIn } from 'global';
-import { accountChannel } from 'socket';
+import { signedIn } from 'global'
+import { accountChannel } from 'socket'
 
-import injectTapEventPlugin from 'react-tap-event-plugin';
-injectTapEventPlugin();
+import injectTapEventPlugin from 'react-tap-event-plugin'
+injectTapEventPlugin()
 
-const sagaMiddleware = createSagaMiddleware();
-const logicMiddleware = createLogicMiddleware(logics);
+const sagaMiddleware = createSagaMiddleware()
+const logicMiddleware = createLogicMiddleware(logics)
 
 const middlewares = [sagaMiddleware, logicMiddleware, routerMiddleware(browserHistory)]
 if (process.env.NODE_ENV !== 'production') {
-  const logger = createLogger();
-  middlewares.push(logger);
+  const logger = createLogger()
+  middlewares.push(logger)
 }
 
 const store = createStore(
   combineReducers({
     ...reducers,
-    routing: routerReducer
+    routing: routerReducer,
   }),
   applyMiddleware(...middlewares),
   autoRehydrate()
-);
+)
 
 // Persist
 const persistConfig = {
   whitelist: [
     'account',
-    'threadHistory', 'groupHistory', 'watchlistHistory'
+    'threadHistory', 'groupHistory', 'watchlistHistory',
   ],
 }
-persistStore(store, persistConfig);
+persistStore(store, persistConfig)
 getStoredState(persistConfig, (err, state) => {
   if (state.account) {
     if (state.account.currentUser) {
       if (signedIn) {
-        const user = state.account.currentUser;
-        store.dispatch(updateCurrentUser(user));
-        accountChannel.push('set_current_user', user);
+        const user = state.account.currentUser
+        store.dispatch(updateCurrentUser(user))
+        accountChannel.push('set_current_user', user)
       }
     }
   }
-});
+})
 
-const history = syncHistoryWithStore(browserHistory, store);
-sagaMiddleware.run(rootSaga, store.getState);
+const history = syncHistoryWithStore(browserHistory, store)
+sagaMiddleware.run(rootSaga, store.getState)
 
-joinCommonChannel(store.dispatch);
+joinCommonChannel(store.dispatch)
 if (signedIn) {
-  store.dispatch(startApp());
-  joinAccountChannel(store.dispatch);
+  store.dispatch(startApp())
+  joinAccountChannel(store.dispatch)
 }
 
 render(
   <Provider store={store}>
     <Router history={history}>
       <Route path="/" component={Application}>
-        <IndexRoute component={Home}/>
+        <IndexRoute component={Home} />
         <Route path="account" component={Account}>
           <Route path="users" component={UserList} />
           <Route path="threads" component={AccountThreads} />
@@ -108,7 +108,7 @@ render(
           <Route path="notifications" component={Unimplemented} />
         </Route>
         <Route path="threads" component={ThreadPage}>
-          <IndexRoute component={ThreadAll}/>
+          <IndexRoute component={ThreadAll} />
           <Route path=":id/webhooks" component={ThreadWebhooks} />
           <Route path=":id" component={Thread} />
         </Route>
@@ -116,20 +116,24 @@ render(
           <Route path=":id" component={Watchlist} />
         </Route>
         <Route path="thread-webhooks" component={WebhookPage}>
-          <IndexRoute component={WebhookAll}/>
+          <IndexRoute component={WebhookAll} />
           <Route path=":id" component={Webhook} />
         </Route>
         <Route path="groups" component={GroupPage}>
-          <IndexRoute component={GroupAll}/>
+          <IndexRoute component={GroupAll} />
           <Route path=":id" component={Group}>
             <IndexRoute component={GroupThreads} onEnter={() =>
-              store.dispatch(switchGroupPageTabs('threads'))} />
+              store.dispatch(switchGroupPageTabs('threads'))}
+            />
             <Route path="threads" component={GroupThreads} onEnter={() =>
-              store.dispatch(switchGroupPageTabs('threads'))} />
+              store.dispatch(switchGroupPageTabs('threads'))}
+            />
             <Route path="groups" component={GroupGroups} onEnter={() =>
-              store.dispatch(switchGroupPageTabs('groups'))} />
+              store.dispatch(switchGroupPageTabs('groups'))}
+            />
             <Route path="members" component={GroupMembers} onEnter={() =>
-              store.dispatch(switchGroupPageTabs('members'))} />
+              store.dispatch(switchGroupPageTabs('members'))}
+            />
           </Route>
         </Route>
         <Route path="posts" component={PostPage}>
@@ -143,4 +147,4 @@ render(
     </Router>
   </Provider>,
   document.getElementById('container')
-);
+)

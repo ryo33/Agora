@@ -1,5 +1,5 @@
-import { combineReducers } from 'redux';
-import { createReducer } from 'redux-act';
+import { combineReducers } from 'redux'
+import { createReducer } from 'redux-act'
 
 import {
   updateCurrentWatchlist,
@@ -7,16 +7,16 @@ import {
 } from 'actions/watchlistPage'
 
 const currentWatchlist = createReducer({
-  [updateCurrentWatchlist]: (_, id) => id
-}, null);
+  [updateCurrentWatchlist]: (_, id) => id,
+}, null)
 
 const items = createReducer({
-  [updateWatchlistItems]: (_, items) => items.sort((a, b) => b.inserted_at - a.inserted_at) // desc
-}, []);
+  [updateWatchlistItems]: (_, items) => items.sort((a, b) => b.inserted_at - a.inserted_at), // desc
+}, [])
 
 const watchlistPage = combineReducers({
   currentWatchlist,
-  items
-});
+  items,
+})
 
-export default watchlistPage;
+export default watchlistPage

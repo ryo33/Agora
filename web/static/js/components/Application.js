@@ -1,56 +1,56 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import getMuiTheme from 'material-ui/styles/getMuiTheme'
 
-import Snackbar from 'material-ui/Snackbar';
+import Snackbar from 'material-ui/Snackbar'
 
-import NavBar from './NavBar';
-import LeftNav from './leftnav/index';
-import { closeInfo } from 'actions/global';
+import NavBar from './NavBar'
+import LeftNav from './leftnav/index'
+import { closeInfo } from 'actions/global'
 
-let muiTheme = getMuiTheme();
+const muiTheme = getMuiTheme()
 
 const mapStateToProps = ({ globalInfo, isLoading }) => {
-  return { globalInfo, isLoading };
+  return { globalInfo, isLoading }
 }
 
 const actionCreators = {
-  closeInfo
-};
+  closeInfo,
+}
 
 class Application extends Component {
   constructor(props) {
-    super(props);
+    super(props)
 
-    this.state = { leftNav: false };
-    this.toggleLeftNav = this.toggleLeftNav.bind(this);
-    this.setLeftNav = this.setLeftNav.bind(this);
-    this.handleInfoClose = this.handleInfoClose.bind(this);
+    this.state = { leftNav: false }
+    this.toggleLeftNav = this.toggleLeftNav.bind(this)
+    this.setLeftNav = this.setLeftNav.bind(this)
+    this.handleInfoClose = this.handleInfoClose.bind(this)
   }
 
   toggleLeftNav() {
-    this.setState({ leftNav: !this.state.leftNav });
+    this.setState({ leftNav: !this.state.leftNav })
   }
   setLeftNav(leftNav) {
-    this.setState({ leftNav: leftNav });
+    this.setState({ leftNav })
   }
 
   handleInfoClose() {
-    this.props.closeInfo();
+    this.props.closeInfo()
   }
 
   render() {
-    const { globalInfo, isLoading } = this.props;
+    const { globalInfo, isLoading } = this.props
     return (
-        <MuiThemeProvider muiTheme={muiTheme}>
+      <MuiThemeProvider muiTheme={muiTheme}>
         <div>
-          <div id='header-fixed'>
+          <div id="header-fixed">
             <NavBar
               toggleLeftNav={this.toggleLeftNav}
             />
           </div>
-          <div id='body'>
+          <div id="body">
             <LeftNav
               open={this.state.leftNav}
               toggleLeftNav={this.toggleLeftNav}
@@ -70,8 +70,8 @@ class Application extends Component {
           />
         </div>
       </MuiThemeProvider>
-    );
+    )
   }
 }
 
-export default connect(mapStateToProps, actionCreators)(Application);
+export default connect(mapStateToProps, actionCreators)(Application)

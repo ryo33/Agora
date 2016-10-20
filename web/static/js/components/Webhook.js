@@ -1,42 +1,42 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { push } from 'react-router-redux';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { push } from 'react-router-redux'
 
 import {
-  Card, CardHeader, CardActions, CardTitle, CardText
-} from 'material-ui/Card';
-import FlatButton from 'material-ui/FlatButton';
-import Divider from 'material-ui/Divider';
+  Card, CardHeader, CardActions, CardTitle, CardText,
+} from 'material-ui/Card'
+import FlatButton from 'material-ui/FlatButton'
+import Divider from 'material-ui/Divider'
 
-import Unimplemented from 'components/Unimplemented';
-import ResourceTitle from 'components/ResourceTitle';
+import Unimplemented from 'components/Unimplemented'
+import ResourceTitle from 'components/ResourceTitle'
 
-import { requireWebhook } from 'hocs/resources';
+import { requireWebhook } from 'hocs/resources'
 
 const mapStateToProps = ({ theme }, { id }) => {
   return {
-    theme
+    theme,
   }
 }
 
 const actionCreators = {
-  push
-};
+  push,
+}
 
 class Webhook extends Component {
   constructor(props) {
-    super(props);
-    this.handleClick = this.handleClick.bind(this);
+    super(props)
+    this.handleClick = this.handleClick.bind(this)
   }
 
   handleClick() {
-    const { id, push } = this.props;
-    push(`/thread-webhooks/${id}`);
+    const { id, push } = this.props
+    push(`/thread-webhooks/${id}`)
   }
 
   render() {
-    const { id, webhook, theme } = this.props;
+    const { id, webhook, theme } = this.props
     return (
       <Card
         style={theme.user.root}
@@ -47,13 +47,13 @@ class Webhook extends Component {
             onClick={this.handleClick}
             user={webhook.user_id}
             title={webhook.url}
-            path={'/thread-webhooks/' + webhook.id}
+            path={`/thread-webhooks/${webhook.id}`}
             insertedAt={webhook.inserted_at}
           />}
         />
       </Card>
-    );
+    )
   }
 }
 
-export default requireWebhook(mapStateToProps, actionCreators)(Webhook);
+export default requireWebhook(mapStateToProps, actionCreators)(Webhook)

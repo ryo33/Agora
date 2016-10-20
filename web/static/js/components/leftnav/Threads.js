@@ -1,22 +1,22 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
-import Divider from 'material-ui/Divider';
-import MenuItem from 'material-ui/MenuItem';
-import FontIcon from 'material-ui/FontIcon';
-import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right';
+import Divider from 'material-ui/Divider'
+import MenuItem from 'material-ui/MenuItem'
+import FontIcon from 'material-ui/FontIcon'
+import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right'
 
-import ThreadTitle from 'components/ThreadTitle';
-import { AddBoxIcon, ThreadIcon } from 'components/icons/index';
-import { signedIn } from 'global';
+import ThreadTitle from 'components/ThreadTitle'
+import { AddBoxIcon, ThreadIcon } from 'components/icons/index'
+import { signedIn } from 'global'
 
 const mapStateToProps = ({ threadHistory }) => {
   return {
     threadHistory,
-  };
-};
+  }
+}
 
-let menuItems = [
+const menuItems = [
   {
     children: 'All Threads',
     leftIcon: <ThreadIcon />,
@@ -34,16 +34,16 @@ let menuItems = [
     leftIcon: <AddBoxIcon />,
     path: '/account/add-thread',
   },
-];
+]
 
 const Threads = (props) => {
-    const { threadHistory, click } = props;
-    const history = threadHistory.map((id) => <MenuItem
+  const { threadHistory, click } = props
+  const history = threadHistory.map(id => <MenuItem
     children={<ThreadTitle id={id} />}
-    onClick={click('/threads/' + id)}
+    onClick={click(`/threads/${id}`)}
   />)
   if (threadHistory.length != 0) {
-    history.unshift(<Divider />);
+    history.unshift(<Divider />)
   }
   return (<MenuItem
     children="Threads"
@@ -59,6 +59,6 @@ const Threads = (props) => {
     }
     rightIcon={<ArrowDropRight />}
     leftIcon={<ThreadIcon />}
-/>)};
+  />) }
 
-export default connect(mapStateToProps)(Threads);
+export default connect(mapStateToProps)(Threads)

@@ -1,46 +1,46 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
-import FlatButton from 'material-ui/FlatButton';
-import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton'
+import Dialog from 'material-ui/Dialog'
 
-import GroupForm from 'components/GroupForm';
-import { EditIcon } from 'components/icons/index';
-import { editGroup } from 'actions/resources';
+import GroupForm from 'components/GroupForm'
+import { EditIcon } from 'components/icons/index'
+import { editGroup } from 'actions/resources'
 
 const mapStateToProps = ({ groups }, { id }) => {
-  const group = groups[id];
+  const group = groups[id]
   return {
-    group
+    group,
   }
-};
+}
 
 const actionCreators = {
-  editGroup
-};
+  editGroup,
+}
 
 class EditGroupAction extends Component {
   constructor(props) {
-    super(props);
-    this.open = this.open.bind(this);
-    this.close = this.close.bind(this);
-    this.submit = this.submit.bind(this);
+    super(props)
+    this.open = this.open.bind(this)
+    this.close = this.close.bind(this)
+    this.submit = this.submit.bind(this)
     this.state = {
-      isOpen: false
-    };
+      isOpen: false,
+    }
   }
 
-  open() { this.setState({isOpen: true}); }
-  close() { this.setState({isOpen: false}); }
+  open() { this.setState({ isOpen: true }) }
+  close() { this.setState({ isOpen: false }) }
 
   submit(params) {
-    const { id, editGroup } = this.props;
-    this.close();
-    editGroup(id, params);
+    const { id, editGroup } = this.props
+    this.close()
+    editGroup(id, params)
   }
 
   render() {
-    const { id, group } = this.props;
+    const { id, group } = this.props
     return (
       <span>
         <FlatButton
@@ -51,13 +51,13 @@ class EditGroupAction extends Component {
         <Dialog
           open={this.state.isOpen}
           onRequestClose={this.close}
-          bodyStyle={{padding: 0}}
+          bodyStyle={{ padding: 0 }}
         >
           <GroupForm
-            titleText={"Edit this Group"}
+            titleText={'Edit this Group'}
             close={this.close}
             submit={this.submit}
-            editMode={true}
+            editMode
             {...group}
           />
         </Dialog>
@@ -66,4 +66,4 @@ class EditGroupAction extends Component {
   }
 }
 
-export default connect(mapStateToProps, actionCreators)(EditGroupAction);
+export default connect(mapStateToProps, actionCreators)(EditGroupAction)

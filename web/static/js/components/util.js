@@ -1,17 +1,17 @@
-import React from 'react';
+import React from 'react'
 
-import { signedIn } from 'global';
+import { signedIn } from 'global'
 
 const signed = ({ children }, value) => {
   if (signedIn == value) {
-    return <span>{children}</span>;
+    return <span>{children}</span>
   } else {
-    return null;
+    return null
   }
-};
+}
 
-const SignedIn = (props) => signed(props, true);
+const SignedIn = props => signed(props, true)
 
-const NotSignedIn = (props) => signed(props, false);
+const NotSignedIn = props => signed(props, false)
 
-export { SignedIn, NotSignedIn };
+export { SignedIn, NotSignedIn }

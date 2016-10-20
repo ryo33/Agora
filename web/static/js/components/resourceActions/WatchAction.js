@@ -1,42 +1,42 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 
-import FlatButton from 'material-ui/FlatButton';
+import FlatButton from 'material-ui/FlatButton'
 
-import { WatchlistIcon } from 'components/icons/index';
-import WatchForm from 'components/WatchForm';
+import { WatchlistIcon } from 'components/icons/index'
+import WatchForm from 'components/WatchForm'
 
 class WatchAction extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
-      isWatchOpened: false
-    };
-    this.switchWatch = this.switchWatch.bind(this);
-    this.selectWatchlist = this.selectWatchlist.bind(this);
-    this.isWatched = this.isWatched.bind(this);
+      isWatchOpened: false,
+    }
+    this.switchWatch = this.switchWatch.bind(this)
+    this.selectWatchlist = this.selectWatchlist.bind(this)
+    this.isWatched = this.isWatched.bind(this)
   }
 
   selectWatchlist(watchlist) {
-    const { id, watch } = this.props;
+    const { id, watch } = this.props
     this.setState({
-      isWatchOpened: false
-    });
-    watch(watchlist, id);
+      isWatchOpened: false,
+    })
+    watch(watchlist, id)
   }
 
   switchWatch() {
     this.setState({
-      isWatchOpened: ! this.state.isWatchOpened
-    });
+      isWatchOpened: !this.state.isWatchOpened,
+    })
   }
 
   isWatched(watchlist) {
-    const { id, itemsKey } = this.props;
-    return watchlist[itemsKey].includes(id);
+    const { id, itemsKey } = this.props
+    return watchlist[itemsKey].includes(id)
   }
 
   render() {
-    const { isWatchOpened } = this.state;
+    const { isWatchOpened } = this.state
     return (
       <span>
         {
@@ -56,4 +56,4 @@ class WatchAction extends Component {
   }
 }
 
-export default WatchAction;
+export default WatchAction

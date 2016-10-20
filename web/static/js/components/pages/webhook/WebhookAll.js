@@ -1,33 +1,33 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { push } from 'react-router-redux'
 
-import ResourceList from 'components/ResourceList';
+import ResourceList from 'components/ResourceList'
 
-import { openAllWebhooksPage } from 'actions/webhookPage';
+import { openAllWebhooksPage } from 'actions/webhookPage'
 
 const mapStateToProps = ({ webhookPage }) => {
   return {
-    webhooks: webhookPage.webhooks
-  };
-};
+    webhooks: webhookPage.webhooks,
+  }
+}
 
 const actionCreators = {
-  openAllWebhooksPage
-};
+  openAllWebhooksPage,
+}
 
 class WebhookAll extends Component {
   constructor(props) {
-    super(props);
+    super(props)
   }
 
   componentDidMount() {
-    const { openAllWebhooksPage } = this.props;
-    openAllWebhooksPage();
+    const { openAllWebhooksPage } = this.props
+    openAllWebhooksPage()
   }
 
   render() {
-    const { webhooks } = this.props;
+    const { webhooks } = this.props
     return (
       <div>
         {
@@ -36,8 +36,8 @@ class WebhookAll extends Component {
           ))
         }
       </div>
-    );
+    )
   }
 }
 
-export default connect(mapStateToProps, actionCreators)(WebhookAll);
+export default connect(mapStateToProps, actionCreators)(WebhookAll)

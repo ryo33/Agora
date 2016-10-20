@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
-import { requireWatchlist } from 'hocs/resources';
+import { requireWatchlist } from 'hocs/resources'
 
-const WatchlistTitle = ({ watchlist }) => <span>{watchlist.name}</span>;
+const WatchlistTitle = ({ watchlist }) => <span>{watchlist.name}</span>
 
-export default requireWatchlist()(WatchlistTitle);
+export default requireWatchlist()(WatchlistTitle)

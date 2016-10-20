@@ -1,29 +1,29 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
-import { Card, CardHeader, CardActions, CardTitle, CardText } from 'material-ui/Card';
-import RaisedButton from 'material-ui/RaisedButton';
-import TextField from 'material-ui/TextField';
-import Toggle from 'material-ui/Toggle';
-import Divider from 'material-ui/Divider';
+import { Card, CardHeader, CardActions, CardTitle, CardText } from 'material-ui/Card'
+import RaisedButton from 'material-ui/RaisedButton'
+import TextField from 'material-ui/TextField'
+import Toggle from 'material-ui/Toggle'
+import Divider from 'material-ui/Divider'
 
-import UserSelector from './UserSelector';
+import UserSelector from './UserSelector'
 
 const mapStateToProps = ({ account, threads }, { members, thread }) => {
   if (threads[thread] == null) {
-    members = [];
+    members = []
   } else if (threads[thread].post_limited != true) {
-    members = null;
+    members = null
   }
   return {
     currentUser: account.currentUser,
-    members
-  };
-};
+    members,
+  }
+}
 
 class PostForm extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       titleForm: false,
       titleError: '',
@@ -31,69 +31,69 @@ class PostForm extends Component {
       title: '',
       text: '',
       user: props.currentUser,
-      setDefault: false
-    };
-    this.changeUser = this.changeUser.bind(this);
-    this.toggleTitle = this.toggleTitle.bind(this);
-    this.toggleDefault = this.toggleDefault.bind(this);
-    this.submit = this.submit.bind(this);
-    this.handleChangeText = this.handleChangeText.bind(this);
-    this.handleChangeTitle = this.handleChangeTitle.bind(this);
+      setDefault: false,
+    }
+    this.changeUser = this.changeUser.bind(this)
+    this.toggleTitle = this.toggleTitle.bind(this)
+    this.toggleDefault = this.toggleDefault.bind(this)
+    this.submit = this.submit.bind(this)
+    this.handleChangeText = this.handleChangeText.bind(this)
+    this.handleChangeTitle = this.handleChangeTitle.bind(this)
   }
 
   changeUser(user) {
-    this.setState({ user, setDefault: false });
+    this.setState({ user, setDefault: false })
   }
 
   toggleTitle(event) {
-    this.setState({ titleForm: !this.state.titleForm });
+    this.setState({ titleForm: !this.state.titleForm })
   }
 
   toggleDefault(event) {
-    this.setState({ setDefault: !this.state.setDefault });
+    this.setState({ setDefault: !this.state.setDefault })
   }
 
   submit() {
-    const { user, title, text, setDefault } = this.state;
+    const { user, title, text, setDefault } = this.state
     this.props.submit({
       defaultUser: setDefault,
-      user: user,
-      title: title,
-      text: text,
-    });
+      user,
+      title,
+      text,
+    })
     this.setState({
       setDefault: false,
       title: '',
       text: '',
-    });
+    })
   }
 
   handleChange(column, event) {
-    this.setState({[column]: event.target.value});
+    this.setState({ [column]: event.target.value })
   }
 
   handleChangeText(event) {
-    this.handleChange('text', event);
+    this.handleChange('text', event)
   }
 
   handleChangeTitle(event) {
-    this.handleChange('title', event);
+    this.handleChange('title', event)
   }
 
   componentWillReceiveProps(props) {
     this.setState({
-      user: props.currentUser
-    });
+      user: props.currentUser,
+    })
   }
 
   render() {
     const {
       user, setDefault,
       title, text,
-      titleForm, messageError, titleError
-    } = this.state;
-    const { members, zDepth, user: defaultUser } = this.props;
-    const disabled = user == null || text.length == 0;
+      titleForm, messageError, titleError,
+    } = this.state
+    const { members, zDepth, user: defaultUser } = this.props
+    const disabled = user == null || text.length == 0
     return (
       <Card
         zDepth={zDepth}
@@ -101,12 +101,12 @@ class PostForm extends Component {
         {this.props.expandable
           ? <CardHeader
             title="Create a New Post"
-            actAsExpander={true}
-            showExpandableButton={true}
+            actAsExpander
+            showExpandableButton
           />
             : <CardTitle title="New Post" />
         }
-        <CardText expandable={true}>
+        <CardText expandable>
           <Toggle
             toggled={titleForm}
             onToggle={this.toggleTitle}
@@ -115,11 +115,11 @@ class PostForm extends Component {
           />
           {titleForm
             ? <div><TextField
-                value={title}
-                onChange={this.handleChangeTitle}
-                hintText="Title"
-                errorText={titleError}
-              /><br /></div>
+              value={title}
+              onChange={this.handleChangeTitle}
+              hintText="Title"
+              errorText={titleError}
+            /><br /></div>
               : null
           }
           <TextField
@@ -130,7 +130,7 @@ class PostForm extends Component {
             errorText={messageError}
             multiLine
             rows={3}
-            fullWidth={true}
+            fullWidth
           />
         </CardText>
         <CardActions expandable>
@@ -151,12 +151,12 @@ class PostForm extends Component {
             label="Default user"
             labelPosition="right"
             onToggle={this.toggleDefault}
-            disabled={user==defaultUser}
+            disabled={user == defaultUser}
           />
         </CardActions>
       </Card>
-    );
+    )
   }
 }
 
-export default connect(mapStateToProps)(PostForm);
+export default connect(mapStateToProps)(PostForm)

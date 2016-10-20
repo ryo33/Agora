@@ -1,7 +1,7 @@
 const initialState = {
   id: '',
   name: '',
-};
+}
 
 function addUser(state = initialState, action) {
   switch (action.type) {
@@ -9,10 +9,10 @@ function addUser(state = initialState, action) {
       return Object.assign({}, state, {
         id: action.id,
         name: action.name,
-      });
+      })
     default:
-      return state;
+      return state
   }
 }
 
-export default addUser;
+export default addUser

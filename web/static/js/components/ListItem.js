@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import { grey300, grey50 } from 'material-ui/styles/colors';
-import Divider from 'material-ui/Divider';
+import React, { Component } from 'react'
+import { grey300, grey50 } from 'material-ui/styles/colors'
+import Divider from 'material-ui/Divider'
 
 const styles = {
   root: {
-    cursor: 'pointer'
-  }
+    cursor: 'pointer',
+  },
 }
 
 const ListItem = ({ isOwned, children, handleClick }) => {
@@ -26,6 +26,6 @@ const ListItem = ({ isOwned, children, handleClick }) => {
       </div>
     </div>
   )
-};
+}
 
-export default ListItem;
+export default ListItem

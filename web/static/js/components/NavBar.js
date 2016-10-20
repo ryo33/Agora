@@ -1,39 +1,39 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { push } from 'react-router-redux'
 
-import FlatButton from 'material-ui/FlatButton';
-import IconButton from 'material-ui/IconButton';
-import { grey50, grey200, grey900 } from 'material-ui/styles/colors';
+import FlatButton from 'material-ui/FlatButton'
+import IconButton from 'material-ui/IconButton'
+import { grey50, grey200, grey900 } from 'material-ui/styles/colors'
 import AppBar from 'material-ui/AppBar'
 
-import { signedIn } from 'global';
+import { signedIn } from 'global'
 
 const mapStateToProps = ({ routing }) => {
-  const path = routing.locationBeforeTransitions.pathname.split('/');
-        path.shift()
+  const path = routing.locationBeforeTransitions.pathname.split('/')
+  path.shift()
   return {
-    path
+    path,
   }
 }
 
 class NavBar extends Component {
   transitionTo(path) {
     return (event) => {
-      this.props.dispatch(push(path));
-    };
+      this.props.dispatch(push(path))
+    }
   }
 
   getTitle(path) {
     return (
       <span>
-        <span style={{cursor: 'pointer'}} onClick={this.transitionTo('/')}>Agoraful</span>
+        <span style={{ cursor: 'pointer' }} onClick={this.transitionTo('/')}>Agoraful</span>
       </span>
-    );
+    )
   }
 
   render() {
-    const { path } = this.props;
+    const { path } = this.props
     const title = this.getTitle(path)
     return (
       <AppBar
@@ -42,7 +42,7 @@ class NavBar extends Component {
           <IconButton
             iconClassName="material-icons"
             touch
-            iconStyle={{color: grey50}}
+            iconStyle={{ color: grey50 }}
             children="menu"
             onClick={this.props.toggleLeftNav}
           />
@@ -52,7 +52,7 @@ class NavBar extends Component {
             ? <FlatButton
               backgroundColor={grey50}
               hoverColor={grey200}
-              labelStyle={{color: grey900}}
+              labelStyle={{ color: grey900 }}
               label="Sign in"
               onClick={this.transitionTo('/signin')}
             />
@@ -63,4 +63,4 @@ class NavBar extends Component {
   }
 }
 
-export default connect(mapStateToProps)(NavBar);
+export default connect(mapStateToProps)(NavBar)

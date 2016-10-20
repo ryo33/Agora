@@ -1,33 +1,33 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import ResourceList from 'components/ResourceList';
+import ResourceList from 'components/ResourceList'
 
-import { openAccountGroupsPage } from 'actions/accountPage';
+import { openAccountGroupsPage } from 'actions/accountPage'
 
 const mapStateToProps = ({ accountPage }) => {
   return {
-    groups: accountPage.groups
-  };
-};
+    groups: accountPage.groups,
+  }
+}
 
 const actionCreators = {
-  openAccountGroupsPage
-};
+  openAccountGroupsPage,
+}
 
 class AccountGroups extends Component {
   constructor(props) {
-    super(props);
+    super(props)
   }
 
   componentDidMount() {
-    const { openAccountGroupsPage } = this.props;
-    openAccountGroupsPage();
+    const { openAccountGroupsPage } = this.props
+    openAccountGroupsPage()
   }
 
   render() {
-    const { groups } = this.props;
-    return <ResourceList groups={groups} mode='group'/>
+    const { groups } = this.props
+    return <ResourceList groups={groups} mode="group" />
   }
 }
 

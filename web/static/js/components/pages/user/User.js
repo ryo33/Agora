@@ -1,20 +1,20 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
-import Divider from 'material-ui/Divider';
+import Divider from 'material-ui/Divider'
 
-import UserComponent from 'components/User';
+import UserComponent from 'components/User'
 
 const mapStateToProps = ({ userIDs }, { params }) => {
-  const id = userIDs[params.id];
+  const id = userIDs[params.id]
   return {
-    id
-  };
+    id,
+  }
 }
 
 class User extends Component {
   render() {
-    const { id } = this.props;
+    const { id } = this.props
     return (
       <div>
         {
@@ -25,8 +25,8 @@ class User extends Component {
           : null
         }
       </div>
-    );
+    )
   }
 }
 
-export default connect(mapStateToProps)(User);
+export default connect(mapStateToProps)(User)

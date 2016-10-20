@@ -1,33 +1,33 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
-import WatchAction from 'components/resourceActions/WatchAction';
-import CopyAction from 'components/resourceActions/CopyAction';
-import EditThreadAction from 'components/resourceActions/EditThreadAction';
-import LinkAction from 'components/resourceActions/LinkAction';
+import WatchAction from 'components/resourceActions/WatchAction'
+import CopyAction from 'components/resourceActions/CopyAction'
+import EditThreadAction from 'components/resourceActions/EditThreadAction'
+import LinkAction from 'components/resourceActions/LinkAction'
 
-import { watchThread } from 'actions/resources';
+import { watchThread } from 'actions/resources'
 
 const actionCreators = {
-  watchThread
-};
+  watchThread,
+}
 
 class ThreadActions extends Component {
   constructor(props) {
-    super(props);
+    super(props)
   }
 
   renderEditAction() {
-    const { id, isOwned = false } = this.props;
+    const { id, isOwned = false } = this.props
     if (isOwned) {
-      return <EditThreadAction id={id} />;
+      return <EditThreadAction id={id} />
     } else {
-      return null;
+      return null
     }
   }
 
   render() {
-    const { id, watchThread } = this.props;
+    const { id, watchThread } = this.props
     return (
       <div>
         <WatchAction
@@ -44,8 +44,8 @@ class ThreadActions extends Component {
           href={`/threads/${id}/webhooks`}
         />
       </div>
-    );
+    )
   }
 }
 
-export default connect(null, actionCreators)(ThreadActions);
+export default connect(null, actionCreators)(ThreadActions)

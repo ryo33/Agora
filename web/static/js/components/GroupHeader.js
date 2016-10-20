@@ -1,38 +1,38 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { push } from 'react-router-redux';
-import { compose } from 'recompose';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { push } from 'react-router-redux'
+import { compose } from 'recompose'
 
-import { grey900 } from 'material-ui/styles/colors';
-import { Card, CardActions, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import { grey900 } from 'material-ui/styles/colors'
+import { Card, CardActions, CardMedia, CardTitle, CardText } from 'material-ui/Card'
 
-import Unimplemented from 'components/Unimplemented';
-import GroupActions from 'components/GroupActions';
-import { GroupIcon, ThreadIcon, UserIcon } from 'components/icons';
-import ParentGroup from 'components/ParentGroup';
+import Unimplemented from 'components/Unimplemented'
+import GroupActions from 'components/GroupActions'
+import { GroupIcon, ThreadIcon, UserIcon } from 'components/icons'
+import ParentGroup from 'components/ParentGroup'
 
-import { requireGroup, checkGroupOwned } from 'hocs/resources';
-import { getAccountUserIDs } from 'selectors/accountPage';
+import { requireGroup, checkGroupOwned } from 'hocs/resources'
+import { getAccountUserIDs } from 'selectors/accountPage'
 
 const actionCreators = {
-  push
-};
+  push,
+}
 
 class GroupHeader extends Component {
   constructor(props) {
-    super(props);
-    this.handleClick = this.handleClick.bind(this);
+    super(props)
+    this.handleClick = this.handleClick.bind(this)
   }
 
   handleClick() {
-    const { id, push } = this.props;
-    push('/groups/' + id);
+    const { id, push } = this.props
+    push(`/groups/${id}`)
   }
 
   render() {
-    const { id, group, isOwned } = this.props;
-    const parentID = group.parent_group_id;
+    const { id, group, isOwned } = this.props
+    const parentID = group.parent_group_id
     const title = (
       <span
         onClick={this.handleClick}
@@ -46,7 +46,7 @@ class GroupHeader extends Component {
         <UserIcon />
         {`  ${group.members}  `}
       </span>
-    );
+    )
     return (
       <div>
         {
@@ -60,18 +60,18 @@ class GroupHeader extends Component {
           initiallyExpanded={false}
         >
           <CardTitle
-            actAsExpander={true}
-            showExpandableButton={true}
+            actAsExpander
+            showExpandableButton
             title={title}
             subtitle="Group description"
           />
-          <CardActions expandable={true}>
+          <CardActions expandable>
             <GroupActions id={id} isOwned={isOwned} />
           </CardActions>
         </Card>
       </div>
-    );
+    )
   }
 }
 
-export default compose(requireGroup(null, actionCreators), checkGroupOwned)(GroupHeader);
+export default compose(requireGroup(null, actionCreators), checkGroupOwned)(GroupHeader)

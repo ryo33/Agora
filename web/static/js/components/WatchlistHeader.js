@@ -1,34 +1,34 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { push } from 'react-router-redux';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { push } from 'react-router-redux'
 
-import { grey900 } from 'material-ui/styles/colors';
-import { Card, CardActions, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import { grey900 } from 'material-ui/styles/colors'
+import { Card, CardActions, CardMedia, CardTitle, CardText } from 'material-ui/Card'
 
-import Unimplemented from 'components/Unimplemented';
-import WatchlistActions from 'components/WatchlistActions';
-import { WatchlistIcon } from 'components/icons/index';
+import Unimplemented from 'components/Unimplemented'
+import WatchlistActions from 'components/WatchlistActions'
+import { WatchlistIcon } from 'components/icons/index'
 
-import { requireWatchlist } from 'hocs/resources';
+import { requireWatchlist } from 'hocs/resources'
 
 const actionCreators = {
-  push
-};
+  push,
+}
 
 class WatchlistHeader extends Component {
   constructor(props) {
-    super(props);
-    this.handleClick = this.handleClick.bind(this);
+    super(props)
+    this.handleClick = this.handleClick.bind(this)
   }
 
   handleClick() {
-    const { id, push } = this.props;
-    push('/watchlists/' + id);
+    const { id, push } = this.props
+    push(`/watchlists/${id}`)
   }
 
   render() {
-    const { id, watchlist } = this.props;
+    const { id, watchlist } = this.props
     const title = (
       <span
         onClick={this.handleClick}
@@ -36,23 +36,23 @@ class WatchlistHeader extends Component {
         <WatchlistIcon />
         {`  ${watchlist.name}  `}
       </span>
-    );
+    )
     return (
       <Card
         initiallyExpanded={false}
       >
         <CardTitle
-          actAsExpander={true}
-          showExpandableButton={true}
+          actAsExpander
+          showExpandableButton
           title={title}
           subtitle="Watchlist description"
         />
-        <CardActions expandable={true}>
+        <CardActions expandable>
           <WatchlistActions id={id} />
         </CardActions>
-    </Card>
-    );
+      </Card>
+    )
   }
 }
 
-export default requireWatchlist(null, actionCreators)(WatchlistHeader);
+export default requireWatchlist(null, actionCreators)(WatchlistHeader)

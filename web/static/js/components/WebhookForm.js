@@ -1,36 +1,36 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { push } from 'react-router-redux'
 
-import TextField from 'material-ui/TextField';
+import TextField from 'material-ui/TextField'
 import {
   Card, CardActions, CardHeader,
-  CardMedia, CardTitle, CardText
-} from 'material-ui/Card';
-import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
+  CardMedia, CardTitle, CardText,
+} from 'material-ui/Card'
+import FlatButton from 'material-ui/FlatButton'
+import RaisedButton from 'material-ui/RaisedButton'
 
-import UserSelector from './UserSelector';
+import UserSelector from './UserSelector'
 
 class WebhookForm extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     const {
       url = '',
       user_id: user = null,
-    } = this.props;
+    } = this.props
     this.state = {
-      url: url,
-      user: user,
-    };
-    this.submit = this.submit.bind(this);
-    this.changeUser = this.changeUser.bind(this);
-    this.handleChangeURL = this.handleChange.bind(this, "url")
+      url,
+      user,
+    }
+    this.submit = this.submit.bind(this)
+    this.changeUser = this.changeUser.bind(this)
+    this.handleChangeURL = this.handleChange.bind(this, 'url')
   }
 
   handleChange(column, event) {
     this.setState({
-      [column]: event.target.value
+      [column]: event.target.value,
     })
   }
 
@@ -38,24 +38,24 @@ class WebhookForm extends Component {
     this.props.submit({
       user: this.state.user,
       url: this.state.url,
-    });
-    this.setState({ url: '' });
+    })
+    this.setState({ url: '' })
   }
 
   changeUser(user) {
-    this.setState({ user });
+    this.setState({ user })
   }
 
   componentWillReceiveProps(props) {
     this.setState({
-      user: props.currentUser
-    });
+      user: props.currentUser,
+    })
   }
 
   render() {
-    const { webhook, editMode = false } = this.props;
-    const { url, user } = this.state;
-    const disabled = user == null || url.length == 0;
+    const { webhook, editMode = false } = this.props
+    const { url, user } = this.state
+    const disabled = user == null || url.length == 0
     return (
       <Card>
         <CardTitle title="Create a New Webhook" />
@@ -76,13 +76,13 @@ class WebhookForm extends Component {
         <CardActions>
           <RaisedButton
             label="Submit"
-            primary={true}
+            primary
             onClick={this.submit}
             disabled={disabled}
           />
         </CardActions>
       </Card>
-    );
+    )
   }
 }
 

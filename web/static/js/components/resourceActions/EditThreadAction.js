@@ -1,46 +1,46 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
-import FlatButton from 'material-ui/FlatButton';
-import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton'
+import Dialog from 'material-ui/Dialog'
 
-import ThreadForm from 'components/ThreadForm';
-import { EditIcon } from 'components/icons/index';
-import { editThread } from 'actions/resources';
+import ThreadForm from 'components/ThreadForm'
+import { EditIcon } from 'components/icons/index'
+import { editThread } from 'actions/resources'
 
 const mapStateToProps = ({ threads }, { id }) => {
-  const thread = threads[id];
+  const thread = threads[id]
   return {
-    thread
+    thread,
   }
-};
+}
 
 const actionCreators = {
-  editThread
-};
+  editThread,
+}
 
 class EditThreadAction extends Component {
   constructor(props) {
-    super(props);
-    this.open = this.open.bind(this);
-    this.close = this.close.bind(this);
-    this.submit = this.submit.bind(this);
+    super(props)
+    this.open = this.open.bind(this)
+    this.close = this.close.bind(this)
+    this.submit = this.submit.bind(this)
     this.state = {
-      isOpen: false
-    };
+      isOpen: false,
+    }
   }
 
-  open() { this.setState({isOpen: true}); }
-  close() { this.setState({isOpen: false}); }
+  open() { this.setState({ isOpen: true }) }
+  close() { this.setState({ isOpen: false }) }
 
   submit(params) {
-    const { id, editThread } = this.props;
-    this.close();
-    editThread(id, params);
+    const { id, editThread } = this.props
+    this.close()
+    editThread(id, params)
   }
 
   render() {
-    const { id, thread } = this.props;
+    const { id, thread } = this.props
     return (
       <span>
         <FlatButton
@@ -51,13 +51,13 @@ class EditThreadAction extends Component {
         <Dialog
           open={this.state.isOpen}
           onRequestClose={this.close}
-          bodyStyle={{padding: 0}}
+          bodyStyle={{ padding: 0 }}
         >
           <ThreadForm
-            titleText={"Edit this Thread"}
+            titleText={'Edit this Thread'}
             close={this.close}
             submit={this.submit}
-            editMode={true}
+            editMode
             group={thread.parent_group_id}
             {...thread}
           />
@@ -67,4 +67,4 @@ class EditThreadAction extends Component {
   }
 }
 
-export default connect(mapStateToProps, actionCreators)(EditThreadAction);
+export default connect(mapStateToProps, actionCreators)(EditThreadAction)

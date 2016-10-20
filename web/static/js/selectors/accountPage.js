@@ -1,17 +1,17 @@
 export const getAccountUsers = ({ account, users }) => {
-  return account.users.map(id => users[id]).filter(u => u != null);
-};
+  return account.users.map(id => users[id]).filter(u => u != null)
+}
 
 export const getAccountUserIDs = ({ account }) => {
-  return account.users;
-};
+  return account.users
+}
 
 export const getAccountWatchlists = ({ account }) => {
-  return account.watchlists;
-};
+  return account.watchlists
+}
 
 export const getAccountWebhooks = ({ accountPage }) => {
-  return accountPage.webhooks;
-};
+  return accountPage.webhooks
+}
 
-export const getCurrentUser = (state) => state.account.currentUser;
+export const getCurrentUser = state => state.account.currentUser

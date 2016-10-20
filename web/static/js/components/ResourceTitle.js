@@ -1,39 +1,40 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { push } from 'react-router-redux';
-import moment from 'moment';
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { push } from 'react-router-redux'
+import moment from 'moment'
 
-import TimeAgo from 'react-timeago';
+import TimeAgo from 'react-timeago'
 
-import { requireUser } from 'hocs/resources';
+import { requireUser } from 'hocs/resources'
 
 const mapStateToProps = (state, { user, insertedAt }) => {
   return {
     id: user,
-    insertedAt: moment.utc(insertedAt).format()
-  };
-};
+    insertedAt: moment.utc(insertedAt).format(),
+  }
+}
 
 const actionCreators = {
-  push
-};
+  push,
+}
 
 const ResourceTitle = ({ push, user, title, path, onClick, linkedTitle, insertedAt }) => (
   <span
     style={{
-      fontSize: '0.9em'
+      fontSize: '0.9em',
     }}
   >
     <span
       style={{
         cursor: 'pointer',
       }}
-      onClick={onClick || (() => push('/users/' + user.uid))}
+      onClick={onClick || (() => push(`/users/${user.uid}`))}
     >
       <span style={{
-        fontWeight: 'bold'
-      }}>
+        fontWeight: 'bold',
+      }}
+      >
         {user.name}
       </span>
       <small
@@ -41,7 +42,7 @@ const ResourceTitle = ({ push, user, title, path, onClick, linkedTitle, inserted
           marginLeft: '0.2em',
           marginRight: '1.2em',
         }}
-        children={'@' + user.uid}
+        children={`@${user.uid}`}
       />
     </span>
     <span
@@ -58,6 +59,6 @@ const ResourceTitle = ({ push, user, title, path, onClick, linkedTitle, inserted
       </span>
     </span>
   </span>
-);
+)
 
-  export default requireUser(mapStateToProps, actionCreators, 'user')(ResourceTitle);
+export default requireUser(mapStateToProps, actionCreators, 'user')(ResourceTitle)
