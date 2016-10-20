@@ -18,8 +18,9 @@ defmodule Agora.Mixfile do
   # Type `mix help compile.app` for more information.
   def application do
     [mod: {Agora, []},
-     applications: [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex, :ueberauth_google, :httpoison]]
+     applications: [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy,
+      :logger, :gettext, :phoenix_ecto, :postgrex, :httpoison,
+      :ueberauth, :ueberauth_google, :ueberauth_facebook, :ueberauth_github]]
   end
 
   # Specifies which paths to compile per environment.
@@ -39,7 +40,10 @@ defmodule Agora.Mixfile do
      {:gettext, "~> 0.9"},
      {:cowboy, "~> 1.0"},
      {:uuid, "~> 1.1"},
-     {:ueberauth_google, "~> 0.2.0"},
+     {:ueberauth, "~> 0.4.0"},
+     {:ueberauth_google, "~> 0.4.0"},
+     {:ueberauth_facebook, "~> 0.5.0"},
+     {:ueberauth_github, "~> 0.4.0"},
      {:httpoison, "~> 0.9.2"}]
   end
 

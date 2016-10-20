@@ -16,7 +16,9 @@ config :agora, Agora.Endpoint,
 # Authentication
 config :ueberauth, Ueberauth,
   providers: [
-    google: {Ueberauth.Strategy.Google, []}
+    google: {Ueberauth.Strategy.Google, [default_scope: "email"]},
+    facebook: {Ueberauth.Strategy.Facebook, [default_scope: "email"]},
+    github: {Ueberauth.Strategy.Github, [default_scope: "user"]}
   ]
 
 # Configures Elixir's Logger

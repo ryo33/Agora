@@ -6,6 +6,8 @@ defmodule Agora.AuthController do
   plug Ueberauth
   alias Ueberauth.Strategy.Helpers
 
+  @providers [:google, :facebook, :github]
+
   def request(conn, _params) do
     render(conn, "request.html", callback_url: Helpers.callback_url(conn))
   end
@@ -22,7 +24,7 @@ defmodule Agora.AuthController do
     |> redirect(to: "/")
   end
 
-  def callback(%{assigns: %{ueberauth_auth: %{provider: :google = provider, uid: id}}} = conn, _params) do
+  def callback(%{assigns: %{ueberauth_auth: %{provider: provider, uid: id}}} = conn, _params) when provider in @providers do
     provider = to_string(provider)
     query = from a in Account,
       where: a.provider == ^provider and a.provided_id == ^id,
