@@ -4,22 +4,22 @@ import { connect } from 'react-redux'
 import FlatButton from 'material-ui/FlatButton'
 import Dialog from 'material-ui/Dialog'
 
-import ThreadForm from 'components/ThreadForm'
+import WatchlistForm from 'components/WatchlistForm'
 import { EditIcon } from 'components/icons/index'
-import { editThread } from 'actions/resources'
+import { editWatchlist } from 'actions/resources'
 
-const mapStateToProps = ({ threads }, { id }) => {
-  const thread = threads[id]
+const mapStateToProps = ({ watchlists }, { id }) => {
+  const watchlist = watchlists[id]
   return {
-    thread,
+    watchlist,
   }
 }
 
 const actionCreators = {
-  editThread,
+  editWatchlist,
 }
 
-class EditThreadAction extends Component {
+class EditWatchlistAction extends Component {
   constructor(props) {
     super(props)
     this.open = this.open.bind(this)
@@ -34,13 +34,13 @@ class EditThreadAction extends Component {
   close() { this.setState({ isOpen: false }) }
 
   submit(params) {
-    const { id, editThread } = this.props
+    const { id, editWatchlist } = this.props
     this.close()
-    editThread(id, params)
+    editWatchlist(id, params)
   }
 
   render() {
-    const { id, thread } = this.props
+    const { id, watchlist } = this.props
     return (
       <span>
         <FlatButton
@@ -53,13 +53,12 @@ class EditThreadAction extends Component {
           onRequestClose={this.close}
           bodyStyle={{ padding: 0 }}
         >
-          <ThreadForm
-            titleText={'Edit this Thread'}
+          <WatchlistForm
+            titleText={'Edit this Watchlist'}
             close={this.close}
             submit={this.submit}
             editMode={true}
-            group={thread.parent_group_id}
-            {...thread}
+            {...watchlist}
           />
         </Dialog>
       </span>
@@ -67,4 +66,4 @@ class EditThreadAction extends Component {
   }
 }
 
-export default connect(mapStateToProps, actionCreators)(EditThreadAction)
+export default connect(mapStateToProps, actionCreators)(EditWatchlistAction)

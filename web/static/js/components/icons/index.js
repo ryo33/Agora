@@ -1,5 +1,6 @@
 import React from 'react'
 import FontIcon from 'material-ui/FontIcon'
+import IconButton from 'material-ui/IconButton'
 
 export const AddBoxIcon = props => <FontIcon children="add_box"
   className="material-icons" {...props}

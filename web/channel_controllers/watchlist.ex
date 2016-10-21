@@ -23,19 +23,24 @@ defmodule Agora.ChannelController.Watchlist do
     end
   end
 
+  def handle_action("edit", %{"id" => id, "params" => params}, socket) do
+    watchlist = Repo.get!(Watchlist, id)
+    changeset = Watchlist.changeset(watchlist, params)
+    true = validate_info(changeset, socket)
+
+    watchlist = Repo.update!(changeset)
+                |> Repo.preload(Watchlist.preload_param)
+                |> Watchlist.format
+    {:ok, %{"watchlist" => watchlist}, socket}
+  end
+
   def handle_action("fetch", ids, socket) do
-    groups_query = WatchGroup
-                   |> select([group], group.group_id)
-    threads_query = WatchThread
-                    |> select([thread], thread.thread_id)
     query = Watchlist
             |> where([watchlist], watchlist.id in ^ids)
             |> select([watchlist], watchlist)
-            |> preload([watch_groups: ^groups_query])
-            |> preload([watch_threads: ^threads_query])
+            |> preload(^Watchlist.preload_param)
     watchlists = Repo.all(query)
-    |> Enum.map(fn watchlist ->
-      {Integer.to_string(watchlist.id), watchlist}
+    |> Enum.map(fn w -> {Integer.to_string(w.id), Watchlist.format(w)}
     end)
     |> Enum.into(%{})
     {:ok, %{watchlists: watchlists}, socket}
@@ -75,5 +80,27 @@ defmodule Agora.ChannelController.Watchlist do
         Logger.debug("#{inspect changeset.errors}")
         {:error, socket} # TODO return error message
     end
+  end
+
+  def handle_action("unwatch group", params, socket) do
+    watchlist_id = Map.fetch!(params, "watchlist_id")
+    group_id = Map.fetch!(params, "group_id")
+    query = from group in WatchGroup,
+      where: group.group_id == ^group_id,
+      where: group.watchlist_id == ^watchlist_id
+    Repo.one!(query)
+    |> Repo.delete!()
+    {:ok, socket}
+  end
+
+  def handle_action("unwatch thread", params, socket) do
+    watchlist_id = Map.fetch!(params, "watchlist_id")
+    thread_id = Map.fetch!(params, "thread_id")
+    query = from thread in WatchThread,
+      where: thread.thread_id == ^thread_id,
+      where: thread.watchlist_id == ^watchlist_id
+    Repo.one!(query)
+    |> Repo.delete!()
+    {:ok, socket}
   end
 end

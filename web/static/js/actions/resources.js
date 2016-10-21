@@ -24,6 +24,9 @@ function createEditFor(resource) {
 function createWatchFor(resource) {
   return createAction(`Watch the ${resource}`, (watchlist, id) => ({ watchlist, [resource]: id }))
 }
+function createUnwatchFor(resource) {
+  return createAction(`Unwatch the ${resource}`, (watchlist, id) => ({ watchlist, [resource]: id }))
+}
 
 export const addGroups = createAddFor('groups')
 export const addThreads = createAddFor('threads')
@@ -59,9 +62,13 @@ export const deleteWebhookLink = createAction('Delete the webhook link', (thread
 
 export const editGroup = createEditFor('group')
 export const editThread = createEditFor('thread')
+export const editWatchlist = createEditFor('watchlist')
 export const editWebhook = createEditFor('webhook')
 
 export const watchGroup = createWatchFor('group')
 export const watchThread = createWatchFor('thread')
+
+export const unwatchGroup = createUnwatchFor('group')
+export const unwatchThread = createUnwatchFor('thread')
 
 export const addUserIDs = createAction('Add User IDs', ids => ids)

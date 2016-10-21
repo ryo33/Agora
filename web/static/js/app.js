@@ -19,7 +19,7 @@ import {
 import { ThreadPage, ThreadAll, Thread, ThreadWebhooks } from 'components/pages/thread'
 import { PostPage, Post } from 'components/pages/post'
 import { UserPage, User } from 'components/pages/user'
-import { WatchlistPage, Watchlist } from 'components/pages/watchlist'
+import { WatchlistPage, Watchlist, WatchlistItems } from 'components/pages/watchlist'
 import {
   GroupPage, GroupAll, Group,
   GroupGroups, GroupThreads, GroupMembers,
@@ -114,6 +114,7 @@ render(
           <Route path=":id" component={Thread} />
         </Route>
         <Route path="watchlists" component={WatchlistPage}>
+          <Route path=":id/items" component={WatchlistItems} />
           <Route path=":id" component={Watchlist} />
         </Route>
         <Route path="thread-webhooks" component={WebhookPage}>

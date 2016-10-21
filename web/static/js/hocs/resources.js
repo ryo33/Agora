@@ -82,6 +82,7 @@ export const checkOwned = (resource) => {
 export const checkThreadOwned = checkOwned('threads')
 export const checkGroupOwned = checkOwned('groups')
 export const checkPostOwned = checkOwned('posts')
+export const checkWatchlistOwned = checkOwned('watchlists')
 export const checkWebhookOwned = checkOwned('webhooks')
 export const checkUserOwned = (component) => {
   const mapStateToProps = (state, { id }) => {

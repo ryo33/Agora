@@ -41,4 +41,16 @@ defmodule Agora.Watchlist do
       _ -> false
     end
   end
+
+  def preload_param() do
+    groups_query = Agora.WatchGroup
+                   |> select([group], group.group_id)
+    threads_query = Agora.WatchThread
+                    |> select([thread], thread.thread_id)
+    [watch_groups: groups_query, watch_threads: threads_query]
+  end
+
+  def format(watchlist) do
+    watchlist
+  end
 end

@@ -19,10 +19,6 @@ const styles = {
     marginTop: '2%',
     marginBottom: '2%',
   },
-  paper: {
-    padding: '1% 2%',
-    marginLeft: '2%',
-  },
 }
 
 const mapStateToProps = ({ watchlistPage }, { params }) => {

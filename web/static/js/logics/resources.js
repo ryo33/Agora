@@ -5,8 +5,9 @@ import { accountChannel, commonChannel, pushMessage } from 'socket'
 import {
   submitGroup, submitThread, submitWebhook, submitWebhookLink,
   deleteWebhook, deleteWebhookLink,
-  editThread, editGroup, editWebhook,
+  editThread, editGroup, editWatchlist, editWebhook,
   updateThread, updateGroup, updateWebhook,
+  unwatchThread, unwatchGroup, updateWatchlist,
 } from 'actions/resources'
 import { updateWebhooks } from 'actions/threadPage'
 import { updateWebhooks as updateAccountWebhooks } from 'actions/accountPage'
@@ -34,6 +35,16 @@ function formatThreadParams(params) {
     user_id: user,
     title,
     post_limited: postLimited,
+  }
+}
+
+function formatWatchlistParams(params) {
+  const {
+    name, user
+  } = params
+  return {
+    name,
+    user_id: user
   }
 }
 
@@ -148,6 +159,18 @@ const editThreadLogic = createLogic({
   },
 })
 
+const editWatchlistLogic = createLogic({
+  type: editWatchlist.getType(),
+  process({ action }, dispatch) {
+    const { id, params: rawParams } = action.payload
+    const params = formatWatchlistParams(rawParams)
+    pushMessage(commonChannel, 'watchlists', 'edit', { id, params })
+      .then(({ watchlist }) => {
+        dispatch(updateWatchlist(watchlist.id, watchlist))
+      })
+  },
+})
+
 const editWebhookLogic = createLogic({
   type: editWebhook.getType(),
   process({ action }, dispatch) {
@@ -160,6 +183,32 @@ const editWebhookLogic = createLogic({
   },
 })
 
+const unwatchGroupLogic = createLogic({
+  type: unwatchGroup.getType(),
+  process({ action, getState }, dispatch) {
+    const { watchlist, group } = action.payload
+    const params = { watchlist_id: watchlist, group_id: group }
+    pushMessage(commonChannel, 'watchlists', 'unwatch group', params)
+    const newWatchlist = Object.assign({}, getState().watchlists[watchlist])
+    newWatchlist.watch_groups = newWatchlist.watch_groups.filter(group_id =>
+        group_id != group)
+    dispatch(updateWatchlist(watchlist, newWatchlist))
+  }
+})
+
+const unwatchThreadLogic = createLogic({
+  type: unwatchThread.getType(),
+  process({ action, getState }, dispatch) {
+    const { watchlist, thread } = action.payload
+    const params = { watchlist_id: watchlist, thread_id: thread }
+    pushMessage(commonChannel, 'watchlists', 'unwatch thread', params)
+    const newWatchlist = Object.assign({}, getState().watchlists[watchlist])
+    newWatchlist.watch_threads = newWatchlist.watch_threads.filter(thread_id =>
+        thread_id != thread)
+    dispatch(updateWatchlist(watchlist, newWatchlist))
+  }
+})
+
 export default [
   addGroupLogic,
   addThreadLogic,
@@ -169,5 +218,8 @@ export default [
   deleteWebhookLinkLogic,
   editGroupLogic,
   editThreadLogic,
+  editWatchlistLogic,
   editWebhookLogic,
+  unwatchGroupLogic,
+  unwatchThreadLogic,
 ]
