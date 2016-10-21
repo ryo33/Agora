@@ -29,7 +29,7 @@ defmodule Agora.WatchlistChannel do
   defp get_thread_items(watchlist_id) do
     WatchThread
     |> where([thread], thread.watchlist_id == ^watchlist_id)
-    |> select([thread], thread.id)
+    |> select([thread], thread.thread_id)
     |> Repo.all
     |> Enum.flat_map(fn thread ->
       Post
@@ -44,7 +44,7 @@ defmodule Agora.WatchlistChannel do
   defp get_group_items(watchlist_id) do
     WatchGroup
     |> where([group], group.watchlist_id == ^watchlist_id)
-    |> select([group], group.id)
+    |> select([group], group.group_id)
     |> Repo.all
     |> Enum.flat_map(fn group ->
       threads = Thread

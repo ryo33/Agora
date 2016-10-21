@@ -35,19 +35,25 @@ defmodule Agora.ChannelController.Watchlist do
   end
 
   def handle_action("fetch", ids, socket) do
-    query = Watchlist
+    watchlists = Watchlist
             |> where([watchlist], watchlist.id in ^ids)
             |> select([watchlist], watchlist)
             |> preload(^Watchlist.preload_param)
-    watchlists = Repo.all(query)
-    |> Enum.map(fn w -> {Integer.to_string(w.id), Watchlist.format(w)}
-    end)
-    |> Enum.into(%{})
+            |> Repo.all()
+            |> Enum.map(fn w -> {Integer.to_string(w.id), Watchlist.format(w)} end)
+            |> Enum.into(%{})
     {:ok, %{watchlists: watchlists}, socket}
   end
 
   def handle_action("watch group", params, socket) do
     watchlist_id = Map.fetch!(params, "watchlist_id")
+    group_id = Map.fetch!(params, "group_id")
+
+    query = from item in WatchGroup,
+      where: item.watchlist_id == ^watchlist_id and item.group_id == ^group_id,
+      select: count(item.id)
+    0 = Repo.one!(query)
+
     query = from watchlist in Watchlist,
       where: watchlist.id == ^watchlist_id,
       select: watchlist.user_id
@@ -66,6 +72,13 @@ defmodule Agora.ChannelController.Watchlist do
 
   def handle_action("watch thread", params, socket) do
     watchlist_id = Map.fetch!(params, "watchlist_id")
+    thread_id = Map.fetch!(params, "thread_id")
+
+    query = from item in WatchThread,
+      where: item.watchlist_id == ^watchlist_id and item.thread_id == ^thread_id,
+      select: count(item.id)
+    0 = Repo.one!(query)
+
     query = from watchlist in Watchlist,
       where: watchlist.id == ^watchlist_id,
       select: watchlist.user_id
