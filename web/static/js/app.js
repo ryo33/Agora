@@ -25,6 +25,7 @@ import {
   GroupGroups, GroupThreads, GroupMembers,
 } from 'components/pages/group'
 import { WebhookPage, WebhookAll, Webhook } from 'components/pages/webhook'
+import { SearchPage, Search } from 'components/pages/search'
 import SignIn from './components/SignIn'
 import Unimplemented from 'components/Unimplemented'
 
@@ -123,21 +124,20 @@ render(
           <IndexRoute component={GroupAll} />
           <Route path=":id" component={Group}>
             <IndexRoute component={GroupThreads} onEnter={() =>
-              store.dispatch(switchGroupPageTabs('threads'))}
-            />
+              store.dispatch(switchGroupPageTabs('threads'))} />
             <Route path="threads" component={GroupThreads} onEnter={() =>
-              store.dispatch(switchGroupPageTabs('threads'))}
-            />
+              store.dispatch(switchGroupPageTabs('threads'))} />
             <Route path="groups" component={GroupGroups} onEnter={() =>
-              store.dispatch(switchGroupPageTabs('groups'))}
-            />
+              store.dispatch(switchGroupPageTabs('groups'))} />
             <Route path="members" component={GroupMembers} onEnter={() =>
-              store.dispatch(switchGroupPageTabs('members'))}
-            />
+              store.dispatch(switchGroupPageTabs('members'))} />
           </Route>
         </Route>
         <Route path="posts" component={PostPage}>
           <Route path=":id" component={Post} />
+        </Route>
+        <Route path="search" components={SearchPage}>
+          <IndexRoute component={Search} />
         </Route>
         <Route path="users" component={UserPage}>
           <Route path=":id" component={User} />

@@ -11,7 +11,7 @@ import { Card, CardTitle, CardActions } from 'material-ui/Card'
 import Unimplemented from 'components/Unimplemented'
 import ThreadActions from 'components/ThreadActions'
 import { ThreadIcon, PostIcon } from 'components/icons'
-import ParentGroup from 'components/ParentGroup'
+import GroupButton from 'components/GroupButton'
 import { checkThreadOwned, requireThread } from 'hocs/resources'
 import { getAccountUserIDs } from 'selectors/accountPage'
 
@@ -48,7 +48,7 @@ class ThreadHeader extends Component {
         {
           parentID
           ? <span>
-            <ParentGroup id={parentID} />
+            <GroupButton id={parentID} />
           </span>
           : null
         }

@@ -36,4 +36,8 @@ defmodule Agora.CommonChannel do
   def handle_in("webhooks", %{"action" => action, "params" => params}, socket) do
     ChannelController.action(ChannelController.ThreadWebhook, socket, action, params)
   end
+
+  def handle_in("search", %{"action" => action, "params" => params}, socket) do
+    ChannelController.action(ChannelController.Search, socket, action, params)
+  end
 end

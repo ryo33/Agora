@@ -3,6 +3,7 @@ import { createLogic } from 'redux-logic'
 import accountPageLogics from 'logics/accountPage'
 import threadPageLogics from 'logics/threadPage'
 import groupPageLogics from 'logics/groupPage'
+import searchPageLogics from 'logics/searchPage'
 import resourcesLogics from 'logics/resources'
 import userFormLogics from 'logics/userForm'
 import globalLogics from 'logics/global'
@@ -26,6 +27,7 @@ export default [addUserIDsLogic].concat(
   accountPageLogics,
   threadPageLogics,
   groupPageLogics,
+  searchPageLogics,
   resourcesLogics,
   userFormLogics,
   globalLogics

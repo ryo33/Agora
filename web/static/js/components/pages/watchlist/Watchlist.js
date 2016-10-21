@@ -6,7 +6,7 @@ import Paper from 'material-ui/Paper'
 import Divider from 'material-ui/Divider'
 
 import { SignedIn } from 'components/util'
-import { Group, Thread, Post, Member } from './items'
+import { Group, Thread, Post, Member } from 'components/listItems'
 
 import {
   openWatchlistPage,

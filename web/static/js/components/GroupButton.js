@@ -7,9 +7,9 @@ import { compose } from 'recompose'
 
 import RaisedButton from 'material-ui/RaisedButton'
 
-import ThreadActions from 'components/ThreadActions'
-import { requireThread } from 'hocs/resources'
-import { ThreadIcon } from 'components/icons'
+import GroupActions from 'components/GroupActions'
+import { requireGroup } from 'hocs/resources'
+import { GroupIcon } from 'components/icons'
 
 const defaultStyle = {
   margin: '4px 6px',
@@ -21,30 +21,31 @@ const actionCreators = {
   push,
 }
 
-class ParentThread extends Component {
+class GroupButton extends Component {
   constructor(props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)
   }
 
-  handleClick() {
+  handleClick(event) {
     const { id, push } = this.props
-    push(`/threads/${id}`)
+    push(`/groups/${id}`)
+    event.stopPropagation()
   }
 
   render() {
     const {
-      id, thread, style = {},
+      id, group, style = {},
     } = this.props
     return (
       <RaisedButton
-        icon={<ThreadIcon />}
+        icon={<GroupIcon />}
         onClick={this.handleClick}
-        label={<span style={{ textTransform: 'none' }}>{ellipsize(thread.title, MAX_LENGTH)}</span>}
+        label={<span style={{ textTransform: 'none' }}>{ellipsize(group.name, MAX_LENGTH)}</span>}
         style={Object.assign({}, defaultStyle, style)}
       />
     )
   }
 }
 
-export default requireThread(null, actionCreators)(ParentThread)
+export default requireGroup(null, actionCreators)(GroupButton)

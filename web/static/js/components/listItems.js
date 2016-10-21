@@ -8,8 +8,8 @@ import RaisedButton from 'material-ui/RaisedButton'
 
 import { GroupIcon, ThreadIcon, PostIcon, UserIcon } from 'components/icons'
 import ListItem from 'components/ListItem'
-import ParentGroup from 'components/ParentGroup'
-import ParentThread from 'components/ParentThread'
+import GroupButton from 'components/GroupButton'
+import ThreadButton from 'components/ThreadButton'
 import {
   requireGroup, requireThread, requirePost, requireUser,
   checkGroupOwned, checkThreadOwned, checkPostOwned, checkUserOwned,
@@ -31,9 +31,10 @@ const actionCreators = { push }
 
 const Group = compose(requireGroup(null, actionCreators), checkGroupOwned)(({ id, isOwned, group, push }) => {
   const click = () => push(`/groups/${id}`)
+  const parentID = group.parent_group_id
   return (
     <ListItem isOwned={isOwned} handleClick={click}>
-      <ParentGroup id={group.parent_group_id} style={styles.parent} />
+      { parentID ? <GroupButton id={parentID} style={styles.parent} /> : null }
       <GroupIcon style={styles.childIcon} />{group.name}
     </ListItem>
   )
@@ -41,9 +42,10 @@ const Group = compose(requireGroup(null, actionCreators), checkGroupOwned)(({ id
 
 const Thread = compose(requireThread(null, actionCreators), checkThreadOwned)(({ id, isOwned, thread, push }) => {
   const click = () => push(`/threads/${id}`)
+  const parentID = thread.parent_group_id
   return (
     <ListItem isOwned={isOwned} handleClick={click}>
-      <ParentGroup id={thread.parent_group_id} style={styles.parent} />
+      { parentID ? <GroupButton id={thread.parent_group_id} style={styles.parent} /> : null }
       <ThreadIcon style={styles.childIcon} />{thread.title}
     </ListItem>
   )
@@ -53,7 +55,7 @@ const Post = compose(requirePost(null, actionCreators), checkPostOwned)(({ id, i
   const click = () => push(`/threads/${post.thread_id}`)
   return (
     <ListItem isOwned={isOwned} handleClick={click}>
-      <ParentThread id={post.thread_id} style={styles.parent} /><strong>{post.title}</strong>
+      <ThreadButton id={post.thread_id} style={styles.parent} /><strong>{post.title}</strong>
       <PostIcon style={styles.childIcon} />{ellipsize(post.text, MAX_POST_LENGTH)}
     </ListItem>
   )
@@ -63,10 +65,19 @@ const Member = compose(requireUser(null, actionCreators), checkUserOwned)(({ id,
   const click = () => push(`/users/${user.uid}`)
   return (
     <ListItem isOwned={isOwned} handleClick={click}>
-      <ParentGroup id={group} style={styles.parent} />
+      <GroupButton id={group} style={styles.parent} />
       <UserIcon style={styles.childIcon} />{user.name}@{user.uid}
     </ListItem>
   )
 })
 
-export { Group, Thread, Post, Member }
+const User = compose(requireUser(null, actionCreators), checkUserOwned)(({ id, isOwned, user, push }) => {
+  const click = () => push(`/users/${user.uid}`)
+  return (
+    <ListItem isOwned={isOwned} handleClick={click}>
+      <UserIcon style={styles.childIcon} />{user.name}@{user.uid}
+    </ListItem>
+  )
+})
+
+export { Group, Thread, Post, Member, User }

@@ -15,7 +15,7 @@ import {
 } from 'actions/resources'
 import { showLoadingError } from 'actions/global'
 
-const COLLECT_TIME = 30
+const COLLECT_TIME = 100
 
 function* fetchResources(resource, resultChannel, idsSet) {
   const ids = Array.from(idsSet)

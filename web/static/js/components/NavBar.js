@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 
+import { SearchIcon } from 'components/icons'
 import FlatButton from 'material-ui/FlatButton'
 import IconButton from 'material-ui/IconButton'
 import { grey50, grey200, grey900 } from 'material-ui/styles/colors'
@@ -41,22 +42,33 @@ class NavBar extends Component {
         iconElementLeft={
           <IconButton
             iconClassName="material-icons"
-            touch
+            touch={true}
             iconStyle={{ color: grey50 }}
             children="menu"
             onClick={this.props.toggleLeftNav}
           />
         }
         iconElementRight={
-          !signedIn
-            ? <FlatButton
-              backgroundColor={grey50}
-              hoverColor={grey200}
-              labelStyle={{ color: grey900 }}
-              label="Sign in"
-              onClick={this.transitionTo('/signin')}
+          <span>
+            <IconButton
+              iconClassName="material-icons"
+              touch={true}
+              iconStyle={{ color: grey50 }}
+              children="search"
+              onClick={this.transitionTo('/search')}
             />
-            : null
+            {
+              !signedIn
+              ? <FlatButton
+                backgroundColor={grey50}
+                hoverColor={grey200}
+                labelStyle={{ color: grey900 }}
+                label="Sign in"
+                onClick={this.transitionTo('/signin')}
+              />
+              : null
+            }
+          </span>
         }
       />
     )

@@ -10,7 +10,7 @@ import { Card, CardActions, CardMedia, CardTitle, CardText } from 'material-ui/C
 import Unimplemented from 'components/Unimplemented'
 import GroupActions from 'components/GroupActions'
 import { GroupIcon, ThreadIcon, UserIcon } from 'components/icons'
-import ParentGroup from 'components/ParentGroup'
+import GroupButton from 'components/GroupButton'
 
 import { requireGroup, checkGroupOwned } from 'hocs/resources'
 import { getAccountUserIDs } from 'selectors/accountPage'
@@ -52,7 +52,7 @@ class GroupHeader extends Component {
         {
           parentID
           ? <span>
-            <ParentGroup id={parentID} />
+            <GroupButton id={parentID} />
           </span>
           : null
         }

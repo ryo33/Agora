@@ -26,6 +26,9 @@ import {
 import {
   openAllWebhooksPage, updateWebhooks,
 } from 'actions/webhookPage'
+import {
+  search, finishSearching
+} from 'actions/searchPage'
 
 const pairs = [
   [startApp, updateAccountUsers],
@@ -40,6 +43,7 @@ const pairs = [
   [openThreadWebhooksPage, updateThreadWebhooks],
   [openWatchlistPage, updateWatchlistItems],
   [openAllWebhooksPage, updateWebhooks],
+  [search, finishSearching],
 ]
 
 function createLoading(pairs) {

@@ -10,6 +10,7 @@ import threadPage from './threadPage'
 import groupPage from './groupPage'
 import accountPage from './accountPage'
 import watchlistPage from './watchlistPage'
+import searchPage from './searchPage'
 
 import userForm from './userForm'
 import newUserForm from './accountPage/newUserForm'
@@ -36,6 +37,7 @@ const reducers = {
   groupPage,
   accountPage,
   watchlistPage,
+  searchPage,
   userForm,
   newUserForm,
   threadHistory,
