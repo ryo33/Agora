@@ -34,6 +34,12 @@ class Thread extends Component {
     this.post = this.post.bind(this)
   }
 
+  componentWillReceiveProps(newProps) {
+    if (this.props.id != newProps.id) {
+      this.props.openThreadPage(newProps.id)
+    }
+  }
+
   componentDidMount() {
     const { openThreadPage, id } = this.props
     openThreadPage(id)

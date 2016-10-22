@@ -37,6 +37,12 @@ class Watchlist extends Component {
     super(props, context)
   }
 
+  componentWillReceiveProps(newProps) {
+    if (this.props.id != newProps.id) {
+      this.props.openWatchlistPage(newProps.id)
+    }
+  }
+
   componentDidMount() {
     const { openWatchlistPage, id } = this.props
     openWatchlistPage(id)
