@@ -7,6 +7,7 @@ import searchPageLogics from 'logics/searchPage'
 import resourcesLogics from 'logics/resources'
 import userFormLogics from 'logics/userForm'
 import globalLogics from 'logics/global'
+import loadingLogics from 'logics/loading'
 
 import { addUsers, addUserIDs } from 'actions/resources'
 
@@ -30,5 +31,6 @@ export default [addUserIDsLogic].concat(
   searchPageLogics,
   resourcesLogics,
   userFormLogics,
-  globalLogics
+  globalLogics,
+  loadingLogics,
 )

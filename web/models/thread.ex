@@ -35,6 +35,19 @@ defmodule Agora.Thread do
     |> validate_length(:title, min: 1)
   end
 
+  def get_title_text(id) do
+    import Agora.Title
+    thread = Agora.Thread
+    |> where([t], t.id == ^id)
+    |> preload(^preload_param)
+    |> Repo.one!()
+    |> format
+
+    title = ellipsize(thread.title)
+    "#{title} (#{thread.posts})"
+    |> format_title
+  end
+
   def preload_param do
     posts_query = Agora.Post |> select([p], p.id)
     [posts: posts_query]

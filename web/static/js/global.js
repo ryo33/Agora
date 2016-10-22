@@ -9,3 +9,5 @@ function getGlobal(key, defaultValue = null) {
 export const token = getGlobal('token')
 export const accountID = getGlobal('accountID')
 export const signedIn = getGlobal('signedIn')
+
+export const DEFAULT_TITLE = 'Agoraful'

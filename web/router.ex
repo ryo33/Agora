@@ -25,6 +25,10 @@ defmodule Agora.Router do
       post "/:provider/callback", AuthController, :callback
     end
 
+    get "/groups/:id", PageController, :group
+    get "/threads/:id", PageController, :thread
+    get "/posts/:id", PageController, :post
+    get "/users/:id", PageController, :user
     get "/*page", PageController, :index
 
     # Unimplemented
