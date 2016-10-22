@@ -48,15 +48,4 @@ defmodule Agora.User do
   def order_by(query) do
     query |> order_by([t], [desc: t.inserted_at])
   end
-
-  def get_title_text(uid) do
-    import Agora.Title
-    user = Agora.User
-    |> where([t], t.uid == ^uid)
-    |> select([t], [:name, :uid])
-    |> Repo.one!()
-
-    "#{user.name}@#{user.uid}"
-    |> format_title
-  end
 end

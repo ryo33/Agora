@@ -43,19 +43,6 @@ defmodule Agora.Group do
     |> validate_length(:name, min: 1)
   end
 
-  def get_title_text(id) do
-    import Agora.Title
-    group = Agora.Group
-    |> where([t], t.id == ^id)
-    |> preload(^preload_param)
-    |> Repo.one!()
-    |> format
-
-    name = ellipsize(group.name)
-    "#{name} (#{group.threads}, #{group.groups}, #{group.members})"
-    |> format_title
-  end
-
   def preload_param do
     members_query = Agora.Member |> select([m], m.id)
     threads_query = fn ids ->

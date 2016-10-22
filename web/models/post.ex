@@ -33,16 +33,4 @@ defmodule Agora.Post do
     |> cast(params, @required_fields, @optional_fields)
     |> validate_length(:text, min: 1)
   end
-
-  def get_title_text(id) do
-    import Agora.Title
-    post = Agora.Post
-    |> where([t], t.id == ^id)
-    |> select([t], [:title, :text])
-    |> Repo.one!()
-
-    "#{post.title || ""} #{post.text}"
-    |> ellipsize
-    |> format_title
-  end
 end

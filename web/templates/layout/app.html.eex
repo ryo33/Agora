@@ -7,7 +7,14 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title><%= if assigns[:title], do: @title, else: "Agoraful" %></title>
+    <title><%= og(assigns, :title, "Agoraful") %></title>
+
+    <meta property="og:title" content="<%= og(assigns, :title, "Agoraful") %>" />
+    <meta property="og:type" content="<%= og(assigns, :type, "website") %>" />
+    <meta property="og:url" content="<%= og(assigns, :url, "https://agoraful.com") %>" />
+    <%# <meta property="og:image" content="<%= og(assigns, :image, "") %>" /> %>
+    <meta property="og:site_name" content="Agoraful.com" />
+
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
   </head>
 

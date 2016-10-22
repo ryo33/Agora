@@ -30,14 +30,14 @@ import SignIn from './components/SignIn'
 import Unimplemented from 'components/Unimplemented'
 
 import { joinAccountChannel, joinCommonChannel } from 'socket'
-import { startApp, setTitle } from 'actions/global'
+import { startApp } from 'actions/global'
 import { switchGroupPageTabs } from 'actions/groupPage'
 import { updateCurrentUser } from 'actions/accountPage'
 import reducers from 'reducers'
 import rootSaga from 'sagas'
 import logics from 'logics'
 
-import { signedIn, DEFAULT_TITLE } from 'global'
+import { signedIn } from 'global'
 import { accountChannel } from 'socket'
 
 import injectTapEventPlugin from 'react-tap-event-plugin'
@@ -82,7 +82,6 @@ getStoredState(persistConfig, (err, state) => {
 })
 
 const history = syncHistoryWithStore(browserHistory, store)
-history.listen(location => store.dispatch(setTitle(DEFAULT_TITLE)))
 
 sagaMiddleware.run(rootSaga, store.getState)
 
