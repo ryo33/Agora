@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 
 import CopyAction from 'components/resourceActions/CopyAction'
+import ReplyAction from 'components/resourceActions/ReplyAction'
 
 class PostActions extends Component {
   constructor(props) {
@@ -11,6 +12,9 @@ class PostActions extends Component {
     const { id } = this.props
     return (
       <div>
+        <ReplyAction
+          id={id}
+        />
         <CopyAction
           link={`posts/${id}`}
         />

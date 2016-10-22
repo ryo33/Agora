@@ -65,7 +65,6 @@ class Thread extends Component {
           members={members}
           submit={this.post}
           expandable
-          expand={false}
           zDepth={2}
         /></SignedIn>
         <Divider style={{ margin: '1em 0' }} />

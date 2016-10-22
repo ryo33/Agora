@@ -12,6 +12,7 @@ import Unimplemented from 'components/Unimplemented'
 import ResourceTitle from 'components/ResourceTitle'
 import PostActions from 'components/PostActions'
 import ListItem from 'components/ListItem'
+import PostButton from 'components/PostButton'
 
 import { requirePost, checkPostOwned } from 'hocs/resources'
 
@@ -41,6 +42,11 @@ class Post extends Component {
           handleClick={this.click}
           isOwned={isOwned}
         >
+          {
+            post.post_id
+            ? <div><PostButton id={post.post_id} /></div>
+            : null
+          }
           <ResourceTitle
             user={post.user_id}
             title={post.title}

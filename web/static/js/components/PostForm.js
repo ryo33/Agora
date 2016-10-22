@@ -8,6 +8,7 @@ import Toggle from 'material-ui/Toggle'
 import Divider from 'material-ui/Divider'
 
 import UserSelector from './UserSelector'
+import PostButton from 'components/PostButton'
 
 const mapStateToProps = ({ account, threads }, { members, thread }) => {
   if (threads[thread] == null) {
@@ -32,6 +33,7 @@ class PostForm extends Component {
       text: '',
       user: props.currentUser,
       setDefault: false,
+      showPost: false
     }
     this.changeUser = this.changeUser.bind(this)
     this.toggleTitle = this.toggleTitle.bind(this)
@@ -92,21 +94,31 @@ class PostForm extends Component {
       title, text,
       titleForm, messageError, titleError,
     } = this.state
-    const { members, zDepth, user: defaultUser } = this.props
+    const {
+      post, expandable, members, zDepth, user: defaultUser
+    } = this.props
     const disabled = user == null || text.length == 0
     return (
       <Card
         zDepth={zDepth}
       >
-        {this.props.expandable
-          ? <CardHeader
-            title="Create a New Post"
-            actAsExpander
-            showExpandableButton
-          />
+        {
+          expandable
+            ? <CardHeader
+              title="Create a New Post"
+              actAsExpander
+              showExpandableButton
+            />
             : <CardTitle title="New Post" />
         }
-        <CardText expandable>
+        <CardText expandable={expandable}>
+          {
+            post
+            ? <PostButton
+              id={post}
+            />
+            : null
+          }
           <Toggle
             toggled={titleForm}
             onToggle={this.toggleTitle}
@@ -133,7 +145,7 @@ class PostForm extends Component {
             fullWidth
           />
         </CardText>
-        <CardActions expandable>
+        <CardActions expandable={expandable}>
           <RaisedButton
             label="Submit"
             primary

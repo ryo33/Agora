@@ -109,9 +109,10 @@ const watchWatchlists = createWatcherFor('watchlists', prepareWatchlists, addWat
 const watchWebhooks = createWatcherFor('webhooks', prepareWebhooks, addWebhooks)
 
 function* addPostSaga(action) {
-  const { thread, user, title, text, defaultUser } = action.payload
+  const { thread, post, user, title, text, defaultUser } = action.payload
   const params = {
     thread_id: thread,
+    post_id: post,
     user_id: user,
     title,
     text,
@@ -154,7 +155,7 @@ function* watchGroupSaga(action) {
 }
 
 function* watchThreadSaga(action) {
-  const { watchlist, thread } = action.payload
+  const { watchlist, thread, post=null } = action.payload
   const params = {
     watchlist_id: watchlist,
     thread_id: thread,
