@@ -17,6 +17,7 @@ defmodule Agora.Webhook do
   import Ecto.Query
   alias Agora.Repo
   alias Agora.Thread
+  alias Agora.Post
   alias Agora.User
   alias Agora.ThreadWebhook
   alias Agora.ThreadWebhookLink
@@ -32,12 +33,18 @@ defmodule Agora.Webhook do
       user_id = post.user_id
       thread = Repo.get!(Thread, thread_id) |> Repo.preload(Thread.preload_param)
       user = Repo.get!(User, user_id)
+      reply_to = if is_nil(post.post_id) do
+        nil
+      else
+        Repo.get!(Post, post.post_id)
+      end
       params = %{
         "event" => "post",
         "payload" => %{
           "user" => user,
           "thread" => thread,
-          "post" => post
+          "post" => post,
+          "reply_to" => reply_to
         }
       } |> Poison.encode!
       headers = %{'content-type' => 'application/json'}
