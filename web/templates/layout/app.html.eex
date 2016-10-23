@@ -4,15 +4,17 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
+    <meta name="description" content="A platform for online communities.">
     <meta name="author" content="">
 
     <title>"Agoraful"</title>
 
     <meta property="og:title" content="<%= og(assigns, :title, "Agoraful") %>" />
     <meta property="og:type" content="<%= og(assigns, :type, "website") %>" />
-    <%# <meta property="og:image" content="<%= og(assigns, :image, "") %>" /> %>
+    <meta property="og:url" content="<%= og(assigns, :url, "") %>" />
+    <meta property="og:description" content="A platform for online communities.">
     <meta property="og:site_name" content="Agoraful.com" />
+    <%# <meta property="og:image" content="<%= og(assigns, :image, "") %>" /> %>
 
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
   </head>

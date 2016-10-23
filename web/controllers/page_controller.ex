@@ -46,6 +46,7 @@ defmodule Agora.PageController do
   end
 
   defp render_page(conn, og) do
+    og = Map.put(og, :url, get_url(conn))
     case conn.assigns[:account] do
       nil ->
         client = %{
@@ -64,7 +65,13 @@ defmodule Agora.PageController do
   end
 
   defp get_url(conn) do
-    url(conn) <> conn.request_path
+    scheme = case conn.scheme do
+      :http -> "http"
+      :https -> "https"
+    end
+    host = conn.host
+    path = conn.request_path
+    "#{scheme}://#{host}#{path}"
   end
 
   defp ellipsize(text) do
