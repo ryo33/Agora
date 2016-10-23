@@ -7,7 +7,7 @@
     <meta name="description" content="A platform for online communities.">
     <meta name="author" content="">
 
-    <title>"Agoraful"</title>
+    <title>Agoraful</title>
 
     <meta property="og:title" content="<%= og(assigns, :title, "Agoraful") %>" />
     <meta property="og:type" content="<%= og(assigns, :type, "website") %>" />
