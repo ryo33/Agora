@@ -41,13 +41,11 @@ defmodule Agora.PageController do
     |> Agora.Repo.one!()
     og = %{
       title: "#{user.name}@#{user.uid}",
-      url: get_url(conn),
     }
     render_page(conn, og)
   end
 
   defp render_page(conn, og) do
-    og = Map.put(og, :url, get_url(conn))
     case conn.assigns[:account] do
       nil ->
         client = %{
