@@ -34,3 +34,6 @@ export const DeleteIcon = props => <FontIcon children="delete_forever"
 
 export const SearchIcon = props => <FontIcon children="search"
   className="material-icons" {...props} />
+
+export const MembershipIcon = props => <FontIcon children="card_membership"
+  className="material-icons" {...props} />

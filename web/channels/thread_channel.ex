@@ -32,13 +32,13 @@ defmodule Agora.ThreadChannel do
       else
         nil
       end
-      members = if post_limited == true and not is_nil(group_id) do
+      members = if is_nil(group_id) do
+        []
+      else
         Member
         |> where([member], member.group_id == ^group_id)
         |> select([member], member.user_id)
         |> Repo.all()
-      else
-        []
       end
       {:ok, %{posts: posts, members: members, default_user: default_user}, socket}
     else

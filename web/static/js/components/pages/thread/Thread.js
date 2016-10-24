@@ -79,6 +79,7 @@ class Thread extends Component {
             <Post
               key={id}
               id={id}
+              members={members}
             />
           ))
         }

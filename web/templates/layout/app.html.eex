@@ -14,7 +14,7 @@
     <meta property="og:url" content="<%= og(assigns, :url, "") %>" />
     <meta property="og:description" content="A platform for online communities.">
     <meta property="og:site_name" content="Agoraful.com" />
-    <%# <meta property="og:image" content="<%= og(assigns, :image, "") %>" /> %>
+    <meta property="og:image" content="<%= og(assigns, :image, "") %>" />
 
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
   </head>

@@ -7,7 +7,9 @@ import { compose } from 'recompose'
 import Paper from 'material-ui/Paper'
 import FlatButton from 'material-ui/FlatButton'
 import Linkify from 'react-linkify'
+import ReactTooltip from 'react-tooltip'
 
+import { MembershipIcon } from 'components/icons'
 import Unimplemented from 'components/Unimplemented'
 import ResourceTitle from 'components/ResourceTitle'
 import PostActions from 'components/PostActions'
@@ -33,9 +35,20 @@ class Post extends Component {
     this.setState({ open: !this.state.open })
   }
 
+  renderMembership(id) {
+    const tooltipID = 'post_membership_' + id
+    return (
+      <span>
+        <span><MembershipIcon data-tip data-for={tooltipID} /></span>
+        <ReactTooltip id={tooltipID} type='dark' effect='solid'>Member</ReactTooltip>
+      </span>
+    )
+  }
+
   render() {
-    const { isOwned, id, post, push } = this.props
+    const { isOwned, id, post, push, members } = this.props
     const { open } = this.state
+    const isMember = members ? members.includes(post.user_id) : false
     return (
       <div>
         <ListItem
@@ -53,6 +66,11 @@ class Post extends Component {
             path={`/posts/${id}`}
             insertedAt={post.inserted_at}
           />
+          {
+            isMember
+              ? this.renderMembership(id)
+              : null
+          }
           <pre
             style={{
               fontSize: '1.0em',
