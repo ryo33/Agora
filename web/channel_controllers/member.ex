@@ -4,6 +4,8 @@ defmodule Agora.ChannelController.Member do
   require Logger
 
   def handle_action("add", member_params, socket) do
+    # TODO Check if the user is a one of owners"
+
     account_id = socket.assigns.account.id
     member_params = Map.put(member_params, "account_id", account_id)
     changeset = Member.changeset(%Member{}, member_params)

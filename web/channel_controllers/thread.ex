@@ -27,6 +27,8 @@ defmodule Agora.ChannelController.Thread do
   end
 
   def handle_action("edit", %{"id" => id, "params" => params}, socket) do
+    # TODO Check if the user is the owner"
+
     thread = Repo.get!(Thread, id)
     changeset = Thread.changeset(thread, params)
     true = validate_info(changeset, socket)

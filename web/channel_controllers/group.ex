@@ -33,6 +33,8 @@ defmodule Agora.ChannelController.Group do
   end
 
   def handle_action("edit", %{"id" => id, "params" => params}, socket) do
+    # TODO Check if the user is the owner"
+
     group = Repo.get!(Group, id)
     changeset = Group.changeset(group, params)
     true = validate_info(changeset, socket)

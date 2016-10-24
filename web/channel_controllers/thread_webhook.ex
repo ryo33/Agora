@@ -18,6 +18,8 @@ defmodule Agora.ChannelController.ThreadWebhook do
   end
 
   def handle_action("link", params, socket) do
+    # TODO Check if the user is the owner of the thread
+
     {user_id, params} = Map.pop(params, "webhook_user_id")
     thread_webhook_id = ThreadWebhook
                         |> where([webhook], webhook.user_id == ^user_id)
@@ -37,6 +39,8 @@ defmodule Agora.ChannelController.ThreadWebhook do
   end
 
   def handle_action("edit", %{"id" => id, "params" => params}, socket) do
+    # TODO Check if the user is the owner
+
     webhook = Repo.get!(ThreadWebhook, id)
     changeset = ThreadWebhook.changeset(webhook, params)
     true = validate_user(changeset, socket)

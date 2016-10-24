@@ -24,6 +24,8 @@ defmodule Agora.ChannelController.Watchlist do
   end
 
   def handle_action("edit", %{"id" => id, "params" => params}, socket) do
+    # TODO Check if the user is the owner"
+
     watchlist = Repo.get!(Watchlist, id)
     changeset = Watchlist.changeset(watchlist, params)
     true = validate_info(changeset, socket)
@@ -46,6 +48,8 @@ defmodule Agora.ChannelController.Watchlist do
   end
 
   def handle_action("watch group", params, socket) do
+    # TODO Check if the user is the owner"
+
     watchlist_id = Map.fetch!(params, "watchlist_id")
     group_id = Map.fetch!(params, "group_id")
 
@@ -71,6 +75,8 @@ defmodule Agora.ChannelController.Watchlist do
   end
 
   def handle_action("watch thread", params, socket) do
+    # TODO Check if the user is the owner"
+
     watchlist_id = Map.fetch!(params, "watchlist_id")
     thread_id = Map.fetch!(params, "thread_id")
 
@@ -96,6 +102,8 @@ defmodule Agora.ChannelController.Watchlist do
   end
 
   def handle_action("unwatch group", params, socket) do
+    # TODO Check if the user is the owner"
+
     watchlist_id = Map.fetch!(params, "watchlist_id")
     group_id = Map.fetch!(params, "group_id")
     query = from group in WatchGroup,
@@ -107,6 +115,8 @@ defmodule Agora.ChannelController.Watchlist do
   end
 
   def handle_action("unwatch thread", params, socket) do
+    # TODO Check if the user is the owner"
+
     watchlist_id = Map.fetch!(params, "watchlist_id")
     thread_id = Map.fetch!(params, "thread_id")
     query = from thread in WatchThread,
