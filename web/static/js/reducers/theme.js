@@ -11,25 +11,25 @@ const initialState = {
       padding: '0.25em 0.5em',
     },
     title_text: {
-      fontSize: '18px',
+      fontSize: '1em',
       lineHeight: '1em',
     },
     title_icon: {
-      fontSize: '18px',
+      fontSize: '1em',
     },
     text: {
-      fontSize: '10px',
+      fontSize: '0.6em',
       lineHeight: '1em',
       padding: '0.5em',
     },
     text_icon: {
-      fontSize: '12px',
+      fontSize: '0.6em',
     },
   },
   form: {
     box: {
       root: {
-        width: '100px',
+        width: '110px',
         cursor: 'pointer',
       },
       icon: {
@@ -41,31 +41,6 @@ const initialState = {
       },
       title: {
         padding: '0.25em',
-      },
-    },
-    dialog: {
-      title: {
-        padding: '1em',
-        fontSize: '14px',
-      },
-      body: {
-        padding: '1em',
-        fontSize: '14px',
-      },
-      button: {
-        label: {
-          fontSize: '14px',
-        },
-      },
-      textField: {
-      },
-      userSelecter: {
-        root: {
-          width: '10em',
-        },
-        label: {
-          fontSize: '14px',
-        },
       },
     },
   },
