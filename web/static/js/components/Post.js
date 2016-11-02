@@ -8,6 +8,7 @@ import Paper from 'material-ui/Paper'
 import FlatButton from 'material-ui/FlatButton'
 import Linkify from 'react-linkify'
 import ReactTooltip from 'react-tooltip'
+import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 
 import { MembershipIcon } from 'components/icons'
 import Unimplemented from 'components/Unimplemented'
@@ -21,6 +22,7 @@ import { requirePost, checkPostOwned } from 'hocs/resources'
 const actionCreators = {
   push,
 }
+
 
 class Post extends Component {
   constructor(props) {
@@ -49,12 +51,13 @@ class Post extends Component {
     const { isOwned, id, post, push, members } = this.props
     const { open } = this.state
     const isMember = members ? members.includes(post.user_id) : false
+    const title_color = isOwned? '#C7C7C7' : '#F7F7F7'
     return (
-      <div>
-        <ListItem
-          handleClick={this.click}
-          isOwned={isOwned}
-        >
+      <Card
+        onClick={this.click}
+        style={{margin: "0.5%", borderRadius: '2.5px'}}
+      >
+        <div style={{backgroundColor: title_color, padding: '0.1em 0.5em'}}>
           {
             post.post_id
             ? <div><PostButton id={post.post_id} /></div>
@@ -71,25 +74,25 @@ class Post extends Component {
               ? this.renderMembership(id)
               : null
           }
-          <pre
-            style={{
-              fontSize: '1.0em',
-              whiteSpace: 'pre-wrap',
-              margin: '0px',
-              padding: '8px 8px',
-            }}
-          >
-            <Linkify properties={{ target: '_blank' }}>
-              {post.text}
-            </Linkify>
-          </pre>
-        </ListItem>
+        </div>
+        <pre
+          style={{
+            fontSize: '1.0em',
+            whiteSpace: 'pre-wrap',
+            margin: '0px',
+            padding: '8px 8px',
+          }}
+        >
+          <Linkify properties={{ target: '_blank' }}>
+            {post.text}
+          </Linkify>
+        </pre>
         {
           open
           ? <PostActions id={id} />
           : null
         }
-      </div>
+      </Card>
     )
   }
 }
