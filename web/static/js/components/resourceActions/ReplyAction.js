@@ -33,7 +33,11 @@ class ReplyAction extends Component {
     }
   }
 
-  open() { this.setState({ isOpen: true }) }
+  open(event) {
+    event.stopPropagation()
+    this.setState({ isOpen: true })
+  }
+
   close() { this.setState({ isOpen: false }) }
 
   submit(params) {

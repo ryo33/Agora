@@ -8,7 +8,7 @@ import Paper from 'material-ui/Paper'
 import FlatButton from 'material-ui/FlatButton'
 import Linkify from 'react-linkify'
 import ReactTooltip from 'react-tooltip'
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import { grey400, grey200 } from 'material-ui/styles/colors'
 
 import { MembershipIcon } from 'components/icons'
 import Unimplemented from 'components/Unimplemented'
@@ -41,7 +41,14 @@ class Post extends Component {
     const tooltipID = 'post_membership_' + id
     return (
       <span>
-        <span><MembershipIcon data-tip data-for={tooltipID} /></span>
+        <span>
+          <MembershipIcon
+            data-tip data-for={tooltipID}
+            style={{
+              fontSize: '1em'
+            }}
+          />
+        </span>
         <ReactTooltip id={tooltipID} type='dark' effect='solid'>Member</ReactTooltip>
       </span>
     )
@@ -51,18 +58,13 @@ class Post extends Component {
     const { isOwned, id, post, push, members } = this.props
     const { open } = this.state
     const isMember = members ? members.includes(post.user_id) : false
-    const title_color = isOwned? '#C7C7C7' : '#F7F7F7'
+    const title_color = isOwned ? grey400 : grey200
     return (
-      <Card
+      <Paper
         onClick={this.click}
         style={{margin: "0.5%", borderRadius: '2.5px'}}
       >
         <div style={{backgroundColor: title_color, padding: '0.1em 0.5em'}}>
-          {
-            post.post_id
-            ? <div><PostButton id={post.post_id} /></div>
-            : null
-          }
           <ResourceTitle
             user={post.user_id}
             title={post.title}
@@ -75,6 +77,11 @@ class Post extends Component {
               : null
           }
         </div>
+        {
+          post.post_id
+            ? <div><PostButton id={post.post_id} /></div>
+            : null
+        }
         <pre
           style={{
             fontSize: '1.0em',
@@ -92,7 +99,7 @@ class Post extends Component {
           ? <PostActions id={id} />
           : null
         }
-      </Card>
+      </Paper>
     )
   }
 }
