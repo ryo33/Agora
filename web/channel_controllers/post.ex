@@ -52,6 +52,12 @@ defmodule Agora.ChannelController.Post do
           IO.inspect("hook")
           Task.start(fn -> Agora.Webhook.handle_post(post) end)
         end
+        log_data = %{
+          title: post.title,
+          text: post.text,
+        }
+        |> Poison.encode!()
+        PostLog.log(post.id, "add", log_data)
         {:ok, socket}
       {:error, _changeset} ->
         {:error, socket} # TODO return error message

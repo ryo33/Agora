@@ -34,6 +34,10 @@ defmodule Agora.Web do
 
       alias Agora.WatchThread
       alias Agora.WatchGroup
+
+      alias Agora.GroupLog
+      alias Agora.ThreadLog
+      alias Agora.PostLog
     end
   end
 

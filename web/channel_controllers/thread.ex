@@ -20,6 +20,11 @@ defmodule Agora.ChannelController.Thread do
             threads: threads
           })
         end
+        log_data = %{
+          title: thread.title
+        }
+        |> Poison.encode!()
+        ThreadLog.log(thread.id, "add", log_data)
         {:ok, %{"id" => thread.id}, socket}
       {:error, changeset} ->
         {:error, socket} # TODO return error message
@@ -36,6 +41,11 @@ defmodule Agora.ChannelController.Thread do
     thread = Repo.update!(changeset)
              |> Repo.preload(Thread.preload_param)
              |> Thread.format
+    log_data = %{
+      title: thread.title,
+    }
+    |> Poison.encode!()
+    ThreadLog.log(thread.id, "edit", log_data)
     {:ok, %{"thread" => thread}, socket}
   end
 

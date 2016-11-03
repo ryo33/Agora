@@ -25,6 +25,11 @@ defmodule Agora.ChannelController.Group do
             groups: groups
           })
         end
+        log_data = %{
+          name: group.name,
+        }
+        |> Poison.encode!()
+        GroupLog.log(group.id, "add", log_data)
         {:ok, %{"id" => group.id}, socket}
       {:error, changeset} ->
         Logger.debug "#{inspect changeset}"
@@ -42,6 +47,12 @@ defmodule Agora.ChannelController.Group do
     group = Repo.update!(changeset)
             |> Repo.preload(Group.preload_param)
             |> Group.format
+
+    log_data = %{
+      name: group.name,
+    }
+    |> Poison.encode!()
+    GroupLog.log(group.id, "edit", log_data)
     {:ok, %{"group" => group}, socket}
   end
 
