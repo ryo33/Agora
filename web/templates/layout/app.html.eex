@@ -7,17 +7,23 @@
     <meta name="description" content="A platform for online communities.">
     <meta name="author" content="">
 
-    <title>Agoraful</title>
+    <title><%= Application.get_env(:agora, :title) %></title>
 
-    <meta property="og:title" content="<%= og(assigns, :title, "Agoraful") %>" />
+    <meta property="og:title" content="<%= og(assigns, :title, Application.get_env(:agora, :title)) %>" />
     <meta property="og:type" content="<%= og(assigns, :type, "website") %>" />
     <meta property="og:url" content="<%= og(assigns, :url, "") %>" />
     <meta property="og:description" content="A platform for online communities.">
-    <meta property="og:site_name" content="Agoraful.com" />
+    <meta property="og:site_name" content="<%= Application.get_env(:agora, :title) %>" />
     <meta property="og:image" content="<%= og(assigns, :image, "") %>" />
 
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
   </head>
+  <script>
+    window._source = {
+      title: "<%= Application.get_env(:agora, :source)[:title] %>",
+      url: "<%= Application.get_env(:agora, :source)[:url] %>"
+    }
+  </script>
 
   <body>
     <div id="container"></div>

@@ -11,6 +11,7 @@ import { persistStore, autoRehydrate, getStoredState } from 'redux-persist'
 
 import { Application } from './components'
 import { Home } from './components/pages/home'
+import { About } from './components/pages/about'
 import {
   Account, UserList, WebhookList,
   AccountThreads, AccountGroups, AccountWatchlists,
@@ -96,6 +97,7 @@ render(
     <Router history={history}>
       <Route path="/" component={Application}>
         <IndexRoute component={Home} />
+        <Route path="about" component={About} />
         <Route path="account" component={Account}>
           <Route path="users" component={UserList} />
           <Route path="threads" component={AccountThreads} />

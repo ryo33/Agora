@@ -53,6 +53,11 @@ class LeftNav extends Component {
       <Watchlists click={this.transitionTo} />
       <Users transitionTo={this.transitionTo} />
       <Account click={this.transitionTo} />
+      <Divider />
+      <MenuItem
+        children="About"
+        onClick={this.transitionTo('/about')}
+      />
       <SignedIn>
         <Divider />
         <MenuItem

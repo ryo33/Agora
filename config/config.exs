@@ -13,6 +13,12 @@ config :agora, Agora.Endpoint,
   pubsub: [name: Agora.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
+config :agora,
+  title: "Agora",
+  url: "https://agorademo.herokuapp.com",
+  source: [url: "https://github.com/ryo33/Agora",
+           title: "https://github.com/ryo33/Agora"]
+
 # Authentication
 config :ueberauth, Ueberauth,
   providers: [
