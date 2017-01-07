@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="A platform for online communities.">
+    <meta name="description" content="A platform for online communities which is published under the AGPL.">
     <meta name="author" content="">
 
     <title><%= Application.get_env(:agora, :title) %></title>
@@ -12,7 +12,7 @@
     <meta property="og:title" content="<%= og(assigns, :title, Application.get_env(:agora, :title)) %>" />
     <meta property="og:type" content="<%= og(assigns, :type, "website") %>" />
     <meta property="og:url" content="<%= og(assigns, :url, "") %>" />
-    <meta property="og:description" content="A platform for online communities.">
+    <meta property="og:description" content="A platform for online communities which is published under the AGPL.">
     <meta property="og:site_name" content="<%= Application.get_env(:agora, :title) %>" />
     <meta property="og:image" content="<%= og(assigns, :image, "") %>" />
 
